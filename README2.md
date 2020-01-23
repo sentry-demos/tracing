@@ -1,0 +1,30 @@
+# helloworld-python
+1. Log out of your sentry.io email
+2. Log in using your personal gmail and link a billing account
+3. follow the example from https://cloud.google.com/run/docs/quickstarts/build-and-deploy 
+4. the code is in current directory here.
+
+`gcloud builds submit --tag gcr.io/PROJECT-ID/helloworld`
+
+## Troubleshooting
+Do not have a .gcloudignore file with 'Dockerfile' in it or the above command will never find your Dockerfile
+
+
+#### gcloud
+```
+gcloud auth revoke --all
+If you want to logout from a specific account then run the following command
+
+gcloud auth revoke <your_account>
+If you want to login with a different account, you can run the following command
+
+gcloud auth login
+```
+
+
+use the Project ID and not the Project Name:
+`gcloud config set project myapp-164822`
+
+
+same for `gcloud builds submit --tag gcr.io/myapp-164822/helloworld` DON'T use Project Name!!!!
+https://stackoverflow.com/questions/47520424/gcp-container-push-not-working-denied-please-enable-google-container-registr
