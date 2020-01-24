@@ -6,7 +6,7 @@ Tracing between React javascript and back-end REST API's and other microservices
 #### Versions
 here
 #### Instructions
-here
+For test running a container yourself, `cd helloworld-python` and follow instructions from there.
 
 ## Run
 1. one
