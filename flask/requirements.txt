@@ -1,0 +1,4 @@
+flask==1.0.2
+sentry-sdk[flask]==0.9.5
+flask-cors==3.0.7
+gunicorn==0.14.2
