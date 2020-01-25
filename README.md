@@ -3,6 +3,17 @@ Tracing between React javascript and back-end REST API's and other microservices
 
 Talk about Google Cloud Build, Cloud Container Registry, Cloud Run...
 
+## TODO
+- run flask container in Cloud Run
+- where to run/serve React app?
+- React<>Flask in containers local macbook 
+or
+- React<>Flask in containers Cloud Run
+then...
+- All the rest of the Microservices for Tracing demo
+and of course...
+- React Components manual tracing + Network I/O example
+
 ## Setup
 #### Versions
 this was tested on:
