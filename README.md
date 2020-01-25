@@ -54,3 +54,10 @@ here
 
 ## GIF
 tbd
+
+## Future
+- GKE Google Kubernetes Engine
+- sentry-kubernetes
+- Sentry For Data Teams, data engineering tools/linked microservices, jobs running. Track this all with Airflow?
+- multiple different demo's (i.e. endpoints) you could call. The containers will all spin up in milliseconds as need be.
+- Google Cloud Functions
