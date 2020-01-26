@@ -1,4 +1,6 @@
 # helloworld-python
+Use this on personal gmail (gcloud) accoubnt.
+
 The example follows the tutorial at https://cloud.google.com/run/docs/quickstarts/build-and-deploy. This builds on the previous tutorial https://cloud.google.com/run/docs/quickstarts/prebuilt-deploy if you'd like to try that first.
 
 And if you want the full experience of managing GCP, then do it with your personal gmail and billing account first:

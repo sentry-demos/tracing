@@ -24,20 +24,17 @@ bq 2.0.52
 core 2020.01.17
 gsutil 4.47
 ```
-#### Instructions
-For test running a container yourself, `cd helloworld-python` and follow instructions from there. or put this in troubleshooting
-
-...
-per /flask
-per /other
-...or put the 'Setup' instruction inside of each respective /flask /other
-
-`docker-compose.yaml` for running all locally?
+#### Setup Instructions
+1. `gcloud auth login` opens browser with google OAUTH, select your work email
+2. `gcloud config set project <project ID>` get Project ID from console.cloud.google.com. This is a Google Cloud Project.
 
 ## Run
-1. one
-2. two
-3. three
+#### Cloud Build, Cloud Container Registry, Cloud Run
+1. `cd flask` or other1, other2
+2. gcloud build
+3. gcloud run
+`docker-compose.yaml` for running all locally?
+4. or `/run.sh flask` or other1, other2
 
 ## Technical Notes
 Updating | Some Design Decisions | Dev Tips/Notes | What's Happening
@@ -47,6 +44,13 @@ tips'n'tricks
 ```
 docker stop <container>;
 docker rm $(docker ps -a -q -f status=exited)
+```
+
+```
+// logout from a specific account then run the following command
+gcloud auth revoke <your_account>
+// logout from all accounts
+gcloud auth revoke --all
 ```
 
 ## Sentry Documentation
