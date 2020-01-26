@@ -4,15 +4,19 @@ Tracing between React javascript and back-end REST API's and other microservices
 Talk about Google Cloud Build, Cloud Container Registry, Cloud Run...
 
 ## TODO
-- run flask container in Cloud Run
-- where to run/serve React app?
-- React<>Flask in containers local macbook 
-or
-- React<>Flask in containers Cloud Run
-then...
-- All the rest of the Microservices for Tracing demo
-and of course...
-- React Components manual tracing + Network I/O example
++ helloworld-python on a personal Google Cloud account (gmail)
++ project structure that anyone can follow
++ flask in docker on macbook docker host
++ flask in docker container in Cloud Run
+- react in docker on macbook docker host
+- react in docker on macbook docker host
+- react<>flask containers communicating on macbook or Cloud Run hosts
+- more microservices dockerized for tracing demo (getsentry/tracing-example)
+- React Components manual tracing + Network I/O example. Use cases CPU https://cloud.google.com/run/docs/reference/container-contract  and Memory https://cloud.google.com/run/docs/reference/container-contract#memory <-- try to reach these limits. Concurrency https://cloud.google.com/run/docs/reference/container-contract#concurrency
+- Tool Store demo using Network I/O + React Components examples ^
+- Meet with Data Engineering to add additional endpoints/microservices/examples
+- Meet with Google Kubernetes Engine maintainers for examples there
+- Sentlog/Other/SuperDemo
 
 ## Setup
 #### Versions
@@ -55,6 +59,12 @@ gcloud auth revoke <your_account>
 // logout from all accounts
 gcloud auth revoke --all
 ```
+
+
+https://cloud.google.com/run/docs/reference/container-contract#port  
+The default GCP $PORT is 8080 https://cloud.google.com/run/docs/reference/container-contract
+
+The container must listen for requests on 0.0.0.0 on the port defined by the PORT environment variable.
 
 ## Sentry Documentation
 here

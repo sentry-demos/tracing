@@ -20,3 +20,5 @@
 
 ## Troubleshooting
 - instruction for running this microservice on macbook host docker see thinkocapo/flaskdocker
+
+- if you want to run this app in a different docker host (like your macbook) then change `$PORT` in the Dockerfile to `5000`
