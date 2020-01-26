@@ -26,8 +26,6 @@ gcloud config set project myapp-164822
 3. then continue following the example from https://cloud.google.com/run/docs/quickstarts/build-and-deploy 
 4. the code from the ^ tutorial is in current directory here.
 
-`gcloud builds submit --tag gcr.io/PROJECT-ID/helloworld`
-
 ## Troubleshooting
 Do not have a .gcloudignore file with 'Dockerfile' in it or the above command will never find your Dockerfile
 

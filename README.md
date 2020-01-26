@@ -26,15 +26,18 @@ gsutil 4.47
 ```
 #### Setup Instructions
 1. `gcloud auth login` opens browser with google OAUTH, select your work email
-2. `gcloud config set project <project ID>` get Project ID from console.cloud.google.com. This is a Google Cloud Project.
+2. `gcloud config set project <project ID>` get Google Cloud Project ID from console.cloud.google.com.
+3. To make 'us-central1' the default region, run `gcloud config set run/region us-central1`.
 
 ## Run
 #### Cloud Build, Cloud Container Registry, Cloud Run
 1. `cd flask` or other1, other2
 2. gcloud build
 3. gcloud run
+4. select 'us-central1'
+5. or `/run.sh flask` or other1, other2
+
 `docker-compose.yaml` for running all locally?
-4. or `/run.sh flask` or other1, other2
 
 ## Technical Notes
 Updating | Some Design Decisions | Dev Tips/Notes | What's Happening
