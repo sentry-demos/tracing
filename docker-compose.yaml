@@ -1,0 +1,20 @@
+?????
+# call it 'restapi' instead of 'flask'?
+---
+version: '3'
+services:
+  flask:
+    env_file: ./.env
+    image: python:2.7-slim
+    volumes:
+      - ./gateway:/usr/src
+    command:
+      /usr/src/run.sh
+    ports:
+      - "9005:9005"
+    links:
+      - countries
+      - rng
+    depends_on:
+      - other1
+      - other2
