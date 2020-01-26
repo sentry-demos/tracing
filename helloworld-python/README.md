@@ -7,9 +7,7 @@ And if you want the full experience of managing GCP, then do it with your person
 ```
 // logs you out
 gcloud auth revoke --all
-If you want to logout from a specific account then run the following command
-
-// shouldn't need this
+// If you want to logout from a specific account then run the following command
 gcloud auth revoke <your_account>
 ```
 
