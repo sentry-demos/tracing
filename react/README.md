@@ -4,10 +4,10 @@ Run in it's own Node container, served on a port
 ## Run
 #### Prod (Cloud Run)
 1. Build image
-`gcloud builds submit --tag gcr.io/PROJECT-ID/flask`
+`gcloud builds submit --tag gcr.io/PROJECT-ID/react`
 
 2. Run container
-`gcloud run deploy --image gcr.io/PROJECT-ID/flask --platform managed`
+`gcloud run deploy --image gcr.io/PROJECT-ID/react --platform managed`
 
 #### Dev (Macbook docker host)
 1. ~~docker build -t react:1.8 .~~

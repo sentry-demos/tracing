@@ -12,6 +12,7 @@ PHASE I
 + react in docker on macbook docker host. 
 + reactdocker sends Event to Sentry DSN
 - REACT_APP_PORT || 3001, so talks to Cloud Run's '$PORT' default
+- Environment variables for Cloud Run (AUTH_TOKEN)
 - clean.sh for bad images
 - .git into Dockerfile? or store in Cloud? .dockerignore default ignores it?
 - ^ `sentry-cli releases propose-version` could `cp ../.git`
