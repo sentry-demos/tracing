@@ -1,4 +1,5 @@
-?????
+# this docker-compose.yaml is non-functional at the moment...
+# Tip - consider using this if we DON'T want to keep re-deploying to Cloud Run for testing
 # call it 'restapi' instead of 'flask'?
 ---
 version: '3'

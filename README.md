@@ -8,7 +8,7 @@ Talk about Google Cloud Build, Cloud Container Registry, Cloud Run...
 + project structure that anyone can follow
 + flask in docker on macbook docker host
 + flask in docker container in Cloud Run
-- react in docker on macbook docker host
+- react in docker on macbook docker host. 1. React app files... 2. build it in Dockerfile. 3. clean.sh to rm, for re-running?
 - react in docker on macbook docker host
 - react<>flask containers communicating on macbook or Cloud Run hosts
 - more microservices dockerized for tracing demo (getsentry/tracing-example)
@@ -44,7 +44,13 @@ gsutil 4.47
 `docker-compose.yaml` for running all locally?
 
 ## Technical Notes
-Updating | Some Design Decisions | Dev Tips/Notes | What's Happening
+Updating | Dev Tips/Notes | What's Happening
+#### Some Design Decisions
+Serve from nginx or not?
+
+Submodule to sentry-demos/react instead of pasting here? Yet, the React app is going to change a lot so probably create a new one here.
+
+Multi-stage build
 
 ## Troubleshooting
 tips'n'tricks
@@ -59,7 +65,6 @@ gcloud auth revoke <your_account>
 // logout from all accounts
 gcloud auth revoke --all
 ```
-
 
 https://cloud.google.com/run/docs/reference/container-contract#port  
 The default GCP $PORT is 8080 https://cloud.google.com/run/docs/reference/container-contract
