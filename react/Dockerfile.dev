@@ -13,8 +13,7 @@ ENV SENTRY_AUTH_TOKEN=$AUTH_TOKEN
 
 RUN npm install
 
-# 8080 because it's GCloud Run's default
-RUN REACT_APP_PORT=8080 npm run build && make setup_release
+RUN npm run build && make setup_release
 RUN npm install -g serve
 
 CMD ["serve", "-s", "build"]
