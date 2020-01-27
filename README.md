@@ -4,18 +4,28 @@ Tracing between React javascript and back-end REST API's and other microservices
 Talk about Google Cloud Build, Cloud Container Registry, Cloud Run...
 
 ## TODO
+PHASE I
 + helloworld-python on a personal Google Cloud account (gmail)
 + project structure that anyone can follow
 + flask in docker on macbook docker host
 + flask in docker container in Cloud Run
-- react in docker on macbook docker host. 1. React app files... 2. build it in Dockerfile. 3. clean.sh to rm, for re-running?
+- react in docker on macbook docker host. 
+1. build it in Dockerfile. 
+2. clean.sh to rm, for re-running?
+3. how to get .git info into Dockerfile? `sentry-cli releases propose-version`. could `cp ../.git` it
+
 - react in docker on macbook docker host
-- react<>flask containers communicating on macbook or Cloud Run hosts
+- react<>flask containers communicating on Cloud Run hosts
+
+PHASE II
 - more microservices dockerized for tracing demo (getsentry/tracing-example)
 - React Components manual tracing + Network I/O example. Use cases CPU https://cloud.google.com/run/docs/reference/container-contract  and Memory https://cloud.google.com/run/docs/reference/container-contract#memory <-- try to reach these limits. Concurrency https://cloud.google.com/run/docs/reference/container-contract#concurrency
 - Tool Store demo using Network I/O + React Components examples ^
+
+PHASE III
+- all the .gcloudignore files
 - Meet with Data Engineering to add additional endpoints/microservices/examples
-- Meet with Google Kubernetes Engine maintainers for examples there
+- Meet with Google Kubernetes Engine maintainers for running everything there. sentry-kubernetes too
 - Sentlog/Other/SuperDemo
 
 ## Setup

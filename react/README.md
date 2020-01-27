@@ -1,6 +1,7 @@
 # react
 Run in it's own Node container, served on a port
 
+docker build -t react:1.2 .
 
 #### Design Decisions
 **The multi-stage build build**  
@@ -20,4 +21,4 @@ https://medium.com/@riken.mehta/full-stack-tutorial-flask-react-docker-420da3543
 ## Troubleshooting
 ignoring 'node_modules', 'build' or not
 
-Node should be 12.14.1 LTS https://nodejs.org/en/
+Node should be 12.14.1 LTS https://nodejs.org/en/ or 10.15.3
