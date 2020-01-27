@@ -1,5 +1,6 @@
-?????
-# call it 'restapi' instead of 'flask'?
+# this docker-compose.yaml is non-functional at the moment...
+# test without docker and then only deploy to Cloud RUn? so don't use this
+# Cloud Build should be a faster build time anyways than docker-compose.yaml
 ---
 version: '3'
 services:

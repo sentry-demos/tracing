@@ -4,15 +4,31 @@ Tracing between React javascript and back-end REST API's and other microservices
 Talk about Google Cloud Build, Cloud Container Registry, Cloud Run...
 
 ## TODO
-- run flask container in Cloud Run
-- where to run/serve React app?
-- React<>Flask in containers local macbook 
-or
-- React<>Flask in containers Cloud Run
-then...
-- All the rest of the Microservices for Tracing demo
-and of course...
-- React Components manual tracing + Network I/O example
+PHASE I
++ helloworld-python on a personal Google Cloud account (gmail)
++ project structure that anyone can follow
++ flask in docker on macbook docker host
++ flask in docker container in Cloud Run
++ react in docker on macbook docker host. 
+- reactdocker sends Event to Sentry DSN
+- clean.sh to rm, for re-running?
+- .git into Dockerfile? or store in Cloud? .dockerignore default ignores it?
+- ^ `sentry-cli releases propose-version` could `cp ../.git`
+
+- react in docker on macbook docker host
+- react<>flask containers communicating on Cloud Run hosts
+
+PHASE II
+- more microservices dockerized for tracing demo (getsentry/tracing-example)
+- React Components manual tracing + Network I/O example. Use cases CPU https://cloud.google.com/run/docs/reference/container-contract  and Memory https://cloud.google.com/run/docs/reference/container-contract#memory <-- try to reach these limits. Concurrency https://cloud.google.com/run/docs/reference/container-contract#concurrency
+- Tool Store demo using Network I/O + React Components examples ^
+
+PHASE III
+- all the .gcloudignore files
+- Meet with Data Engineering to add additional endpoints/microservices/examples
+- Meet with Google Kubernetes Engine maintainers for running everything there. sentry-kubernetes too
+- Sentlog/Other/SuperDemo
+- rm the favicon/uneeded stuff from react app's index.html as this cause warnings/errors in console
 
 ## Setup
 #### Versions
@@ -40,7 +56,13 @@ gsutil 4.47
 `docker-compose.yaml` for running all locally?
 
 ## Technical Notes
-Updating | Some Design Decisions | Dev Tips/Notes | What's Happening
+Updating | Dev Tips/Notes | What's Happening
+#### Some Design Decisions
+Serve from nginx or not?
+
+Submodule to sentry-demos/react instead of pasting here? Yet, the React app is going to change a lot so probably create a new one here.
+
+Multi-stage build
 
 ## Troubleshooting
 tips'n'tricks
@@ -56,11 +78,21 @@ gcloud auth revoke <your_account>
 gcloud auth revoke --all
 ```
 
+https://cloud.google.com/run/docs/reference/container-contract#port  
+The default GCP $PORT is 8080 https://cloud.google.com/run/docs/reference/container-contract
+
+The container must listen for requests on 0.0.0.0 on the port defined by the PORT environment variable.
+
+
+https://docs.docker.com/engine/reference/builder/
+Warning: It is not recommended to use build-time variables for passing secrets like github keys, user credentials etc. Build-time variable values are visible to any user of the image with the docker history command.
+
+
 ## Sentry Documentation
-here
+TODO
 
 ## GIF
-tbd
+TODO
 
 ## Future
 - GKE Google Kubernetes Engine

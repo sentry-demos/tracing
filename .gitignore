@@ -2,3 +2,5 @@
 *.pyc
 *.egg-info
 .vscode
+react/Dockerfile
+react/.env
