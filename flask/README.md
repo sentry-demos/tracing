@@ -11,8 +11,6 @@
 2. Run container
 `gcloud run deploy --image gcr.io/PROJECT-ID/flask --platform managed`
 
-3. or `run.sh flask` or other1, other2
-
 #### Dev
 1. docker build -t flask:1.0 -f Dockerfile.dev .
 2. docker run --rm --name=flask -p 3001:3001 flask:1.0
