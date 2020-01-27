@@ -88,6 +88,8 @@ https://docs.docker.com/engine/reference/builder/
 Warning: It is not recommended to use build-time variables for passing secrets like github keys, user credentials etc. Build-time variable values are visible to any user of the image with the docker history command.
 
 
+`docker exec -it <container_ID> bash`
+
 ## Sentry Documentation
 TODO
 

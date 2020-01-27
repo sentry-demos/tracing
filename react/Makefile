@@ -5,9 +5,8 @@ SENTRY_ORG=testorg-az
 SENTRY_PROJECT=will-frontend-react
 # VERSION=`sentry-cli releases propose-version`
 # VERWION=`sentry-cli releases -o testorg-az new -p will-frontend-react v123`
-VERSION=1.7
+VERSION=1.9
 PREFIX=static/js
-
 
 # causes, "Makefile:11: *** missing separator.  Stop."
 # echo `sentry-cli repos list`

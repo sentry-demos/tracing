@@ -2,9 +2,10 @@
 Run in it's own Node container, served on a port
 
 ## Run
-1. ~~docker build -t react:1.5 .~~
-2. docker build --build-arg AUTH_TOKEN=1234567 -t react:1.5 .
-3. docker run --rm --name=react -p 5000:5000 react:1.5serve
+1. ~~docker build -t react:1.8 .~~
+2. docker build --build-arg AUTH_TOKEN=1234567 -t react:1.8 .
+3. docker build -t react:1.8 .
+4. docker run --rm --name=react -p 5000:5000 react:1.8
 
 #### Design Decisions
 **The multi-stage build build**  
