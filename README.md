@@ -9,10 +9,11 @@ PHASE I
 + project structure that anyone can follow
 + flask in docker on macbook docker host
 + flask in docker container in Cloud Run
-- react in docker on macbook docker host. 
-1. build it in Dockerfile. 
-2. clean.sh to rm, for re-running?
-3. how to get .git info into Dockerfile? `sentry-cli releases propose-version`. could `cp ../.git` it
++ react in docker on macbook docker host. 
+- reactdocker sends Event to Sentry DSN
+- clean.sh to rm, for re-running?
+- .git into Dockerfile? or store in Cloud? .dockerignore default ignores it?
+- ^ `sentry-cli releases propose-version` could `cp ../.git`
 
 - react in docker on macbook docker host
 - react<>flask containers communicating on Cloud Run hosts
@@ -27,6 +28,7 @@ PHASE III
 - Meet with Data Engineering to add additional endpoints/microservices/examples
 - Meet with Google Kubernetes Engine maintainers for running everything there. sentry-kubernetes too
 - Sentlog/Other/SuperDemo
+- rm the favicon/uneeded stuff from react app's index.html as this cause warnings/errors in console
 
 ## Setup
 #### Versions
@@ -81,11 +83,16 @@ The default GCP $PORT is 8080 https://cloud.google.com/run/docs/reference/contai
 
 The container must listen for requests on 0.0.0.0 on the port defined by the PORT environment variable.
 
+
+https://docs.docker.com/engine/reference/builder/
+Warning: It is not recommended to use build-time variables for passing secrets like github keys, user credentials etc. Build-time variable values are visible to any user of the image with the docker history command.
+
+
 ## Sentry Documentation
-here
+TODO
 
 ## GIF
-tbd
+TODO
 
 ## Future
 - GKE Google Kubernetes Engine

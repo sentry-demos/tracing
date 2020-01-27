@@ -9,7 +9,7 @@ EXPOSE 5000
 
 RUN curl -sL https://sentry.io/get-cli/ | bash
 
-ENV SENTRY_AUTH_TOKEN <AUTH_TOKEN>
+ENV SENTRY_AUTH_TOKEN $AUTH_TOKEN
 # is for docker-compose only:
 # ENV SENTRY_AUTH_TOKEN ${SENTRY_AUTH_TOKEN}
 
