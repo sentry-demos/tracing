@@ -5,7 +5,7 @@ SENTRY_ORG=testorg-az
 SENTRY_PROJECT=will-frontend-react
 # VERSION=`sentry-cli releases propose-version`
 # VERWION=`sentry-cli releases -o testorg-az new -p will-frontend-react v123`
-VERSION=1.5
+VERSION=1.7
 PREFIX=static/js
 
 
