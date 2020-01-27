@@ -10,8 +10,9 @@ PHASE I
 + flask in docker on macbook docker host
 + flask in docker container in Cloud Run
 + react in docker on macbook docker host. 
-- reactdocker sends Event to Sentry DSN
-- clean.sh to rm, for re-running?
++ reactdocker sends Event to Sentry DSN
+- REACT_APP_PORT || 3001, so talks to Cloud Run's '$PORT' default
+- clean.sh for bad images
 - .git into Dockerfile? or store in Cloud? .dockerignore default ignores it?
 - ^ `sentry-cli releases propose-version` could `cp ../.git`
 

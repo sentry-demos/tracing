@@ -2,9 +2,17 @@
 Run in it's own Node container, served on a port
 
 ## Run
+#### Prod (Cloud Run)
+1. Build image
+`gcloud builds submit --tag gcr.io/PROJECT-ID/flask`
+
+2. Run container
+`gcloud run deploy --image gcr.io/PROJECT-ID/flask --platform managed`
+
+#### Dev (Macbook docker host)
 1. ~~docker build -t react:1.8 .~~
 2. docker build --build-arg AUTH_TOKEN=1234567 -t react:1.8 .
-3. docker build -t react:1.8 .
+3. docker build --build-arg AUTH_TOKEN=1234567 -t react:1.8 Dockerfile.dev
 4. docker run --rm --name=react -p 5000:5000 react:1.8
 
 #### Design Decisions

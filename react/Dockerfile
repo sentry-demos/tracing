@@ -13,6 +13,7 @@ ENV SENTRY_AUTH_TOKEN=$AUTH_TOKEN
 
 RUN npm install
 
+# TODO REACT_APP_PORT=3001 somehwere...
 RUN npm run build && make setup_release
 RUN npm install -g serve
 
