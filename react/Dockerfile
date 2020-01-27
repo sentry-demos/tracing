@@ -1,13 +1,9 @@
 # Stage 1
-FROM node:8 as react-build
+FROM node:12.3.0
+COPY . ./app
 WORKDIR /app
-COPY . ./
-RUN yarn
-RUN yarn build
+RUN npm install
 
-# Stage 2 - the production environment
-FROM nginx:alpine
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=react-build /app/build /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# anything else have to install? e.g. react-scripts?
+RUN npm run deploy
+# CMD npm run deploy

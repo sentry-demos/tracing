@@ -19,3 +19,5 @@ https://medium.com/@riken.mehta/full-stack-tutorial-flask-react-docker-420da3543
 
 ## Troubleshooting
 ignoring 'node_modules', 'build' or not
+
+Node should be 12.14.1 LTS https://nodejs.org/en/
