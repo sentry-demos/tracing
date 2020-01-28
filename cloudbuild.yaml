@@ -1,0 +1,12 @@
+steps:
+- name: gcr.io/cloud-builders/docker
+  args: ['build',
+        '--build-arg',
+        'SENTRY_AUTH_TOKEN=${_SENTRY_AUTH_TOKEN}',
+        '-t',
+        'gcr.io/$PROJECT_ID/react:2.3',
+        '-f',
+        './Dockerfile',
+        './react']
+images:
+- gcr.io/$PROJECT_ID/react:2.3

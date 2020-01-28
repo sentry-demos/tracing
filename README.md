@@ -5,25 +5,35 @@ Talk about Google Cloud Build, Cloud Container Registry, Cloud Run...
 
 ## TODO
 PHASE I
-+ helloworld-python on a personal Google Cloud account (gmail)
-+ project structure that anyone can follow
-+ flask in docker on macbook docker host
-+ flask in docker container in Cloud Run
-+ react in docker on macbook docker host. 
-+ reactdocker sends Event to Sentry DSN
-- REACT_APP_PORT || 3001, so talks to Cloud Run's '$PORT' default
-- Environment variables for Cloud Run (AUTH_TOKEN)
-- clean.sh for bad images
-- .git into Dockerfile? or store in Cloud? .dockerignore default ignores it?
-- ^ `sentry-cli releases propose-version` could `cp ../.git`
+- [x] helloworld-python on a personal Google Cloud account (gmail)
+- [x] project structure that anyone can follow
+- [x] flask in docker on macbook docker host
+- [x] flask in docker container in Cloud Run
+- [x] react in docker on macbook docker host. 
+- [x] reactdocker sends Event to Sentry DSN
+- [x] flaskdocker sends Event to Sentry DSN
+- [x] REACT_APP_PORT || 3001, so talks to Cloud Run's '$PORT' default
+- [x] `COPY ../.git  /app` and uncomment `sentry-cli releases propose-version`. beware .dockerignore. or `RUN git clone` it.
+- [x] test the clean.sh for bad images
 
-- react in docker on macbook docker host
-- react<>flask containers communicating on Cloud Run hosts
+- [ ] cloudbuild.yaml for Environment variables for Cloud Run (AUTH_TOKEN)
+- [ ] cloudbuild.yaml should use Substitutions instead of hard-coded projectId
+- [ ] react<>flask containers communicating on Cloud Run hosts
+
+
+2. Makefile
+- [ ] make `all` does both /flask and /react at once, builds+runs
+- [ ] whoami echo'd into the tagg'd/build
+
 
 PHASE II
-- more microservices dockerized for tracing demo (getsentry/tracing-example)
-- React Components manual tracing + Network I/O example. Use cases CPU https://cloud.google.com/run/docs/reference/container-contract  and Memory https://cloud.google.com/run/docs/reference/container-contract#memory <-- try to reach these limits. Concurrency https://cloud.google.com/run/docs/reference/container-contract#concurrency
-- Tool Store demo using Network I/O + React Components examples ^
+- [ ] more microservices dockerized for tracing demo (getsentry/tracing-example)
+- [ ] Tool Store demo using Network I/O + React Components examples
+- [ ] Additional Use Cases:
+CPU https://cloud.google.com/run/docs/reference/container-contract 
+Memory https://cloud.google.com/run/docs/reference/container-contract#memory 
+Concurrency https://cloud.google.com/run/docs/reference/container-contract#concurrency
+Try to reach limits ^
 
 PHASE III
 - all the .gcloudignore files
@@ -31,6 +41,10 @@ PHASE III
 - Meet with Google Kubernetes Engine maintainers for running everything there. sentry-kubernetes too
 - Sentlog/Other/SuperDemo
 - rm the favicon/uneeded stuff from react app's index.html as this cause warnings/errors in console
+
+PHASE - Dependencies
+- Visual diagram of microservices, w/ Design team
+- Front end Table, styled.
 
 ## Setup
 #### Versions
@@ -56,6 +70,15 @@ gsutil 4.47
 `gcloud run deploy --image gcr.io/<PROJECT-ID>/<APP_NAME> --platform managed`
 4. select 'us-central1'
 5. or `/run.sh flask` or other1, other2
+
+OR
+
+#### cloudbuild.yaml
+1. Build image
+gcloud builds submit --config=cloudbuild.yaml \
+    --substitutions=SENTRY_AUTH_TOKEN="<SENTRY_AUTH_TOKEN>"
+2. Run container
+`gcloud run deploy --image gcr.io/<PROJECT-ID>/<APP_NAME> --platform managed`
 
 ## Technical Notes
 Updating | Dev Tips/Notes | What's Happening
@@ -97,6 +120,8 @@ Warning: It is not recommended to use build-time variables for passing secrets l
 
 
 `docker exec -it <container_ID> bash`
+
+`sentry-cli repos list`
 
 ## Sentry Documentation
 TODO
