@@ -2,6 +2,8 @@
 FROM node:10.15.3 
 
 COPY . ./app
+# TODO
+# COPY ../.git ./app
 WORKDIR /app
 
 EXPOSE 5000
@@ -14,9 +16,13 @@ ENV SENTRY_AUTH_TOKEN=$AUTH_TOKEN
 RUN npm install
 
 # 8080 because it's GCloud Run's default
-RUN REACT_APP_PORT=8080 npm run build && make setup_release
+# RUN REACT_APP_PORT=8080 npm run build && make setup_release
+# TODO...
+RUN REACT_APP_PORT=8080 npm run predeploy
+
 RUN npm install -g serve
 
+# TODO npm run serve
 CMD ["serve", "-s", "build"]
 
 # fails

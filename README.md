@@ -60,7 +60,7 @@ gsutil 4.47
 ## Technical Notes
 Updating | Dev Tips/Notes | What's Happening
 #### Some Design Decisions
-Serve from nginx or not?
+Do not build it locally and push, like: https://cloud.google.com/run/docs/building/containers
 
 Submodule to sentry-demos/react instead of pasting here? Yet, the React app is going to change a lot so probably create a new one here.
 
@@ -68,6 +68,7 @@ Multi-stage build should make for a faster React build
 
 `docker-compose.yaml` is only good for running containers locally, so not using it.
 
+Serve from nginx or not?
 
 ## Troubleshooting
 tips'n'tricks
