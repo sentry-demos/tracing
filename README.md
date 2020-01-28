@@ -11,20 +11,21 @@ PHASE I
 + flask in docker container in Cloud Run
 + react in docker on macbook docker host. 
 + reactdocker sends Event to Sentry DSN
-- REACT_APP_PORT || 3001, so talks to Cloud Run's '$PORT' default
-- Environment variables for Cloud Run (AUTH_TOKEN)
-- clean.sh for bad images
-- .git into Dockerfile? or store in Cloud? .dockerignore default ignores it?
-- ^ `sentry-cli releases propose-version` could `cp ../.git`
++ flaskdocker sends Event to Sentry DSN
 
-- react in docker on macbook docker host
-- react<>flask containers communicating on Cloud Run hosts
+- [x] REACT_APP_PORT || 3001, so talks to Cloud Run's '$PORT' default
+- [ ] Environment variables for Cloud Run (AUTH_TOKEN)
+- [ ] .git into Dockerfile? or store in Cloud? .dockerignore default ignores it?
+- [ ] ^ `sentry-cli releases propose-version` could `cp ../.git`
+
+- [ ] test the clean.sh for bad images
+- [ ] react<>flask containers communicating on Cloud Run hosts
 
 PHASE II
-- more microservices dockerized for tracing demo (getsentry/tracing-example)
-- React Components manual tracing + Network I/O example. Use cases CPU https://cloud.google.com/run/docs/reference/container-contract  and Memory https://cloud.google.com/run/docs/reference/container-contract#memory <-- try to reach these limits. Concurrency https://cloud.google.com/run/docs/reference/container-contract#concurrency
-- Tool Store demo using Network I/O + React Components examples ^
-- whoami echo'd into the tagg'd/build
+- [ ] more microservices dockerized for tracing demo (getsentry/tracing-example)
+- [ ] React Components manual tracing + Network I/O example. Use cases CPU https://cloud.google.com/run/docs/reference/container-contract  and Memory https://cloud.google.com/run/docs/reference/container-contract#memory <-- try to reach these limits. Concurrency https://cloud.google.com/run/docs/reference/container-contract#concurrency
+- [ ] Tool Store demo using Network I/O + React Components examples ^
+- [ ] whoami echo'd into the tagg'd/build
 
 PHASE III
 - all the .gcloudignore files
