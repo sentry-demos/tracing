@@ -12,20 +12,29 @@ PHASE I
 + react in docker on macbook docker host. 
 + reactdocker sends Event to Sentry DSN
 + flaskdocker sends Event to Sentry DSN
++ REACT_APP_PORT || 3001, so talks to Cloud Run's '$PORT' default
 
-- [x] REACT_APP_PORT || 3001, so talks to Cloud Run's '$PORT' default
-- [ ] Environment variables for Cloud Run (AUTH_TOKEN)
-- [ ] .git into Dockerfile? or store in Cloud? .dockerignore default ignores it?
-- [ ] ^ `sentry-cli releases propose-version` could `cp ../.git`
-
+1.
+- [ ] `COPY ../.git  /app` and uncomment `sentry-cli releases propose-version`. beware .dockerignore. or `RUN git clone` it.
 - [ ] test the clean.sh for bad images
+
+- [ ] Environment variables for Cloud Run (AUTH_TOKEN)
 - [ ] react<>flask containers communicating on Cloud Run hosts
+
+
+2. Makefile
+- [ ] make `all` does both /flask and /react at once, builds+runs
+- [ ] whoami echo'd into the tagg'd/build
+
 
 PHASE II
 - [ ] more microservices dockerized for tracing demo (getsentry/tracing-example)
-- [ ] React Components manual tracing + Network I/O example. Use cases CPU https://cloud.google.com/run/docs/reference/container-contract  and Memory https://cloud.google.com/run/docs/reference/container-contract#memory <-- try to reach these limits. Concurrency https://cloud.google.com/run/docs/reference/container-contract#concurrency
-- [ ] Tool Store demo using Network I/O + React Components examples ^
-- [ ] whoami echo'd into the tagg'd/build
+- [ ] Tool Store demo using Network I/O + React Components examples
+- [ ] Additional Use Cases:
+CPU https://cloud.google.com/run/docs/reference/container-contract 
+Memory https://cloud.google.com/run/docs/reference/container-contract#memory 
+Concurrency https://cloud.google.com/run/docs/reference/container-contract#concurrency
+Try to reach limits ^
 
 PHASE III
 - all the .gcloudignore files
@@ -36,6 +45,7 @@ PHASE III
 
 PHASE - Dependencies
 - Visual diagram of microservices, w/ Design team
+- Front end Table, styled.
 
 ## Setup
 #### Versions
