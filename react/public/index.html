@@ -8,8 +8,8 @@
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
     -->
-  <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+  <!-- <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico"> -->
 
   <!--
       Notice the use of %PUBLIC_URL% in the tags above.
@@ -28,7 +28,7 @@
   <script>
     Sentry.init({
       dsn: 'https://0d52d5f4e8a64f5ab2edce50d88a7626@sentry.io/1428657',
-      release: "1.7",
+      release: "2.0",
       environment: "prod",
       beforeSend(event) {
         if (event.exception) {

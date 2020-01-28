@@ -2,9 +2,18 @@
 Run in it's own Node container, served on a port
 
 ## Run
-1. ~~docker build -t react:1.5 .~~
-2. docker build --build-arg AUTH_TOKEN=1234567 -t react:1.5 .
-3. docker run --rm --name=react -p 5000:5000 react:1.5serve
+#### Prod (Cloud Run)
+1. Build image
+`gcloud builds submit --tag gcr.io/PROJECT-ID/react`
+
+2. Run container
+`gcloud run deploy --image gcr.io/PROJECT-ID/react --platform managed`
+
+#### Dev (Macbook docker host)
+1. ~~docker build -t react:2.0 .~~
+2. docker build --build-arg AUTH_TOKEN=1234567 -t react:2.0 .
+3. docker build --build-arg AUTH_TOKEN=1234567 -t react:2.0 Dockerfile.dev??
+4. docker run --rm --name=react -p 5000:5000 react:2.0
 
 #### Design Decisions
 **The multi-stage build build**  

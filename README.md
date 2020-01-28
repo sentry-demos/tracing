@@ -10,8 +10,10 @@ PHASE I
 + flask in docker on macbook docker host
 + flask in docker container in Cloud Run
 + react in docker on macbook docker host. 
-- reactdocker sends Event to Sentry DSN
-- clean.sh to rm, for re-running?
++ reactdocker sends Event to Sentry DSN
+- REACT_APP_PORT || 3001, so talks to Cloud Run's '$PORT' default
+- Environment variables for Cloud Run (AUTH_TOKEN)
+- clean.sh for bad images
 - .git into Dockerfile? or store in Cloud? .dockerignore default ignores it?
 - ^ `sentry-cli releases propose-version` could `cp ../.git`
 
@@ -48,21 +50,25 @@ gsutil 4.47
 ## Run
 #### Cloud Build, Cloud Container Registry, Cloud Run
 1. `cd flask` or other1, other2
-2. gcloud build
-3. gcloud run
+2. Build image in Cloud Build
+`gcloud builds submit --tag gcr.io/<PROJECT-ID>/<APP_NAME>`
+3. Run container in Cloud Run
+`gcloud run deploy --image gcr.io/<PROJECT-ID>/<APP_NAME> --platform managed`
 4. select 'us-central1'
 5. or `/run.sh flask` or other1, other2
-
-`docker-compose.yaml` for running all locally?
 
 ## Technical Notes
 Updating | Dev Tips/Notes | What's Happening
 #### Some Design Decisions
-Serve from nginx or not?
+Do not build it locally and push, like: https://cloud.google.com/run/docs/building/containers
 
 Submodule to sentry-demos/react instead of pasting here? Yet, the React app is going to change a lot so probably create a new one here.
 
-Multi-stage build
+Multi-stage build should make for a faster React build
+
+`docker-compose.yaml` is only good for running containers locally, so not using it.
+
+Serve from nginx or not?
 
 ## Troubleshooting
 tips'n'tricks
@@ -76,6 +82,8 @@ docker rm $(docker ps -a -q -f status=exited)
 gcloud auth revoke <your_account>
 // logout from all accounts
 gcloud auth revoke --all
+// see whatsup
+gcloud config list
 ```
 
 https://cloud.google.com/run/docs/reference/container-contract#port  
@@ -87,6 +95,8 @@ The container must listen for requests on 0.0.0.0 on the port defined by the POR
 https://docs.docker.com/engine/reference/builder/
 Warning: It is not recommended to use build-time variables for passing secrets like github keys, user credentials etc. Build-time variable values are visible to any user of the image with the docker history command.
 
+
+`docker exec -it <container_ID> bash`
 
 ## Sentry Documentation
 TODO

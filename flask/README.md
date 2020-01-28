@@ -4,13 +4,16 @@
 1. make sure you're in `/tracing/flask` or other1, other2
 
 ## Run
+#### Prod (Cloud Run)
 1. Build image
 `gcloud builds submit --tag gcr.io/PROJECT-ID/flask`
 
 2. Run container
 `gcloud run deploy --image gcr.io/PROJECT-ID/flask --platform managed`
 
-3. or `run.sh flask` or other1, other2
+#### Dev
+1. docker build -t flask:1.0 -f Dockerfile.dev .
+2. docker run --rm --name=flask -p 3001:3001 flask:1.0
 
 ## What's Happening
 `gcloud builds submit --tag gcr.io/PROJECT-ID/flask`
