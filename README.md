@@ -24,6 +24,7 @@ PHASE II
 - more microservices dockerized for tracing demo (getsentry/tracing-example)
 - React Components manual tracing + Network I/O example. Use cases CPU https://cloud.google.com/run/docs/reference/container-contract  and Memory https://cloud.google.com/run/docs/reference/container-contract#memory <-- try to reach these limits. Concurrency https://cloud.google.com/run/docs/reference/container-contract#concurrency
 - Tool Store demo using Network I/O + React Components examples ^
+- whoami echo'd into the tagg'd/build
 
 PHASE III
 - all the .gcloudignore files
@@ -31,6 +32,9 @@ PHASE III
 - Meet with Google Kubernetes Engine maintainers for running everything there. sentry-kubernetes too
 - Sentlog/Other/SuperDemo
 - rm the favicon/uneeded stuff from react app's index.html as this cause warnings/errors in console
+
+PHASE - Dependencies
+- Visual diagram of microservices, w/ Design team
 
 ## Setup
 #### Versions
