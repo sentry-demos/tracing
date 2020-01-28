@@ -15,8 +15,8 @@ PHASE I
 + REACT_APP_PORT || 3001, so talks to Cloud Run's '$PORT' default
 
 1.
-- [ ] `COPY ../.git  /app` and uncomment `sentry-cli releases propose-version`. beware .dockerignore. or `RUN git clone` it.
-- [ ] test the clean.sh for bad images
+- [x] `COPY ../.git  /app` and uncomment `sentry-cli releases propose-version`. beware .dockerignore. or `RUN git clone` it.
+- [x] test the clean.sh for bad images
 
 - [ ] Environment variables for Cloud Run (AUTH_TOKEN)
 - [ ] react<>flask containers communicating on Cloud Run hosts

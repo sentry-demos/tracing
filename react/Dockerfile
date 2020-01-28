@@ -2,8 +2,7 @@
 FROM node:10.15.3 
 
 COPY . ./app
-# TODO
-# COPY ../.git ./app
+# COPY .git ./app/.git
 WORKDIR /app
 
 EXPOSE 5000

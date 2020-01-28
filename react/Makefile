@@ -3,10 +3,9 @@
 # SENTRY_AUTH_TOKEN
 SENTRY_ORG=testorg-az
 SENTRY_PROJECT=will-frontend-react
-# TODO get tthe .git in the container...
-# VERSION=`sentry-cli releases propose-version`
-# VERSION=`sentry-cli releases -o testorg-az new -p will-frontend-react v123`
-VERSION=2.0
+
+VERSION=`sentry-cli releases propose-version`
+
 PREFIX=static/js
 
 setup_release: create_release associate_commits upload_sourcemaps
@@ -16,14 +15,15 @@ create_release:
 
 associate_commits:
 	echo 'associating commits...'
-	# sentry-cli releases -o $(SENTRY_ORG) set-commits $(VERSION) --commit "react@sentry-demos"
-	# TODO - try this again since we added the repo tracing to the INtegration..
+	# TODO - added sentry-demos/tracing and thinkocapo/tracing
 	sentry-cli releases -o $(SENTRY_ORG) -p $(SENTRY_PROJECT) set-commits --auto $(VERSION)
 
 upload_sourcemaps:
 	sentry-cli releases -o $(SENTRY_ORG) -p $(SENTRY_PROJECT) files $(VERSION) \
 		upload-sourcemaps --url-prefix "~/$(PREFIX)" --validate build/$(PREFIX)
 
+# VERSION=`sentry-cli releases -o testorg-az new -p will-frontend-react v123`
+# sentry-cli releases -o $(SENTRY_ORG) set-commits $(VERSION) --commit "react@sentry-demos"
 
 # causes, "Makefile:11: *** missing separator.  Stop."
 # echo `sentry-cli repos list`

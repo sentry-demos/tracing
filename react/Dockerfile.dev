@@ -1,7 +1,8 @@
 # any recent version gives warning, "npm WARN deprecated fsevents@1.1.2: Way too old"
 FROM node:10.15.3 
 
-COPY . ./app
+COPY ./react ./app
+COPY ./.git/ ./app/.git/
 WORKDIR /app
 
 EXPOSE 5000

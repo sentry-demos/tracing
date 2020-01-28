@@ -2,7 +2,6 @@
 docker rm $(docker ps -a -q -f status=exited) 
 
 # clean images
-docker rmi $(docker images -f “dangling=true” -q)
-
-# todo
-# docker image rm $(docker ps -a -q -f <something_based_on_name_or_tag>)
+docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
+#or
+docker image prune
