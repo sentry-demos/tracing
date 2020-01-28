@@ -5,20 +5,19 @@ Talk about Google Cloud Build, Cloud Container Registry, Cloud Run...
 
 ## TODO
 PHASE I
-+ helloworld-python on a personal Google Cloud account (gmail)
-+ project structure that anyone can follow
-+ flask in docker on macbook docker host
-+ flask in docker container in Cloud Run
-+ react in docker on macbook docker host. 
-+ reactdocker sends Event to Sentry DSN
-+ flaskdocker sends Event to Sentry DSN
-+ REACT_APP_PORT || 3001, so talks to Cloud Run's '$PORT' default
-
-1.
+- [x] helloworld-python on a personal Google Cloud account (gmail)
+- [x] project structure that anyone can follow
+- [x] flask in docker on macbook docker host
+- [x] flask in docker container in Cloud Run
+- [x] react in docker on macbook docker host. 
+- [x] reactdocker sends Event to Sentry DSN
+- [x] flaskdocker sends Event to Sentry DSN
+- [x] REACT_APP_PORT || 3001, so talks to Cloud Run's '$PORT' default
 - [x] `COPY ../.git  /app` and uncomment `sentry-cli releases propose-version`. beware .dockerignore. or `RUN git clone` it.
 - [x] test the clean.sh for bad images
 
-- [ ] Environment variables for Cloud Run (AUTH_TOKEN)
+- [ ] cloudbuild.yaml for Environment variables for Cloud Run (AUTH_TOKEN)
+- [ ] cloudbuild.yaml should use Substitutions instead of hard-coded projectId
 - [ ] react<>flask containers communicating on Cloud Run hosts
 
 
@@ -72,6 +71,15 @@ gsutil 4.47
 4. select 'us-central1'
 5. or `/run.sh flask` or other1, other2
 
+OR
+
+#### cloudbuild.yaml
+1. Build image
+gcloud builds submit --config=cloudbuild.yaml \
+    --substitutions=SENTRY_AUTH_TOKEN="<SENTRY_AUTH_TOKEN>"
+2. Run container
+`gcloud run deploy --image gcr.io/<PROJECT-ID>/<APP_NAME> --platform managed`
+
 ## Technical Notes
 Updating | Dev Tips/Notes | What's Happening
 #### Some Design Decisions
@@ -112,6 +120,8 @@ Warning: It is not recommended to use build-time variables for passing secrets l
 
 
 `docker exec -it <container_ID> bash`
+
+`sentry-cli repos list`
 
 ## Sentry Documentation
 TODO

@@ -3,9 +3,7 @@
 # SENTRY_AUTH_TOKEN
 SENTRY_ORG=testorg-az
 SENTRY_PROJECT=will-frontend-react
-
 VERSION=`sentry-cli releases propose-version`
-
 PREFIX=static/js
 
 setup_release: create_release associate_commits upload_sourcemaps
@@ -14,8 +12,6 @@ create_release:
 	sentry-cli releases -o $(SENTRY_ORG) new -p $(SENTRY_PROJECT) $(VERSION)
 
 associate_commits:
-	echo 'associating commits...'
-	# TODO - added sentry-demos/tracing and thinkocapo/tracing
 	sentry-cli releases -o $(SENTRY_ORG) -p $(SENTRY_PROJECT) set-commits --auto $(VERSION)
 
 upload_sourcemaps:
@@ -24,10 +20,3 @@ upload_sourcemaps:
 
 # VERSION=`sentry-cli releases -o testorg-az new -p will-frontend-react v123`
 # sentry-cli releases -o $(SENTRY_ORG) set-commits $(VERSION) --commit "react@sentry-demos"
-
-# causes, "Makefile:11: *** missing separator.  Stop."
-# echo `sentry-cli repos list`
-
-# TRY echo 'sentry-cli repos list'
-# or
-# sentry-cli repos list
