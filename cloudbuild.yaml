@@ -1,9 +1,12 @@
-
-
 steps:
 - name: gcr.io/cloud-builders/docker
-  args: ["build", "--tag", "gcr.io/sales-engineering-sf/react", "./react"]
-  env:
-  - 'SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN'
+  args: ['build',
+        '--build-arg',
+        'SENTRY_AUTH_TOKEN=${_SENTRY_AUTH_TOKEN}',
+        '-t',
+        'gcr.io/$PROJECT_ID/react:2.3',
+        '-f',
+        './Dockerfile',
+        './react']
 images:
-- gcr.io/sales-engineering-sf/react:2.2
+- gcr.io/$PROJECT_ID/react:2.3

@@ -11,10 +11,11 @@ Run in it's own Node container, served on a port
 
 #### Dev (Macbook docker host)
 1. ~~docker build -t react:2.0 .~~
-2. docker build --build-arg AUTH_TOKEN=1234567 -t react:git .
-3. docker build --build-arg AUTH_TOKEN=1234567 -t react:git -f Dockerfile.dev .
+2. docker build --build-arg SENTRY_AUTH_TOKEN=1234567 -t react:2.0 .
+3. docker build --build-arg SENTRY_AUTH_TOKEN=1234567 -t react:2.0 -f Dockerfile.dev .
+
 or from project root:
-4. docker build --build-arg AUTH_TOKEN=8c3eaf4784e84978ab9aaae9b789dc5ecf9fbd362af343c7ba8bfbce9eec12f3 -t react:2.1 -f ./react/Dockerfile.dev .
+4. docker build --build-arg SENTRY_AUTH_TOKEN=8c3eaf4784e84978ab9aaae9b789dc5ecf9fbd362af343c7ba8bfbce9eec12f3 -t react:2.1 -f ./react/Dockerfile.dev .
 5. docker run --rm --name=react -p 5000:5000 react:2.1
 
 #### Design Decisions
