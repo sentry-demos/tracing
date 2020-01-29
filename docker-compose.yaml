@@ -6,15 +6,15 @@ services:
       dockerfile: flask.dockerfile
     restart: always
     ports:
-     - "${PORT:-8080}:5000"
+     - "${PORT:-8080}"
     environment:
      PORT: ${PORT:-8080}
   react:
     build:
       context: ./react
       dockerfile: react.dockerfile
-    environment:
-     PORT: ${PORT:-8080}
     restart: always
     ports:
-     - "${PORT:-5001}:5000"
+     - "${PORT:-8080}"
+    environment:
+     PORT: ${PORT:-8080}
