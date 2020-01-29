@@ -1,0 +1,10 @@
+steps:
+- name: gcr.io/cloud-builders/docker
+  args: ['build',
+        '-t',
+        'gcr.io/$PROJECT_ID/react:2.3',
+        '-f',
+        'Dockerfile',
+        '.']
+images:
+- gcr.io/$PROJECT_ID/react:2.3

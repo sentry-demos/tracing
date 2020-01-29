@@ -3,11 +3,18 @@ services:
   flask:
     build:
       context: ./flask
-      dockerfile: Dockerfile
+      dockerfile: flask.dockerfile
     restart: always
     ports:
-     - "${PORT:-8080}"
+     - "${PORT:-8080}:5000"
     environment:
-     # /run/docs/reference/container-contract
      PORT: ${PORT:-8080}
-    #  K_SERVICE: sample-app
+  react:
+    build:
+      context: ./react
+      dockerfile: react.dockerfile
+    environment:
+     PORT: ${PORT:-8080}
+    restart: always
+    ports:
+     - "${PORT:-5001}:5000"

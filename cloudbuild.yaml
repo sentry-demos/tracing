@@ -4,4 +4,6 @@ steps:
   args: ['up', '-d']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['tag', 'workspace_flask:latest', 'gcr.io/$PROJECT_ID/workspace_flask']
-images: ['gcr.io/$PROJECT_ID/workspace_flask']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['tag', 'workspace_react:latest', 'gcr.io/$PROJECT_ID/workspace_react']
+images: ['gcr.io/$PROJECT_ID/workspace_flask', 'gcr.io/$PROJECT_ID/workspace_react']
