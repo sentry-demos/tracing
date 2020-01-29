@@ -1,12 +1,7 @@
+#cloudbuild.yaml
 steps:
-- name: gcr.io/cloud-builders/docker
-  args: ['build',
-        '--build-arg',
-        'SENTRY_AUTH_TOKEN=${_SENTRY_AUTH_TOKEN}',
-        '-t',
-        'gcr.io/$PROJECT_ID/react:2.3',
-        '-f',
-        './Dockerfile',
-        './react']
-images:
-- gcr.io/$PROJECT_ID/react:2.3
+- name: 'docker/compose:1.19.0'
+  args: ['up', '-d']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['tag', 'workspace_flask:latest', 'gcr.io/$PROJECT_ID/workspace_flask']
+images: ['gcr.io/$PROJECT_ID/workspace_flask']
