@@ -6,6 +6,8 @@ import nailsImg from "../assets/nails.png";
 import hammerImg from "../assets/hammer.png";
 import { testTypeIssue11, theCriticalIssue } from "../critical";
 const PORT = process.env.REACT_APP_PORT || 3001;
+const BACK_END = process.env.REACT_APP_BACK_END || `http://localhost:${PORT}`
+
 const request = require('request');
 
 const monify = n => (n / 100).toFixed(2);
@@ -17,7 +19,6 @@ class App extends Component {
     this.state = {
       cart: []
     };
-
     // generate random email
     this.email =
       Math.random()
@@ -133,8 +134,9 @@ class App extends Component {
       scope.setTag("transaction_id", transactionId);
     });
     // perform request (set transctionID as header and throw error appropriately)
+    console.log("process.env", process.env)
     request.post({
-        url: `http://localhost:${PORT}/checkout`,
+        url: `${BACK_END}/checkout`,
         json: order,
         headers: {
           "X-Session-ID": this.sessionId,

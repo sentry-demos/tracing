@@ -1,9 +1,9 @@
 FROM node:10.15.3 
+COPY ./.env ./app
 COPY ./build ./app
 WORKDIR /app
 RUN npm install -g serve
-CMD ["serve", "-s", ".", "-l", "8080"]
-
+CMD serve -s . -l $PORT
 
 # FROM node:10.15.3
 # COPY . ./app
