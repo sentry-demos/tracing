@@ -4,4 +4,3 @@ README.md
 *.pyo
 *.pyd
 __pycache__
-clean.sh

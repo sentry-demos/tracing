@@ -4,3 +4,5 @@
 .vscode
 react/.env
 .DS_STORE
+react/node_modules/
+
