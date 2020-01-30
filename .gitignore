@@ -2,5 +2,5 @@
 *.pyc
 *.egg-info
 .vscode
-react/Dockerfile
 react/.env
+.DS_STORE

@@ -1,12 +1,28 @@
 steps:
 - name: gcr.io/cloud-builders/docker
-  args: ['build',
-        '--build-arg',
-        'SENTRY_AUTH_TOKEN=${_SENTRY_AUTH_TOKEN}',
-        '-t',
-        'gcr.io/$PROJECT_ID/react:2.3',
-        '-f',
-        './Dockerfile',
-        './react']
+  args:
+    - "build"
+    - "-t"
+    - "us.gcr.io/$PROJECT_ID/workspace_flask:$COMMIT_SHA"
+    - "-t"
+    - "us.gcr.io/$PROJECT_ID/workspace_flask:latest"
+    - "-f"
+    - "./flask/Dockerfile"
+    - "./flask"
+
+- name: gcr.io/cloud-builders/docker
+  args:
+    - "build"
+    - "-t"
+    - "us.gcr.io/$PROJECT_ID/workspace_react:$COMMIT_SHA"
+    - "-t"
+    - "us.gcr.io/$PROJECT_ID/workspace_react:latest"
+    - "-f"
+    - "./react/Dockerfile"
+    - "./react"
+
 images:
-- gcr.io/$PROJECT_ID/react:2.3
+- us.gcr.io/$PROJECT_ID/workspace_flask:$COMMIT_SHA
+- us.gcr.io/$PROJECT_ID/workspace_flask:latest
+- us.gcr.io/$PROJECT_ID/workspace_react:$COMMIT_SHA
+- us.gcr.io/$PROJECT_ID/workspace_react:latest

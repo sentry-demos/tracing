@@ -1,20 +1,20 @@
-# this docker-compose.yaml is non-functional at the moment...
-# could use the Docker.dev file in each project app in here to orchestrate them together on macbook host
----
 version: '3'
 services:
   flask:
-    env_file: ./.env
-    image: python:2.7-slim
-    volumes:
-      - ./gateway:/usr/src
-    command:
-      /usr/src/run.sh
+    build:
+      context: ./flask
+      dockerfile: flask.dockerfile
+    restart: always
     ports:
-      - "9005:9005"
-    links:
-      - countries
-      - rng
-    depends_on:
-      - other1
-      - other2
+     - "${PORT:-8080}"
+    environment:
+     PORT: ${PORT:-8080}
+  react:
+    build:
+      context: ./react
+      dockerfile: react.dockerfile
+    restart: always
+    ports:
+     - "${PORT:-8080}"
+    environment:
+     PORT: ${PORT:-8080}

@@ -4,8 +4,8 @@ import "./App.css";
 import wrenchImg from "../assets/wrench.png";
 import nailsImg from "../assets/nails.png";
 import hammerImg from "../assets/hammer.png";
-import { testTypeIssue11, theCriticalIssue } from "../critical"
-const PORT = process.env.REACT_APP_PORT || 3001
+import { testTypeIssue11, theCriticalIssue } from "../critical";
+const PORT = process.env.REACT_APP_PORT || 3001;
 const request = require('request');
 
 const monify = n => (n / 100).toFixed(2);
