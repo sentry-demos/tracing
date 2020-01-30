@@ -1,9 +1,28 @@
-#cloudbuild.yaml
 steps:
-- name: 'docker/compose:1.19.0'
-  args: ['up', '-d']
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['tag', 'workspace_flask:latest', 'gcr.io/$PROJECT_ID/workspace_flask']
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['tag', 'workspace_react:latest', 'gcr.io/$PROJECT_ID/workspace_react']
-images: ['gcr.io/$PROJECT_ID/workspace_flask', 'gcr.io/$PROJECT_ID/workspace_react']
+- name: gcr.io/cloud-builders/docker
+  args:
+    - "build"
+    - "-t"
+    - "us.gcr.io/$PROJECT_ID/workspace_flask:$COMMIT_SHA"
+    - "-t"
+    - "us.gcr.io/$PROJECT_ID/workspace_flask:latest"
+    - "-f"
+    - "./flask/Dockerfile"
+    - "./flask"
+
+- name: gcr.io/cloud-builders/docker
+  args:
+    - "build"
+    - "-t"
+    - "us.gcr.io/$PROJECT_ID/workspace_react:$COMMIT_SHA"
+    - "-t"
+    - "us.gcr.io/$PROJECT_ID/workspace_react:latest"
+    - "-f"
+    - "./react/Dockerfile"
+    - "./react"
+
+images:
+- us.gcr.io/$PROJECT_ID/workspace_flask:$COMMIT_SHA
+- us.gcr.io/$PROJECT_ID/workspace_flask:latest
+- us.gcr.io/$PROJECT_ID/workspace_react:$COMMIT_SHA
+- us.gcr.io/$PROJECT_ID/workspace_react:latest
