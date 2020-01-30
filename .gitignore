@@ -1,8 +1,7 @@
-.env
 *.pyc
 *.egg-info
 .vscode
-react/.env
 .DS_STORE
 react/node_modules/
 react/.env
+react/build
