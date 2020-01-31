@@ -68,32 +68,32 @@ THEN you need to change the URL in .env to reflect that
 
 ## Run
 #### Cloud Build, Cloud Container Registry, Cloud Run
-1. `cd flask` or other1, other2
-2. Build image in Cloud Build
-`gcloud builds submit --tag gcr.io/<PROJECT-ID>/<APP_NAME>`
-3. Run container in Cloud Run
-`gcloud run deploy --image gcr.io/<PROJECT-ID>/<APP_NAME> --platform managed`
-4. select 'us-central1'
-5. or `/run.sh flask` or other1, other2
+1. `make all`
+or do them individually
+// TODO is there a command/way to call just 1 of them from the .yaml? could move this to Troubleshoot
 
-OR
+2. update the app name in .env if you haven't yet
+
+#### What's Happening
+cloudbuild.yaml...
 
 #### cloudbuild.yaml
 gcloud builds submit --config=cloudbuild.yaml
 gcloud run deploy --image gcr.io/sales-engineering-sf/wcap-flask --platform managed
+Build image in Cloud Build  
+`gcloud builds submit --tag gcr.io/<PROJECT-ID>/<APP_NAME>`  
+Run container in Cloud Run  
+`gcloud run deploy --image gcr.io/<PROJECT-ID>/<APP_NAME> --platform managed`  
 
 ## Technical Notes
-Updating | Dev Tips/Notes | What's Happening
 #### Some Design Decisions
-Do not build it locally and push, like: https://cloud.google.com/run/docs/building/containers
 
-Submodule to sentry-demos/react instead of pasting here? Yet, the React app is going to change a lot so probably create a new one here.
+could submodule to sentry-demos/react one day
 
-Multi-stage build should make for a faster React build
+could do multi-stage build in docker file if wanted
 
-`docker-compose.yaml` is only good for running containers locally, so not using it.
+`docker-compose.yaml` for running the containers locally
 
-Serve from nginx or not?
 
 ## Troubleshooting
 tips'n'tricks
@@ -130,6 +130,7 @@ Warning: It is not recommended to use build-time variables for passing secrets l
 2. Run container
 `gcloud run deploy --image gcr.io/PROJECT-ID/<APP_NAME> --platform managed`
 
+select 'us-central1' if you didn't auto set it in Setup
 
 ## Sentry Documentation
 Resources - ....
