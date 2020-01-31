@@ -3,11 +3,8 @@ Run in it's own Node container, served on a port
 
 ## Run
 #### Prod (Cloud Run)
-1. Build image
-`gcloud builds submit --tag gcr.io/PROJECT-ID/react`
-
-2. Run container
-`gcloud run deploy --image gcr.io/PROJECT-ID/react --platform managed`
+gcloud builds submit --config=cloudbuild.yaml
+gcloud run deploy --image gcr.io/sales-engineering-sf/wcap-flask --platform managed
 
 #### Dev (Macbook docker host)
 1. ~~docker build -t react:2.0 .~~

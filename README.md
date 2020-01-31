@@ -79,11 +79,8 @@ THEN you need to change the URL in .env to reflect that
 OR
 
 #### cloudbuild.yaml
-1. Build image
-gcloud builds submit --config=cloudbuild.yaml \
-    --substitutions=SENTRY_AUTH_TOKEN="<SENTRY_AUTH_TOKEN>"
-2. Run container
-`gcloud run deploy --image gcr.io/<PROJECT-ID>/<APP_NAME> --platform managed`
+gcloud builds submit --config=cloudbuild.yaml
+gcloud run deploy --image gcr.io/sales-engineering-sf/wcap-flask --platform managed
 
 ## Technical Notes
 Updating | Dev Tips/Notes | What's Happening
@@ -128,8 +125,14 @@ Warning: It is not recommended to use build-time variables for passing secrets l
 
 `sentry-cli repos list`
 
+1. Build image
+`gcloud builds submit --tag gcr.io/PROJECT-ID/<APP_NAME>`
+2. Run container
+`gcloud run deploy --image gcr.io/PROJECT-ID/<APP_NAME> --platform managed`
+
+
 ## Sentry Documentation
-TODO
+Resources - ....
 
 ## GIF
 TODO
