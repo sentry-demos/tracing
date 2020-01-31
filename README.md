@@ -14,11 +14,11 @@ this was tested on:
 | gsutil 4.47 | gsutil 4.47 |
 #### Setup Instructions
 1. Have an admin set you as Owner on the Project in GCP
-2. Download `gcloud` google cloud sdk https://cloud.google.com/sdk/docs/
+2. Download `gcloud` google cloud sdk https://cloud.google.com/sdk/docs/. This will have you 'initialize' your sdk from command line, and set some defaults. If you get asked for 'zone' select us-central1-a. 'region' is us-central1
 3. `gcloud auth login` opens browser with Google OAUTH, select your Sentry email
 4. `gcloud config set project <project ID>` get Google Cloud Project ID from console.cloud.google.com.
 5. `gcloud config set run/region us-central1` to set 'us-central1' as default region
-6. `cd react; touch .env` and set your backend container's URL as `REACT_APP_BACKEND=<URL>`
+6. Set your `whoami` in the ./react/.env file, so your React container will call the right Flask container.
 
 ## Run
 1. `make all`
