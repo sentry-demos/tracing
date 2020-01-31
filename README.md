@@ -1,89 +1,28 @@
 # tracing
-Tracing between React javascript and back-end REST API's and other microservices
-
-Talk about Google Cloud Build, Cloud Container Registry, Cloud Run...
-
-## TODO
-PHASE I
-- [x] helloworld-python on a personal Google Cloud account (gmail)
-- [x] project structure that anyone can follow
-- [x] flask in docker on macbook docker host
-- [x] flask in docker container in Cloud Run
-- [x] react in docker on macbook docker host. 
-- [x] reactdocker sends Event to Sentry DSN
-- [x] flaskdocker sends Event to Sentry DSN
-- [x] REACT_APP_PORT || 3001, so talks to Cloud Run's '$PORT' default
-- [x] `COPY ../.git  /app` and uncomment `sentry-cli releases propose-version`. beware .dockerignore. or `RUN git clone` it.
-- [x] test the clean.sh for bad images
-
-- [x] cloudbuild.yaml and Substitutions
-- [x] react<>flask containers communicating on Cloud Run hosts
-- [x] set environmental variables (BACKEND) https://create-react-app.dev/docs/adding-custom-environment-variables/  
-
-2. Makefile
-- [x] make `all` does both /flask and /react at once, builds+runs
-- [x] whoami echo'd into the tagg'd/build
-
-PHASE II
-- [ ] more microservices dockerized for tracing demo (getsentry/tracing-example)
-- [ ] Tool Store demo using Network I/O + React Components examples
-- [ ] Additional Use Cases:
-CPU https://cloud.google.com/run/docs/reference/container-contract 
-Memory https://cloud.google.com/run/docs/reference/container-contract#memory 
-Concurrency https://cloud.google.com/run/docs/reference/container-contract#concurrency
-Try to reach limits ^
-
-PHASE III
-- all the .gcloudignore files
-- Meet with Data Engineering to add additional endpoints/microservices/examples
-- Meet with Google Kubernetes Engine maintainers for running everything there. sentry-kubernetes too
-- Sentlog/Other/SuperDemo
-- rm the favicon/uneeded stuff from react app's index.html as this cause warnings/errors in console
-
-PHASE - Dependencies
-- Visual diagram of microservices, w/ Design team
-- Front end Table, styled.
+Overview...Tracing between React javascript and back-end REST API's and other microservices...This uses cloudbuild.yaml - Cloud Build, Cloud Container Registry, Cloud Run...
 
 ## Setup
 #### Versions
 this was tested on:
-```
-// table
-Google Cloud SDK 277.0.0
-bq 2.0.52
-core 2020.01.17
-gsutil 4.47
-```
-#### Setup Instructions
-1. `gcloud auth login` opens browser with google OAUTH, select your work email
-2. `gcloud config set project <project ID>` get Google Cloud Project ID from console.cloud.google.com.
-3. To make 'us-central1' the default region, run `gcloud config set run/region us-central1`.
 
-4. get added by an Owner to the GCP...
-5. put your container's URL in the .env.
-```
-IF you change your $(GCP_DEPLOY)-react to $(GCP_DEPLOY)-react-feature123
-THEN you need to change the URL in .env to reflect that
-```
+| dependency    | version
+| ------------- |:-------------:|
+| Google Cloud SDK | 277.0.0 |
+| bq | 2.0.52 |
+| AVD | Nexus 5x API 29 x86 |
+| core | 2020.01.17 |
+| gsutil 4.47 | gsutil 4.47 |
+#### Setup Instructions
+1. Have an admin set you as Owner on the Project in GCP
+2. Download `gcloud` google cloud sdk https://cloud.google.com/sdk/docs/
+3. `gcloud auth login` opens browser with Google OAUTH, select your Sentry email
+4. `gcloud config set project <project ID>` get Google Cloud Project ID from console.cloud.google.com.
+5. `gcloud config set run/region us-central1` to set 'us-central1' as default region
+6. `cd react; touch .env` and set your backend container's URL as `REACT_APP_BACKEND=<URL>`
 
 ## Run
-#### Cloud Build, Cloud Container Registry, Cloud Run
 1. `make all`
-or do them individually
-// TODO is there a command/way to call just 1 of them from the .yaml? could move this to Troubleshoot
-
-2. update the app name in .env if you haven't yet
-
-#### What's Happening
-cloudbuild.yaml...
-
-#### cloudbuild.yaml
-gcloud builds submit --config=cloudbuild.yaml
-gcloud run deploy --image gcr.io/sales-engineering-sf/wcap-flask --platform managed
-Build image in Cloud Build  
-`gcloud builds submit --tag gcr.io/<PROJECT-ID>/<APP_NAME>`  
-Run container in Cloud Run  
-`gcloud run deploy --image gcr.io/<PROJECT-ID>/<APP_NAME> --platform managed`  
+2. see troubleshooting for how to run individually and work with the cloudbuild.yaml differently.
 
 ## Technical Notes
 #### Some Design Decisions
@@ -96,12 +35,7 @@ could do multi-stage build in docker file if wanted
 
 
 ## Troubleshooting
-tips'n'tricks
-```
-docker stop <container>;
-docker rm $(docker ps -a -q -f status=exited)
-```
-
+#### gcloud
 ```
 // logout from a specific account then run the following command
 gcloud auth revoke <your_account>
@@ -111,36 +45,49 @@ gcloud auth revoke --all
 gcloud config list
 ```
 
-https://cloud.google.com/run/docs/reference/container-contract#port  
-The default GCP $PORT is 8080 https://cloud.google.com/run/docs/reference/container-contract
+Build image in Cloud Build  
+`gcloud builds submit --tag gcr.io/<PROJECT-ID>/<APP_NAME>`  
+Run container in Cloud Run  
+`gcloud run deploy --image gcr.io/<PROJECT-ID>/<APP_NAME> --platform managed`  
 
-The container must listen for requests on 0.0.0.0 on the port defined by the PORT environment variable.
+IF you change your `$(GCP_DEPLOY)-react` to `$(GCP_DEPLOY)-react-feature123`
+THEN you need to change the URL (REACT_APP_BACKEND) in `.env` to reflect that
 
+The container must listen for requests on 0.0.0.0 on the port defined by the GCP's $PORT environment variable. It is defaulted to 8080  
+https://cloud.google.com/run/docs/reference/container-contract#port 
 
+#### docker-compose
+Warning: It is not recommended to use build-time variables for passing secrets like github keys, user credentials etc. Build-time variable values are visible to any user of the image with the docker history command.  
 https://docs.docker.com/engine/reference/builder/
-Warning: It is not recommended to use build-time variables for passing secrets like github keys, user credentials etc. Build-time variable values are visible to any user of the image with the docker history command.
-
 
 `docker exec -it <container_ID> bash`
 
+see `clean.sh` for how to quickly remove all dead images and containers
+
+#### other
 `sentry-cli repos list`
 
-1. Build image
+Build 1 image, without cloundbuild.yaml
 `gcloud builds submit --tag gcr.io/PROJECT-ID/<APP_NAME>`
-2. Run container
+
+Run a container (Makefile is doing this for you)
 `gcloud run deploy --image gcr.io/PROJECT-ID/<APP_NAME> --platform managed`
 
-select 'us-central1' if you didn't auto set it in Setup
+Don't forget to update your .env with the URL of your backend container, should you change the container's its name
 
 ## Sentry Documentation
-Resources - ....
+tracing docs
+https://forum.sentry.io/t/sentrys-apm-docs-alpha/7843
+
+tracing example
+https://github.com/getsentry/sentry/blob/master/src/sentry/static/sentry/app/bootstrap.jsx 
+
+tracing example 
+https://www.notion.so/sentry/Tracing-Examples-Documentation-3f70bbdd20cf4e818eed42d13ef9986a#c453b93910b940fcba31ff8859673562
+
+tracing implemented in the React error demo
+https://github.com/thinkocapo/react/tree/apm-alpha  
+https://github.com/thinkocapo/flask/tree/apm-alpha
 
 ## GIF
-TODO
 
-## Future
-- GKE Google Kubernetes Engine
-- sentry-kubernetes
-- Sentry For Data Teams, data engineering tools/linked microservices, jobs running. Track this all with Airflow?
-- multiple different demo's (i.e. endpoints) you could call. The containers will all spin up in milliseconds as need be.
-- Google Cloud Functions
