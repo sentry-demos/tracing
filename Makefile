@@ -10,7 +10,7 @@ GCP_DEPLOY=gcloud run deploy $(shell whoami)
 all: build_react setup_release build deploy-flask deploy-react
 
 build_react:
-	cd react && nvm use && npm install && npm run build
+	cd react && npm install && npm run build
 
 setup_release: create_release associate_commits upload_sourcemaps
 
