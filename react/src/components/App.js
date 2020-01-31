@@ -6,7 +6,7 @@ import nailsImg from "../assets/nails.png";
 import hammerImg from "../assets/hammer.png";
 import { testTypeIssue11, theCriticalIssue } from "../critical";
 const PORT = process.env.REACT_APP_PORT || 3001;
-const BACK_END = process.env.REACT_APP_BACK_END || `http://localhost:${PORT}`
+const BACKEND = process.env.REACT_APP_BACKEND || `http://localhost:${PORT}`
 
 const request = require('request');
 
@@ -133,10 +133,10 @@ class App extends Component {
     Sentry.configureScope(scope => {
       scope.setTag("transaction_id", transactionId);
     });
+    
     // perform request (set transctionID as header and throw error appropriately)
-    console.log("process.env", process.env)
     request.post({
-        url: `${BACK_END}/checkout`,
+        url: `${BACKEND}/checkout`,
         json: order,
         headers: {
           "X-Session-ID": this.sessionId,

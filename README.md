@@ -18,7 +18,7 @@ PHASE I
 
 - [x] cloudbuild.yaml and Substitutions
 - [x] react<>flask containers communicating on Cloud Run hosts
-- [x] set environmental variables (BACK_END) https://create-react-app.dev/docs/adding-custom-environment-variables/  
+- [x] set environmental variables (BACKEND) https://create-react-app.dev/docs/adding-custom-environment-variables/  
 
 2. Makefile
 - [x] make `all` does both /flask and /react at once, builds+runs
