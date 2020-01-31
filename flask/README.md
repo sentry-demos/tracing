@@ -1,7 +1,6 @@
 # flask
 
 ## Setup
-1. make sure you're in `/tracing/flask` or other1, other2
 
 ## Run
 #### Prod (Cloud Run)
@@ -15,13 +14,4 @@
 1. docker build -t flask:1.0 -f Dockerfile.dev .
 2. docker run --rm --name=flask -p 3001:3001 flask:1.0
 
-## What's Happening
-`gcloud builds submit --tag gcr.io/PROJECT-ID/flask`
-
-^ uploads the Dockerfile and current directory contents?
-^ builds the image in Cloud Build and saves the resulting image to Container Registry
-
 ## Troubleshooting
-- instruction for running this microservice on macbook host docker see thinkocapo/flaskdocker
-
-- if you want to run this app in a different docker host (like your macbook) then change `$PORT` in the Dockerfile to `5000`
