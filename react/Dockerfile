@@ -1,4 +1,4 @@
-FROM node:10.15.3 
+FROM node:8.1.4
 COPY ./build ./app
 WORKDIR /app
 RUN npm install -g serve
