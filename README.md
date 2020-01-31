@@ -1,5 +1,5 @@
 # tracing
-Overview...Tracing between React javascript and back-end REST API's and other microservices...This uses cloudbuild.yaml - Cloud Build, Cloud Container Registry, Cloud Run...
+Overview...Tracing between React javascript and back-end REST API's and other microservices...This uses cloudbuild.yaml - Cloud Build, Cloud Container Registry, Cloud Run...see troubleshooting for how to run individually and work with the cloudbuild.yaml differently.
 
 ## Setup
 #### Versions
@@ -22,7 +22,6 @@ this was tested on:
 
 ## Run
 1. `make all`
-2. see troubleshooting for how to run individually and work with the cloudbuild.yaml differently.
 
 ## Technical Notes
 #### Some Design Decisions
