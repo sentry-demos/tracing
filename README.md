@@ -16,15 +16,13 @@ PHASE I
 - [x] `COPY ../.git  /app` and uncomment `sentry-cli releases propose-version`. beware .dockerignore. or `RUN git clone` it.
 - [x] test the clean.sh for bad images
 
-- [ ] cloudbuild.yaml for Environment variables for Cloud Run (AUTH_TOKEN)
-- [ ] cloudbuild.yaml should use Substitutions instead of hard-coded projectId
-- [ ] react<>flask containers communicating on Cloud Run hosts
-
+- [x] cloudbuild.yaml and Substitutions
+- [x] react<>flask containers communicating on Cloud Run hosts
+- [x] set environmental variables (BACKEND) https://create-react-app.dev/docs/adding-custom-environment-variables/  
 
 2. Makefile
-- [ ] make `all` does both /flask and /react at once, builds+runs
-- [ ] whoami echo'd into the tagg'd/build
-
+- [x] make `all` does both /flask and /react at once, builds+runs
+- [x] whoami echo'd into the tagg'd/build
 
 PHASE II
 - [ ] more microservices dockerized for tracing demo (getsentry/tracing-example)
@@ -61,6 +59,13 @@ gsutil 4.47
 2. `gcloud config set project <project ID>` get Google Cloud Project ID from console.cloud.google.com.
 3. To make 'us-central1' the default region, run `gcloud config set run/region us-central1`.
 
+4. get added by an Owner to the GCP...
+5. put your container's URL in the .env.
+```
+IF you change your $(GCP_DEPLOY)-react to $(GCP_DEPLOY)-react-feature123
+THEN you need to change the URL in .env to reflect that
+```
+
 ## Run
 #### Cloud Build, Cloud Container Registry, Cloud Run
 1. `cd flask` or other1, other2
@@ -74,11 +79,8 @@ gsutil 4.47
 OR
 
 #### cloudbuild.yaml
-1. Build image
-gcloud builds submit --config=cloudbuild.yaml \
-    --substitutions=SENTRY_AUTH_TOKEN="<SENTRY_AUTH_TOKEN>"
-2. Run container
-`gcloud run deploy --image gcr.io/<PROJECT-ID>/<APP_NAME> --platform managed`
+gcloud builds submit --config=cloudbuild.yaml
+gcloud run deploy --image gcr.io/sales-engineering-sf/wcap-flask --platform managed
 
 ## Technical Notes
 Updating | Dev Tips/Notes | What's Happening
@@ -123,8 +125,14 @@ Warning: It is not recommended to use build-time variables for passing secrets l
 
 `sentry-cli repos list`
 
+1. Build image
+`gcloud builds submit --tag gcr.io/PROJECT-ID/<APP_NAME>`
+2. Run container
+`gcloud run deploy --image gcr.io/PROJECT-ID/<APP_NAME> --platform managed`
+
+
 ## Sentry Documentation
-TODO
+Resources - ....
 
 ## GIF
 TODO
