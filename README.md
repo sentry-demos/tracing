@@ -18,7 +18,7 @@ this was tested on:
 3. `gcloud auth login` opens browser with Google OAUTH, select your Sentry email
 4. `gcloud config set project <project ID>` get Google Cloud Project ID from console.cloud.google.com.
 5. `gcloud config set run/region us-central1` to set 'us-central1' as default region
-6. Set your `whoami` in the ./react/.env file, so your React container will call the right Flask container.
+6. update the REACT_APP_BACKEND_URL react/.env with your `whoami` so your React container will call your Flask container.
 
 ## Run
 1. `make all`
