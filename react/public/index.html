@@ -23,20 +23,25 @@
   <title>Sentry Demo</title>
 
   <!-- Import SDK -->
-  <script src="https://browser.sentry-cdn.com/5.4.1/bundle.min.js" crossorigin="anonymous"></script>
+  <script src="https://browser.sentry-cdn.com/5.11.1/bundle.apm.min.js" crossorigin="anonymous"></script>
 
   <script>
     Sentry.init({
       dsn: 'https://0d52d5f4e8a64f5ab2edce50d88a7626@sentry.io/1428657',
-      release: "2.3",
+      release: "%REACT_APP_RELEASE%",
       environment: "prod",
       beforeSend(event) {
         if (event.exception) {
           Sentry.showReportDialog();
         }
-        // Check if there's something you'd want to ignore it by, and
         return event;
-      }
+      },
+      integrations: [
+        new Sentry.Integrations.Tracing({
+          tracingOrigins: ['localhost', 'sentry.io', /^\//],
+          tracesSampleRate,
+        }),
+      ]
     });
   </script>
 <link href="https://fonts.googleapis.com/css?family=Karla:400,700" rel="stylesheet">

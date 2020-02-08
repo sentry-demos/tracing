@@ -8,8 +8,6 @@ import { testTypeIssue11, theCriticalIssue } from "../critical";
 const PORT = process.env.REACT_APP_PORT || 3001;
 const BACKEND = process.env.REACT_APP_BACKEND || `http://localhost:${PORT}`
 
-const request = require('request');
-
 const monify = n => (n / 100).toFixed(2);
 const getUniqueId = () => '_' + Math.random().toString(36).substr(2, 9);
 
@@ -71,11 +69,6 @@ class App extends Component {
     //Will add an XHR Sentry breadcrumb
     this.performXHRRequest();
   }
-  regularsLastIssue() {
-    console.log('regularsLastIssue, fallback assignment')
-    throw new Error("regularsLastIssue, fallback assignment");
-  }
-
 
   buyItem(item) {
 
@@ -135,24 +128,22 @@ class App extends Component {
     });
     
     // perform request (set transctionID as header and throw error appropriately)
-    request.post({
-        url: `${BACKEND}/checkout`,
-        json: order,
-        headers: {
-          "X-Session-ID": this.sessionId,
-          "X-Transaction-ID": transactionId
-        }
-      }, (error, response) => {
-        if (error) {
-          throw error;
-        }
-        if (response.statusCode === 200) {
+    fetch(`${BACKEND}/checkout`, {
+      method: "POST",
+      body: JSON.stringify(order),
+      headers: {
+        "X-Session-ID": this.sessionId,
+        "X-Transaction-ID": transactionId
+      },
+    })
+      .then(response => {
+        if (response.status === 200) {
           this.setState({ success: true });
+          return response.text(); // logs as Promise {<pending>}
         } else {
-          throw new Error(response.statusCode + " - " + (response.statusMessage || response.body));
+          throw new Error(response.status + " - " + (response.statusText || response.body));
         }
-      }
-    );
+      })
   }
 
   render() {
