@@ -38,8 +38,7 @@
       },
       integrations: [
         new Sentry.Integrations.Tracing({
-          tracingOrigins: ['localhost', 'sentry.io', /^\//],
-          tracesSampleRate,
+          tracingOrigins: ['localhost', 'sentry.io', /^\//]
         }),
       ]
     });

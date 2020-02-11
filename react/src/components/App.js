@@ -4,9 +4,9 @@ import "./App.css";
 import wrenchImg from "../assets/wrench.png";
 import nailsImg from "../assets/nails.png";
 import hammerImg from "../assets/hammer.png";
-import { testTypeIssue11, theCriticalIssue } from "../critical";
+const BACKEND_LOCAL = process.env.REACT_APP_BACKEND_LOCAL
 const PORT = process.env.REACT_APP_PORT || 3001;
-const BACKEND = process.env.REACT_APP_BACKEND || `http://localhost:${PORT}`
+const BACKEND = BACKEND_LOCAL ? `${BACKEND_LOCAL}:${PORT}` : process.env.REACT_APP_BACKEND
 
 const monify = n => (n / 100).toFixed(2);
 const getUniqueId = () => '_' + Math.random().toString(36).substr(2, 9);
@@ -14,6 +14,8 @@ const getUniqueId = () => '_' + Math.random().toString(36).substr(2, 9);
 class App extends Component {
   constructor(props) {
     super(props);
+    console.log("PORT", PORT)
+    console.log("BACKEND", BACKEND)
     this.state = {
       cart: []
     };
@@ -141,8 +143,12 @@ class App extends Component {
           this.setState({ success: true });
           return response.text(); // logs as Promise {<pending>}
         } else {
-          throw new Error(response.status + " - " + (response.statusText || response.body));
+          return new Error(response.status + " - " + (response.statusText || response.body));
         }
+      })
+      .catch(error => {
+        console.log('error')
+        throw new Error(error);
       })
   }
 

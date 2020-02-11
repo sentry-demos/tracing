@@ -1,4 +1,4 @@
-import { middleFunction } from "./middle"
+
 
 function testTypeIssue11() {
     // middleFunction()
