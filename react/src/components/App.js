@@ -109,6 +109,13 @@ class App extends Component {
       .then(json => console.log(json));
   }
 
+  handleErrors(response) {
+    if (!response.ok) {
+      throw new Error(response.status + " - " + (response.statusText || response.body));
+    }
+    return response
+  }
+
   checkout() {
 
     // this.myCodeIsNotPerfect();
@@ -138,17 +145,14 @@ class App extends Component {
         "X-Transaction-ID": transactionId
       },
     })
+      .then(this.handleErrors)
       .then(response => {
-        if (response.status === 200) {
-          this.setState({ success: true });
-          return response.text(); // logs as Promise {<pending>}
-        } else {
-          return new Error(response.status + " - " + (response.statusText || response.body));
-        }
+        this.setState({ success: true });
+        return response.text();
       })
       .catch(error => {
-        console.log('error')
-        throw new Error(error);
+        console.log(error)
+        Sentry.captureException(error)
       })
   }
 
