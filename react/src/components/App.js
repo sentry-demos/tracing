@@ -151,7 +151,7 @@ class App extends Component {
         return response.text();
       })
       .catch(error => {
-        // throw new Error("Don't throw me in fetch's catch block - It's Unhandled Rejection land")
+        // throw new Error("I won't appear on Sentry.io")
         console.log(error)
         Sentry.captureException(error)
       })
