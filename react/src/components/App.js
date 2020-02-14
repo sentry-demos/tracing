@@ -109,16 +109,7 @@ class App extends Component {
       .then(json => console.log(json));
   }
 
-  handleErrors(response) {
-    if (!response.ok) {
-      throw new Error(response.status + " - " + (response.statusText || response.body));
-    }
-    return response
-  }
-
-  checkout() {
-
-    // this.myCodeIsNotPerfect();
+  async checkout() {
 
     /*
       POST request to /checkout endpoint.
@@ -130,31 +121,18 @@ class App extends Component {
       cart: this.state.cart
     };
 
-    // generate unique transactionId and set as Sentry tag
-    const transactionId = getUniqueId();
-    Sentry.configureScope(scope => {
-      scope.setTag("transaction_id", transactionId);
-    });
-    
-    // perform request (set transctionID as header and throw error appropriately)
-    fetch(`${BACKEND}/checkout`, {
+    const response = await fetch(`${BACKEND}/checkout`, {
       method: "POST",
-      body: JSON.stringify(order),
-      headers: {
-        "X-Session-ID": this.sessionId,
-        "X-Transaction-ID": transactionId
-      },
+      body: JSON.stringify(order)
     })
-      .then(this.handleErrors)
-      .then(response => {
-        this.setState({ success: true });
-        return response.text();
-      })
-      .catch(error => {
-        // throw new Error("I won't appear on Sentry.io")
-        console.log(error)
-        Sentry.captureException(error)
-      })
+    console.log('response', response) // url
+    if (!response.ok) {
+      throw new Error(response.status + " - " + (response.statusText || response.body));
+    }
+    
+    this.setState({ success: true });
+    return response.text()
+
   }
 
   render() {
