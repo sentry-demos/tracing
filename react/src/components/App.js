@@ -14,8 +14,9 @@ const getUniqueId = () => '_' + Math.random().toString(36).substr(2, 9);
 class App extends Component {
   constructor(props) {
     super(props);
-    console.log("PORT", PORT)
-    console.log("BACKEND", BACKEND)
+    console.log("REACT_APP_BACKEND", process.env.REACT_APP_BACKEND)
+    console.log("REACT_APP_BACKEND_LOCAL", process.env.REACT_APP_BACKEND_LOCAL)
+
     this.state = {
       cart: []
     };
