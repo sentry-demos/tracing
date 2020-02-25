@@ -4,9 +4,12 @@ import "./App.css";
 import wrenchImg from "../assets/wrench.png";
 import nailsImg from "../assets/nails.png";
 import hammerImg from "../assets/hammer.png";
-const BACKEND_LOCAL = process.env.REACT_APP_BACKEND_LOCAL
+
 const PORT = process.env.REACT_APP_PORT || 3001;
-const BACKEND = BACKEND_LOCAL ? `${BACKEND_LOCAL}:${PORT}` : process.env.REACT_APP_BACKEND
+console.log("PORT", PORT)
+console.log("REACT_APP_BACKEND", process.env.REACT_APP_BACKEND)
+console.log("REACT_APP_BACKEND_LOCAL", process.env.REACT_APP_BACKEND_LOCAL)
+const BACKEND = process.env.REACT_APP_BACKEND_LOCAL ? `${process.env.REACT_APP_BACKEND_LOCAL}:${PORT}` : process.env.REACT_APP_BACKEND
 
 const monify = n => (n / 100).toFixed(2);
 const getUniqueId = () => '_' + Math.random().toString(36).substr(2, 9);
@@ -14,9 +17,8 @@ const getUniqueId = () => '_' + Math.random().toString(36).substr(2, 9);
 class App extends Component {
   constructor(props) {
     super(props);
-    console.log("REACT_APP_BACKEND", process.env.REACT_APP_BACKEND)
-    console.log("REACT_APP_BACKEND_LOCAL", process.env.REACT_APP_BACKEND_LOCAL)
 
+    console.log('BACKEND', BACKEND) 
     this.state = {
       cart: []
     };
