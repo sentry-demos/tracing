@@ -5,6 +5,9 @@ import wrenchImg from "../assets/wrench.png";
 import nailsImg from "../assets/nails.png";
 import hammerImg from "../assets/hammer.png";
 
+// TODO - conditions for each case. e.g. if process.env.BACK_END && .PORT are defined... for prod local, as opposed to gcp where url includes Port
+// option to set the port in here? could ./react.sh flask | spring still work?
+
 const PORT = process.env.REACT_APP_PORT || 3001;
 console.log("PORT", PORT)
 console.log("REACT_APP_BACKEND", process.env.REACT_APP_BACKEND)
