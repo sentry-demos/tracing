@@ -5,11 +5,7 @@ import wrenchImg from "../assets/wrench.png";
 import nailsImg from "../assets/nails.png";
 import hammerImg from "../assets/hammer.png";
 
-const PORT = process.env.REACT_APP_PORT || 3001;
-
-// `npm run deploylocal` and `npm start` REACT_APP_BACKEND_LOCAL
-// `npm run deploy` is only used for GCP deployment
-const BACKEND = process.env.REACT_APP_BACKEND_LOCAL ? `${process.env.REACT_APP_BACKEND_LOCAL}:${PORT}` : process.env.REACT_APP_BACKEND
+const BACKEND = process.env.REACT_APP_BACKEND_LOCAL || process.env.REACT_APP_BACKEND
 
 const monify = n => (n / 100).toFixed(2);
 const getUniqueId = () => '_' + Math.random().toString(36).substr(2, 9);

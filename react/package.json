@@ -19,7 +19,7 @@
     "deploylocal": "npm run buildlocal && make setup_release && serve -s build",
     "start": "REACT_APP_RELEASE=`sentry-cli releases propose-version` react-scripts start",
     "build": "REACT_APP_RELEASE=`sentry-cli releases propose-version` react-scripts build",
-    "buildlocal": "REACT_APP_RELEASE=`sentry-cli releases propose-version` REACT_APP_BACKEND_LOCAL=http://localhost react-scripts build",
+    "buildlocal": "REACT_APP_RELEASE=`sentry-cli releases propose-version` REACT_APP_BACKEND_LOCAL=http://localhost:3001 react-scripts build",
     "eject": "react-scripts eject",
     "deploy-ghp": "npm run predeploy && gh-pages -d build"
   },
