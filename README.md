@@ -20,8 +20,11 @@ this was tested on:
 5. `gcloud config set run/region us-central1` to set 'us-central1' as default region
 6. update the REACT_APP_BACKEND_URL react/.env with your `whoami` so your React container will call your Flask container.
 
-## Run
+## Run Prod
 1. `make all`
+
+## Run Local
+1. `npm run deploylocal` for running react app locally  
 
 ## Technical Notes
 #### Some Design Decisions
