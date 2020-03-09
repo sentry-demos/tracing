@@ -1,5 +1,10 @@
 # tracing
-Overview...Tracing between React javascript and back-end REST API's and other microservices...This uses cloudbuild.yaml - Cloud Build, Cloud Container Registry, Cloud Run...see troubleshooting for how to run individually and work with the cloudbuild.yaml differently.
+SDK Tracing between a React javascript app and back-end Flask app. For prod deployment this uses GCP's Cloud Build, Cloud Container Registry and Cloud Run. See troubleshooting for how to run individually and work with the cloudbuild.yaml.
+
+Future development include:
+- adding more microservices in the back-end stack
+- updated front-end
+- use in conkunction with Discover
 
 ## Setup
 #### Versions
