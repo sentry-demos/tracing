@@ -4,6 +4,7 @@ import "./App.css";
 import wrenchImg from "../assets/wrench.png";
 import nailsImg from "../assets/nails.png";
 import hammerImg from "../assets/hammer.png";
+import * as Sentry from '@sentry/browser';
 
 const BACKEND = process.env.REACT_APP_BACKEND_LOCAL || process.env.REACT_APP_BACKEND
 
@@ -109,7 +110,7 @@ class App extends Component {
   }
 
   async checkout() {
-
+    this.brokenCode()
     /*
       POST request to /checkout endpoint.
         - Custom header with transactionId for transaction tracing
