@@ -11,20 +11,16 @@ const BACKEND = process.env.REACT_APP_BACKEND_LOCAL || process.env.REACT_APP_BAC
 
 const monify = n => (n / 100).toFixed(2);
 const getUniqueId = () => '_' + Math.random().toString(36).substr(2, 9);
+// const activity = ApmIntegrations.Tracing.pushActivity("StoreCheckout", {
+//   data: {},
+//   op: 'react',
+//   description: `<StoreCheckout>`,
+// });
 
 class App extends Component {
 
   constructor(props) {
     super(props);
-    // this.transaction = Sentry.getCurrentHub().startSpan({ 
-    //   op: "task",  
-    //   transaction: "stuff"
-    // })
-    this.activity = ApmIntegrations.Tracing.pushActivity("StoreCheckout", {
-      data: {},
-      op: 'react',
-      description: `<StoreCheckout>`,
-    });
 
     console.log('BACKEND', BACKEND) 
     this.state = {
@@ -121,12 +117,16 @@ class App extends Component {
   }
 
   async checkout() {
-    // this.brokenCode()
-    /*
-      POST request to /checkout endpoint.
-        - Custom header with transactionId for transaction tracing
-        - throw error if response !== 200
-    */
+    ApmIntegrations.Tracing.startIdleTransaction('checkout', 
+      {op: 'checkoutOp', transaction: 'checkoutTransaction', sampled: true})
+
+    const activity = ApmIntegrations.Tracing.pushActivity("StoreCheckout", {
+      data: {},
+      op: 'react',
+      description: `<StoreCheckout>`,
+    }); // it will pop the activity for me after 1000ms, without me having to call 'pop'
+
+    // - START TRANSACTION
     const order = {
       email: this.email,
       cart: this.state.cart
@@ -141,9 +141,10 @@ class App extends Component {
     //   body: JSON.stringify(order)
     // })
 
-    // this.transaction.finish()
-    ApmIntegrations.popActivity(this.activity);
+    // - END TRANSACTION
+    ApmIntegrations.Tracing.popActivity(activity);
 
+    // the above tx will flush, because there will be 500ms of inactivity, and the Activity has popped already
     if (!response.ok) {
       throw new Error(response.status + " - " + (response.statusText || response.body));
     }
