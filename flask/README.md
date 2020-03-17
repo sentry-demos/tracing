@@ -15,3 +15,5 @@
 2. docker run --rm --name=flask -p 3001:3001 flask:1.0
 
 ## Troubleshooting
+#### Local Testing to Postgres CloudSQL
+1. Master Instnace > Connections > add your IP (whatismyip.com)
