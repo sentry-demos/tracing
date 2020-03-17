@@ -63,6 +63,8 @@ THEN you need to change the URL (REACT_APP_BACKEND) in `.env` to reflect that
 The container must listen for requests on 0.0.0.0 on the port defined by the GCP's $PORT environment variable. It is defaulted to 8080  
 https://cloud.google.com/run/docs/reference/container-contract#port 
 
+if you run `npm start` then the React app will bring you to a handled error page, instead of seeing User Feedback popup
+
 #### docker-compose
 Warning: It is not recommended to use build-time variables for passing secrets like github keys, user credentials etc. Build-time variable values are visible to any user of the image with the docker history command.  
 https://docs.docker.com/engine/reference/builder/

@@ -18,12 +18,11 @@ CORS(app)
 
 @app.route('/handled', methods=['GET'])
 def handled_exception():
-    print('printing...in the cloud')
-    try:
-        '2' + 2
-    except Exception as err:
-        sentry_sdk.capture_exception(err)
-    return 'Success, error captured. Go to sentry.io'
+    # try:
+    #     '2' + 2
+    # except Exception as err:
+    #     sentry_sdk.capture_exception(err)
+    return 'Success'
 
 @app.route('/unhandled', methods=['GET'])
 def unhandled_exception():

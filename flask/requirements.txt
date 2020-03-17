@@ -1,4 +1,5 @@
 flask==1.0.2
-sentry-sdk[flask]==0.13.5
+sentry-sdk==0.14.2
 flask-cors==3.0.7
 gunicorn==0.14.2
+blinker==1.4

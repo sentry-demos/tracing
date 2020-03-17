@@ -1,8 +1,0 @@
-Dockerfile
-README.md
-README2.md
-*.pyc
-*.pyo
-*.pyd
-__pycache__
-/helloworld-python
