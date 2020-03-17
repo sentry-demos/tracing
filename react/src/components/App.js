@@ -12,21 +12,19 @@ const BACKEND = process.env.REACT_APP_BACKEND_LOCAL || process.env.REACT_APP_BAC
 const monify = n => (n / 100).toFixed(2);
 const getUniqueId = () => '_' + Math.random().toString(36).substr(2, 9);
 
-
 class App extends Component {
-  activity = ApmIntegrations.Tracing.pushActivity("StoreCheckout", {
-    data: {},
-    op: 'react',
-    description: `<StoreCheckout>`,
-  });
+
   constructor(props) {
     super(props);
-
-    // this.activity = ApmIntegrations.Tracing.pushActivity("StoreCheckout", {
-    //   data: {},
-    //   op: 'react',
-    //   description: `<StoreCheckout>`,
-    // });
+    // this.transaction = Sentry.getCurrentHub().startSpan({ 
+    //   op: "task",  
+    //   transaction: "stuff"
+    // })
+    this.activity = ApmIntegrations.Tracing.pushActivity("StoreCheckout", {
+      data: {},
+      op: 'react',
+      description: `<StoreCheckout>`,
+    });
 
     console.log('BACKEND', BACKEND) 
     this.state = {
@@ -143,6 +141,7 @@ class App extends Component {
     //   body: JSON.stringify(order)
     // })
 
+    // this.transaction.finish()
     ApmIntegrations.popActivity(this.activity);
 
     if (!response.ok) {
