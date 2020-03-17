@@ -16,13 +16,16 @@ sentry_sdk.init(
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/success', methods=['GET'])
+    return 'SUCCESS'
+
 @app.route('/handled', methods=['GET'])
 def handled_exception():
-    # try:
-    #     '2' + 2
-    # except Exception as err:
-    #     sentry_sdk.capture_exception(err)
-    return 'Success'
+    try:
+        '2' + 2
+    except Exception as err:
+        sentry_sdk.capture_exception(err)
+    return 'failed'
 
 @app.route('/unhandled', methods=['GET'])
 def unhandled_exception():

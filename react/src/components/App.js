@@ -11,11 +11,6 @@ const BACKEND = process.env.REACT_APP_BACKEND_LOCAL || process.env.REACT_APP_BAC
 
 const monify = n => (n / 100).toFixed(2);
 const getUniqueId = () => '_' + Math.random().toString(36).substr(2, 9);
-// const activity = ApmIntegrations.Tracing.pushActivity("StoreCheckout", {
-//   data: {},
-//   op: 'react',
-//   description: `<StoreCheckout>`,
-// });
 
 class App extends Component {
 
@@ -124,27 +119,24 @@ class App extends Component {
       data: {},
       op: 'react',
       description: `<StoreCheckout>`,
-    }); // it will pop the activity for me after 1000ms, without me having to call 'pop'
+    });
 
-    // - START TRANSACTION
     const order = {
       email: this.email,
       cart: this.state.cart
     };
-    // TEST - 200 response
-    const response = await fetch(`${BACKEND}/handled`, {
+
+    const response = await fetch(`${BACKEND}/success`, {
       method: "GET"
     })
-    // ORIGINAL - 500 response
+
     // const response = await fetch(`${BACKEND}/checkout`, {
     //   method: "POST",
     //   body: JSON.stringify(order)
     // })
 
-    // - END TRANSACTION
     ApmIntegrations.Tracing.popActivity(activity);
-
-    // the above tx will flush, because there will be 500ms of inactivity, and the Activity has popped already
+    
     if (!response.ok) {
       throw new Error(response.status + " - " + (response.statusText || response.body));
     }

@@ -3,3 +3,4 @@ sentry-sdk==0.14.2
 flask-cors==3.0.7
 gunicorn==0.14.2
 blinker==1.4
+psycopg2-binary==2.8.4

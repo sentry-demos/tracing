@@ -17,7 +17,7 @@ insert_query = """INSERT INTO items(name, description, price) VALUES ('name_of_t
 # VALUES
 #    (name_of_the_item, description_of_the_item, 100000);
 
-
+# generate random tool names + descriptions
 def randomString(stringLength=10):
     """Generate a random string of fixed length """
     letters = string.ascii_lowercase
@@ -34,16 +34,14 @@ connection = psycopg2.connect(
 cursor = connection.cursor()
 
 try:
-    # cur.execute("""SELECT * from bar""")
     cursor.execute(table_query)
 except:
-    print "I can't RUN A query table\n"
+    print "Table creation failed\n"
 
 try:
-    # cur.execute("""SELECT * from bar""")
     cursor.execute(insert_query)
 except:
-    print "I can't RUN A query insert\n"
+    print "Row insert failed\n"
 
 rows = cursor.fetchall()
 
