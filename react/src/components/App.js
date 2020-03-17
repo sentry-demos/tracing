@@ -5,15 +5,28 @@ import wrenchImg from "../assets/wrench.png";
 import nailsImg from "../assets/nails.png";
 import hammerImg from "../assets/hammer.png";
 import * as Sentry from '@sentry/browser';
+import { Integrations as ApmIntegrations } from '@sentry/apm';
 
 const BACKEND = process.env.REACT_APP_BACKEND_LOCAL || process.env.REACT_APP_BACKEND
 
 const monify = n => (n / 100).toFixed(2);
 const getUniqueId = () => '_' + Math.random().toString(36).substr(2, 9);
 
+
 class App extends Component {
+  activity = ApmIntegrations.Tracing.pushActivity("StoreCheckout", {
+    data: {},
+    op: 'react',
+    description: `<StoreCheckout>`,
+  });
   constructor(props) {
     super(props);
+
+    // this.activity = ApmIntegrations.Tracing.pushActivity("StoreCheckout", {
+    //   data: {},
+    //   op: 'react',
+    //   description: `<StoreCheckout>`,
+    // });
 
     console.log('BACKEND', BACKEND) 
     this.state = {
@@ -69,7 +82,7 @@ class App extends Component {
     });
 
     //Will add an XHR Sentry breadcrumb
-    this.performXHRRequest();
+    // this.performXHRRequest();
   }
 
   buyItem(item) {
@@ -110,7 +123,7 @@ class App extends Component {
   }
 
   async checkout() {
-    this.brokenCode()
+    // this.brokenCode()
     /*
       POST request to /checkout endpoint.
         - Custom header with transactionId for transaction tracing
@@ -120,12 +133,18 @@ class App extends Component {
       email: this.email,
       cart: this.state.cart
     };
-
-    const response = await fetch(`${BACKEND}/checkout`, {
-      method: "POST",
-      body: JSON.stringify(order)
+    // TEST - 200 response
+    const response = await fetch(`${BACKEND}/handled`, {
+      method: "GET"
     })
-    console.log('response', response) // url
+    // ORIGINAL - 500 response
+    // const response = await fetch(`${BACKEND}/checkout`, {
+    //   method: "POST",
+    //   body: JSON.stringify(order)
+    // })
+
+    ApmIntegrations.popActivity(this.activity);
+
     if (!response.ok) {
       throw new Error(response.status + " - " + (response.statusText || response.body));
     }

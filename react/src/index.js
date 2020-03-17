@@ -17,14 +17,11 @@ Sentry.init({
       return event;
     },
     integrations: [
-        new ApmIntegrations.Tracing(),
+      new ApmIntegrations.Tracing({
+          tracesSampleRate: 1.0,
+      }),
     ],
-    // cdn
-    // integrations: [
-    //   new Sentry.Integrations.Tracing({
-    //     tracingOrigins: ['localhost', 'sentry.io', /^\//]
-    //   }),
-    // ]
+
 });
 
 ReactDOM.render(<App /> , document.getElementById('root'));
