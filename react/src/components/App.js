@@ -4,6 +4,8 @@ import "./App.css";
 import wrenchImg from "../assets/wrench.png";
 import nailsImg from "../assets/nails.png";
 import hammerImg from "../assets/hammer.png";
+import * as Sentry from '@sentry/browser';
+import { Integrations as ApmIntegrations } from '@sentry/apm';
 
 const BACKEND = process.env.REACT_APP_BACKEND_LOCAL || process.env.REACT_APP_BACKEND
 
@@ -11,6 +13,7 @@ const monify = n => (n / 100).toFixed(2);
 const getUniqueId = () => '_' + Math.random().toString(36).substr(2, 9);
 
 class App extends Component {
+
   constructor(props) {
     super(props);
 
@@ -68,7 +71,7 @@ class App extends Component {
     });
 
     //Will add an XHR Sentry breadcrumb
-    this.performXHRRequest();
+    // this.performXHRRequest();
   }
 
   buyItem(item) {
@@ -109,22 +112,33 @@ class App extends Component {
   }
 
   async checkout() {
+    ApmIntegrations.Tracing.startIdleTransaction('checkout', 
+      {op: 'checkoutOp', transaction: 'checkoutTransaction', sampled: true})
 
-    /*
-      POST request to /checkout endpoint.
-        - Custom header with transactionId for transaction tracing
-        - throw error if response !== 200
-    */
+    const activity = ApmIntegrations.Tracing.pushActivity("StoreCheckout", {
+      data: {},
+      op: 'react',
+      description: `<StoreCheckout>`,
+    });
+
     const order = {
       email: this.email,
       cart: this.state.cart
     };
 
-    const response = await fetch(`${BACKEND}/checkout`, {
-      method: "POST",
-      body: JSON.stringify(order)
+    // This is now an APM Performance demo, not an Error demo.
+    const response = await fetch(`${BACKEND}/success`, {
+      method: "GET"
     })
-    console.log('response', response) // url
+
+    // this is a APM Performance demo, not an Error demo. Refactor a /checkout so it returns 200
+    // const response = await fetch(`${BACKEND}/checkout`, {
+    //   method: "POST",
+    //   body: JSON.stringify(order)
+    // })
+
+    ApmIntegrations.Tracing.popActivity(activity);
+    
     if (!response.ok) {
       throw new Error(response.status + " - " + (response.statusText || response.body));
     }
