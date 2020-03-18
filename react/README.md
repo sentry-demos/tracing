@@ -11,7 +11,7 @@ gcloud run deploy --image gcr.io/sales-engineering-sf/wcap-flask --platform mana
 
 or from project root:
 1. docker build --build-arg SENTRY_AUTH_TOKEN=8c3eaf4784e84978ab9aaae9b789dc5ecf9fbd362af343c7ba8bfbce9eec12f3 -t react:2.1 -f ./react/Dockerfile.dev .
-2. docker run --rm --name=react -p 5000:5000 react:2.1
+2. docker run <image_name> --rm --name=react -p 5000:5000
 
 #### Software Design
 **Multi-stage Build**  
