@@ -5,3 +5,4 @@
 react/node_modules/
 react/.env
 flask/.virtualenv
+flask/.env

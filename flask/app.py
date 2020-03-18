@@ -17,6 +17,7 @@ app = Flask(__name__)
 CORS(app)
 
 @app.route('/success', methods=['GET'])
+def success():
     return 'SUCCESS'
 
 @app.route('/handled', methods=['GET'])

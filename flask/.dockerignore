@@ -4,3 +4,4 @@ README.md
 *.pyo
 *.pyd
 __pycache__
+.virtualenv
