@@ -3,18 +3,18 @@ services:
   flask:
     build:
       context: ./flask
-      dockerfile: flask.dockerfile
+      dockerfile: Dockerfile
     restart: always
     ports:
-     - "${PORT:-8080}"
+     - 3002:3002
     environment:
-     PORT: ${PORT:-8080}
+     PORT: 3002
   react:
     build:
       context: ./react
-      dockerfile: react.dockerfile
+      dockerfile: Dockerfile
     restart: always
     ports:
-     - "${PORT:-8080}"
+     - 3001:3001
     environment:
-     PORT: ${PORT:-8080}
+     PORT: 3001
