@@ -112,14 +112,14 @@ class App extends Component {
   }
 
   async checkout() {
-    // ApmIntegrations.Tracing.startIdleTransaction('checkout', 
-    //   {op: 'checkoutOp', transaction: 'checkoutTransaction', sampled: true})
+    ApmIntegrations.Tracing.startIdleTransaction('checkout', 
+      {op: 'checkoutOp', transaction: 'checkoutTransaction', sampled: true})
 
-    // const activity = ApmIntegrations.Tracing.pushActivity("StoreCheckout", {
-    //   data: {},
-    //   op: 'react',
-    //   description: `<StoreCheckout>`,
-    // });
+    const activity = ApmIntegrations.Tracing.pushActivity("StoreCheckout", {
+      data: {},
+      op: 'react',
+      description: `<StoreCheckout>`,
+    });
 
     const order = {
       email: this.email,
@@ -137,7 +137,7 @@ class App extends Component {
     //   body: JSON.stringify(order)
     // })
 
-    // ApmIntegrations.Tracing.popActivity(activity);
+    ApmIntegrations.Tracing.popActivity(activity);
     
     if (!response.ok) {
       throw new Error(response.status + " - " + (response.statusText || response.body));
