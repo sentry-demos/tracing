@@ -1,11 +1,6 @@
 # tracing
 SDK Tracing between a React javascript app and back-end Flask app. For prod deployment this uses GCP's Cloud Build, Cloud Container Registry and Cloud Run. See troubleshooting for how to run individually and work with the cloudbuild.yaml.
 
-Future development include:
-- adding more microservices in the back-end stack
-- updated front-end
-- use in conkunction with Discover
-
 ## Setup
 #### Versions
 this was tested on:
@@ -25,21 +20,16 @@ this was tested on:
 5. `gcloud config set run/region us-central1` to set 'us-central1' as default region
 6. update the REACT_APP_BACKEND_URL react/.env with your `whoami` so your React container will call your Flask container.
 
-## Run Prod
+## Run
+#### Prod - GCP
 1. `make all`
 
-## Run Local
-1. `npm run deploylocal` for running react app locally  
+#### Dev - with docker
+1. `make docker_compose`
 
-## Technical Notes
-#### Some Design Decisions
-
-could submodule to sentry-demos/react one day
-
-could do multi-stage build in docker file if wanted
-
-`docker-compose.yaml` for running the containers locally
-
+#### Dev - without docker
+1. `cd ./react && npm run deploylocal` 
+2. `cd ./flask && make deploy`
 
 ## Troubleshooting
 #### gcloud
@@ -52,9 +42,9 @@ gcloud auth revoke --all
 gcloud config list
 ```
 
-Build image in Cloud Build  
+Build single image in Cloud Build  
 `gcloud builds submit --tag gcr.io/<PROJECT-ID>/<APP_NAME>`  
-Run container in Cloud Run  
+Run single container in Cloud Run  
 `gcloud run deploy --image gcr.io/<PROJECT-ID>/<APP_NAME> --platform managed`  
 
 IF you change your `$(GCP_DEPLOY)-react` to `$(GCP_DEPLOY)-react-feature123`

@@ -5,11 +5,9 @@ from dotenv import load_dotenv
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 
-load_dotenv()
-DSN = os.getenv("DSN")
 
 sentry_sdk.init(
-    dsn=DSN,
+    dsn="https://2ba68720d38e42079b243c9c5774e05c@sentry.io/1316515",
     traces_sample_rate=1.0,
     integrations=[FlaskIntegration()],
     release=os.environ.get("VERSION"),
