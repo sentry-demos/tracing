@@ -1,12 +1,15 @@
 import os
 from flask import Flask, request, json, abort
 from flask_cors import CORS
-
+from dotenv import load_dotenv
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 
+load_dotenv()
+DSN = os.getenv("DSN")
+
 sentry_sdk.init(
-    dsn="https://2ba68720d38e42079b243c9c5774e05c@sentry.io/1316515",
+    dsn=DSN,
     traces_sample_rate=1.0,
     integrations=[FlaskIntegration()],
     release=os.environ.get("VERSION"),

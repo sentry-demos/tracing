@@ -6,15 +6,15 @@ services:
       dockerfile: Dockerfile
     restart: always
     ports:
-     - 3002:3002
+     - 3003:3003
     environment:
-     PORT: 3002
+     PORT: 3003
   react:
     build:
       context: ./react
       dockerfile: Dockerfile
     restart: always
     ports:
-     - 3001:3001
+     - 3002:3002
     environment:
-     PORT: 3001
+     PORT: 3002
