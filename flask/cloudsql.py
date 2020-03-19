@@ -1,6 +1,11 @@
 import psycopg2
 import string
 import psycopg2.extras
+from dotenv import load_dotenv
+
+# TODO - make this work in dockerfile Dockerfile
+# load_dotenv()
+# PASSWORD = os.getenv("PASSWORD")
 
 table_query = """CREATE TABLE IF NOT EXISTS items (id serial NOT NULL, name varchar(45) NOT NULL,description varchar(100) NOT NULL, price integer NOT NULL, PRIMARY KEY (id));"""
 insert_query = """INSERT INTO items(name, description, price) 

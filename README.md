@@ -1,11 +1,6 @@
 # tracing
 SDK Tracing between a React javascript app and back-end Flask app. For prod deployment this uses GCP's Cloud Build, Cloud Container Registry and Cloud Run. See troubleshooting for how to run individually and work with the cloudbuild.yaml.
 
-Future development include:
-- adding more microservices in the back-end stack
-- updated front-end
-- use in conkunction with Discover
-
 ## Setup
 #### Versions
 this was tested on:
@@ -23,26 +18,21 @@ this was tested on:
 3. `gcloud auth login` opens browser with Google OAUTH, select your Sentry email
 4. `gcloud config set project <project ID>` get Google Cloud Project ID from console.cloud.google.com.
 5. `gcloud config set run/region us-central1` to set 'us-central1' as default region
-6. update the REACT_APP_BACKEND_URL react/.env with your `whoami` so your React container will call your Flask container.
+6. update the REACT_APP_BACKEND_URL in react/.env with your `whoami` so your React container will call your Flask container.
 
-## Run Prod
+## Run
+#### Prod - GCP
 1. `make all`
 
-## Run Local
-1. `npm run deploylocal` for running react app locally  
+#### Dev - with docker
+1. `make docker_compose`
 
-## Technical Notes
-#### Some Design Decisions
-
-could submodule to sentry-demos/react one day
-
-could do multi-stage build in docker file if wanted
-
-`docker-compose.yaml` for running the containers locally
-
+#### Dev - without docker
+1. `cd ./react && npm run deploylocal` 
+2. `cd ./flask && make deploy`
 
 ## Troubleshooting
-#### gcloud
+
 ```
 // logout from a specific account then run the following command
 gcloud auth revoke <your_account>
@@ -52,9 +42,9 @@ gcloud auth revoke --all
 gcloud config list
 ```
 
-Build image in Cloud Build  
+Build single image in Cloud Build  
 `gcloud builds submit --tag gcr.io/<PROJECT-ID>/<APP_NAME>`  
-Run container in Cloud Run  
+Run single container in Cloud Run  
 `gcloud run deploy --image gcr.io/<PROJECT-ID>/<APP_NAME> --platform managed`  
 
 IF you change your `$(GCP_DEPLOY)-react` to `$(GCP_DEPLOY)-react-feature123`
@@ -65,7 +55,6 @@ https://cloud.google.com/run/docs/reference/container-contract#port
 
 if you run `npm start` then the React app will bring you to a handled error page, instead of seeing User Feedback popup
 
-#### docker-compose
 Warning: It is not recommended to use build-time variables for passing secrets like github keys, user credentials etc. Build-time variable values are visible to any user of the image with the docker history command.  
 https://docs.docker.com/engine/reference/builder/
 
@@ -73,30 +62,19 @@ https://docs.docker.com/engine/reference/builder/
 
 see `clean.sh` for how to quickly remove all dead images and containers
 
-#### other
 `sentry-cli repos list`
 
-Build 1 image, without cloundbuild.yaml
-`gcloud builds submit --tag gcr.io/PROJECT-ID/<APP_NAME>`
-
-Run a container (Makefile is doing this for you)
-`gcloud run deploy --image gcr.io/PROJECT-ID/<APP_NAME> --platform managed`
-
-Don't forget to update your .env with the URL of your backend container, should you change the container's its name
-
 ## Sentry Documentation
-tracing docs
+docs  
+https://docs.sentry.io/performance/distributed-tracing/  
 https://forum.sentry.io/t/sentrys-apm-docs-alpha/7843
 
-tracing example
+example  
 https://github.com/getsentry/sentry/blob/master/src/sentry/static/sentry/app/bootstrap.jsx 
 
-tracing example 
-https://www.notion.so/sentry/Tracing-Examples-Documentation-3f70bbdd20cf4e818eed42d13ef9986a#c453b93910b940fcba31ff8859673562
-
-tracing implemented in the React error demo
+tracing implemented in sentry-demos/react and sentry-demos/flask  
 https://github.com/thinkocapo/react/tree/apm-alpha  
 https://github.com/thinkocapo/flask/tree/apm-alpha
 
 ## GIF
-
+todo

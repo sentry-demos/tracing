@@ -1,9 +1,10 @@
 import os
 from flask import Flask, request, json, abort
 from flask_cors import CORS
-
+from dotenv import load_dotenv
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
+
 
 sentry_sdk.init(
     dsn="https://2ba68720d38e42079b243c9c5774e05c@sentry.io/1316515",
