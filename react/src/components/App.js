@@ -115,29 +115,14 @@ class App extends Component {
     ApmIntegrations.Tracing.startIdleTransaction('checkout', 
       {op: 'checkoutOp', transaction: 'checkoutTransaction', sampled: true})
 
-    const activity = ApmIntegrations.Tracing.pushActivity("StoreCheckout", {
-      data: {},
-      op: 'react',
-      description: `<StoreCheckout>`,
-    });
-
-    const order = {
-      email: this.email,
-      cart: this.state.cart
-    };
-
     // This is now an APM Performance demo, not an Error demo.
     const response = await fetch(`${BACKEND}/success`, {
       method: "GET"
     })
 
-    // this is a APM Performance demo, not an Error demo. Refactor a /checkout so it returns 200
-    // const response = await fetch(`${BACKEND}/checkout`, {
-    //   method: "POST",
-    //   body: JSON.stringify(order)
+    // TODO - fetch`${BACKEND}/items, {
+    //   method: "GET"
     // })
-
-    ApmIntegrations.Tracing.popActivity(activity);
     
     if (!response.ok) {
       throw new Error(response.status + " - " + (response.statusText || response.body));
