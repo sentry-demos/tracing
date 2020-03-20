@@ -4,8 +4,8 @@ import "./App.css";
 import wrenchImg from "../assets/wrench.png";
 import nailsImg from "../assets/nails.png";
 import hammerImg from "../assets/hammer.png";
-import * as Sentry from '@sentry/browser';
-import { Integrations as ApmIntegrations } from '@sentry/apm';
+// import * as Sentry from '@sentry/browser';
+// import { Integrations as ApmIntegrations } from '@sentry/apm';
 
 const BACKEND = process.env.REACT_APP_BACKEND_LOCAL || process.env.REACT_APP_BACKEND
 
@@ -16,7 +16,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-
+    console.log('Sentry', Sentry)
     console.log('BACKEND', BACKEND) 
     this.state = {
       cart: []
@@ -112,7 +112,7 @@ class App extends Component {
   }
 
   async checkout() {
-    ApmIntegrations.Tracing.startIdleTransaction('checkout', 
+    Sentry.Integrations.Tracing.startIdleTransaction('checkout', 
       {op: 'checkoutOp', transaction: 'checkoutTransaction', sampled: true})
 
     // This is now an APM Performance demo, not an Error demo.

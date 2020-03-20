@@ -5,8 +5,8 @@
 gcloud builds submit --config=cloudbuild.yaml  
 gcloud run deploy --image gcr.io/sales-engineering-sf/wcap-flask --platform managed
 
-#### Dev (docker-compose up)
-1. docker-compose up
+#### Dev (docker-compose)
+1. docker-compose up --build
 
 #### Dev (docker containers individually)
 1. docker build --build-arg SENTRY_AUTH_TOKEN=1234567 -t react:2.0 .
