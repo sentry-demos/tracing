@@ -1,7 +1,7 @@
 import os
 from flask import Flask, request, json, abort
 from flask_cors import CORS
-from dotenv import load_dotenv
+from db import add_tool, get_all_tools
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 
@@ -77,3 +77,14 @@ def checkout():
     process_order(cart)
 
     return 'Success'
+
+@app.route('/new-tool', methods=['GET'])
+def new_tool():
+    rows = add_tool()
+    return str(rows)
+
+
+@app.route('/get-tools', methods=['GET'])
+def get_tools():
+    rows = get_all_tools()
+    return str(rows)
