@@ -21,29 +21,7 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
   <title>Sentry Demo</title>
-
-  <script src="https://browser.sentry-cdn.com/5.15.0/bundle.min.js" crossorigin="anonymous"></script>
-  <script src="https://browser.sentry-cdn.com/5.15.0/bundle.apm.min.js" crossorigin="anonymous"></script>
-
-  <script>
-    Sentry.init({
-      dsn: 'https://0d52d5f4e8a64f5ab2edce50d88a7626@sentry.io/1428657',
-      release: "%REACT_APP_RELEASE%",
-      environment: "prod",
-      beforeSend(event) {
-        if (event.exception) {
-          Sentry.showReportDialog();
-        }
-        // Check if there's something you'd want to ignore it by, and
-        return event;
-      },
-      integrations: [
-        new Sentry.Integrations.Tracing({
-            tracesSampleRate: 1.0,
-        }),
-      ],
-    });
-  </script>
+  
 
   <link href="https://fonts.googleapis.com/css?family=Karla:400,700" rel="stylesheet">
 

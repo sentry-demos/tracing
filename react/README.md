@@ -16,8 +16,7 @@ or from project root:
 1. docker build --build-arg SENTRY_AUTH_TOKEN=8c3eaf4784e84978ab9aaae9b789dc5ecf9fbd362af343c7ba8bfbce9eec12f3 -t react:2.1 -f ./react/Dockerfile.dev .
 2. docker run <image_name> --rm --name=react -p 5000:5000
 
-#### Software Design
-**Multi-stage Build**  
+#### Multi-stage Build 
 Can build it first `npm run deploy` then put static asset in the Dockerfile/build, this way only 1 build going on in docker  
 
 Can run the web build `npm run deploy` inside of the the docker container  
@@ -26,3 +25,5 @@ debate:
 https://medium.com/greedygame-engineering/so-you-want-to-dockerize-your-react-app-64fbbb74c217  
 and  
 https://dev.to/peterj/run-a-react-app-in-a-docker-container-kjn
+
+https://github.com/getsentry/sentry-docs/pull/1556/commits/4fb9cbaee016c0bffe95ab7277ef526b759c9cac

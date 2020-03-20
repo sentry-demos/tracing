@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, json, abort
+from flask import Flask, request, json, abort, make_response
 from flask_cors import CORS
 from dotenv import load_dotenv
 import sentry_sdk
@@ -19,7 +19,12 @@ CORS(app)
 
 @app.route('/success', methods=['GET'])
 def success():
-    return 'SUCCESS'
+    response = make_response("SSUuuucceeesss")
+    # response.headers['Access-Control-Allow-Origin'] = '*'
+    # response.headers['Access-Control-Allow-Headers'] = '*'
+    # response.headers['Access-Control-Request-Headers'] = '*'
+    # return 'SUCCESS'
+    return response
 
 @app.route('/handled', methods=['GET'])
 def handled_exception():
