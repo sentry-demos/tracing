@@ -11,7 +11,11 @@ HOST = os.getenv("HOST")
 DATABASE = os.getenv("DATABASE")
 USER_NAME = os.getenv("USER_NAME")
 PASSWORD = os.getenv("PASSWORD")
-print("NAME", USER_NAME)
+print("HOST", HOST)
+print("DATABASE", DATABASE)
+print("USER_NAME", USER_NAME)
+print("PASSWORD", PASSWORD)
+
 insert_query = """INSERT INTO tools(name, type, sku, image, price) 
                   VALUES (%s, %s, %s, %s, %s);"""
 
