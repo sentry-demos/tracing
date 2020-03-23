@@ -15,11 +15,12 @@ def randomString(stringLength=10):
     return ''.join(random.choice(letters) for i in range(stringLength))
 
 def get_connection():
-    connection = psycopg2.connect(
-        host = "",
-        database = "hardwarestore",
-        user = "postgres",
-        password = "")
+    with sentry_sdk.start_span(op="psycopg2.connect"):
+        connection = psycopg2.connect(
+            host = "",
+            database = "hardwarestore",
+            user = "postgres",
+            password = "")
     return connection 
 
 def add_tool(name = "Mallot", tool_type = "Hammer", image = "hammer.jpg"):
@@ -37,10 +38,8 @@ def add_tool(name = "Mallot", tool_type = "Hammer", image = "hammer.jpg"):
     return rows
 
 def get_all_tools():
-    with sentry_sdk.start_span(op="open db connection"):
-        connection = get_connection()
-    with sentry_sdk.start_span(op="open cursor"):
-        cursor = connection.cursor()
+    connection = get_connection()
+    cursor = connection.cursor()
     with sentry_sdk.start_span(op="run query"):
         cursor.execute("SELECT * FROM tools")
         rows = cursor.fetchall()
