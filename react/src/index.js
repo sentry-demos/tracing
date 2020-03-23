@@ -6,6 +6,16 @@ import registerServiceWorker from './registerServiceWorker';
 import * as Sentry from '@sentry/browser';
 import { Integrations as ApmIntegrations } from '@sentry/apm';
 
+const tracingOrigins = [
+  'localhost', 
+  'http://localhost',
+  'wcap-react-m3uuizd7iq-uc.a.run.app',
+  'https://wcap-react-m3uuizd7iq-uc.a.run.app',
+  'https://wcap-flask-m3uuizd7iq-uc.a.run.app',
+  /^\//
+]
+console.log('tracingOrigins', tracingOrigins)
+
 Sentry.init({
     dsn: 'https://0d52d5f4e8a64f5ab2edce50d88a7626@sentry.io/1428657',
     release: process.env.REACT_APP_RELEASE,
@@ -19,10 +29,10 @@ Sentry.init({
     },
     integrations: [
       new ApmIntegrations.Tracing({
-          tracesSampleRate: 1.0,
+          tracingOrigins: tracingOrigins
       }),
     ],
-
+    tracesSampleRate: 1.0,
 });
 
 ReactDOM.render(<App /> , document.getElementById('root'));

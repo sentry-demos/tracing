@@ -19,13 +19,15 @@ this was tested on:
 4. `gcloud config set project <project ID>` get Google Cloud Project ID from console.cloud.google.com.
 5. `gcloud config set run/region us-central1` to set 'us-central1' as default region
 6. update the REACT_APP_BACKEND_URL in react/.env with your `whoami` so your React container will call your Flask container.
+7. cd flask && virtualenv.....pip install requirements....
 
 ## Run
 #### Prod - GCP
 1. `make all`
 
 #### Dev - with docker
-1. `make docker_compose`
+1. `make docker_compose`  
+docker-compose down
 
 #### Dev - without docker
 1. `cd ./react && npm run deploylocal` 
