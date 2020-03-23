@@ -80,11 +80,13 @@ def checkout():
 
 @app.route('/new-tool', methods=['GET'])
 def new_tool():
+    with sentry_sdk.start_span(op="db read"):
     rows = add_tool()
     return str(rows)
 
 
 @app.route('/get-tools', methods=['GET'])
 def get_tools():
+    with sentry_sdk.start_span(op="db read"):
     rows = get_all_tools()
     return str(rows)
