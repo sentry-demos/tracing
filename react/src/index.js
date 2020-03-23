@@ -34,10 +34,7 @@ Sentry.init({
     ],
     tracesSampleRate: 1.0,
 });
-// tracingOrigins: ['localhost', /^\//]
-// tracingOrigins: ['localhost', /^\//]
-// tracingOrigins: tracingOrigins,
-// tracingOrigins: ['https://wcap-react-m3uuizd7iq-uc.a.run.app', /^\//]
+
 ReactDOM.render(<App /> , document.getElementById('root'));
 
 registerServiceWorker();

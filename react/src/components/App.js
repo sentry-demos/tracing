@@ -112,17 +112,13 @@ class App extends Component {
   }
 
   async checkout() {
-    ApmIntegrations.Tracing.startIdleTransaction('checkout', 
-      {op: 'checkoutOp', transaction: 'checkoutTransaction', sampled: true})
+    ApmIntegrations.Tracing.startIdleTransaction('success', 
+      {op: 'successOp', transaction: 'successTransaction', sampled: true})
 
     // This is now an APM Performance demo, not an Error demo.
     const response = await fetch(`${BACKEND}/success`, {
       method: "GET"
     })
-
-    // TODO - fetch`${BACKEND}/items, {
-    //   method: "GET"
-    // })
     
     if (!response.ok) {
       throw new Error(response.status + " - " + (response.statusText || response.body));
