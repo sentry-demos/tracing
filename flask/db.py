@@ -1,10 +1,17 @@
+import os
 import psycopg2
 import string
 import psycopg2.extras
 import random
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
-
+from dotenv import load_dotenv
+load_dotenv()
+HOST = os.getenv("HOST")
+DATABASE = os.getenv("DATABASE")
+USER_NAME = os.getenv("USER_NAME")
+PASSWORD = os.getenv("PASSWORD")
+print("NAME", USER_NAME)
 insert_query = """INSERT INTO tools(name, type, sku, image, price) 
                   VALUES (%s, %s, %s, %s, %s);"""
 
@@ -17,10 +24,10 @@ def randomString(stringLength=10):
 def get_connection():
     with sentry_sdk.start_span(op="psycopg2.connect"):
         connection = psycopg2.connect(
-            host = "",
-            database = "hardwarestore",
+            host = HOST,
+            database = DATABASE,
             user = "postgres",
-            password = "")
+            password = PASSWORD)
     return connection 
 
 def add_tool(name = "Mallot", tool_type = "Hammer", image = "hammer.jpg"):

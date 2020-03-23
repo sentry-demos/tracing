@@ -1,11 +1,15 @@
+import os
 import psycopg2
 import string
 import psycopg2.extras
+import dotenv
 from dotenv import load_dotenv
 
-# TODO - make this work in dockerfile Dockerfile
-# load_dotenv()
-# PASSWORD = os.getenv("PASSWORD")
+load_dotenv()
+HOST = os.getenv("HOST")
+DATABASE = os.getenv("DATABASE")
+USER_NAME = os.getenv("USER_NAME")
+PASSWORD = os.getenv("PASSWORD")
 
 table_query = """CREATE TABLE IF NOT EXISTS items (id serial NOT NULL, name varchar(45) NOT NULL,description varchar(100) NOT NULL, price integer NOT NULL, PRIMARY KEY (id));"""
 insert_query = """INSERT INTO items(name, description, price) 
@@ -29,12 +33,18 @@ def randomString(stringLength=10):
     letters = string.ascii_lowercase
     return ''.join(random.choice(letters) for i in range(stringLength))
 
+print (HOST)
+print (DATABASE)
+
+print (USER)
+
+print (PASSWORD)
 
 connection = psycopg2.connect(
-        host = "",
-        database = "tools",
-        user = "postgres",
-        password = "")
+        host = HOST,
+        database = DATABASE,
+        user = USER_NAME,
+        password = PASSWORD)
 
 # cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
 cursor = connection.cursor()
@@ -50,6 +60,7 @@ except:
     print "Row insert failed\n"
 
 rows = cursor.fetchall()
+cursor.close()
 
 print rows[0]
 

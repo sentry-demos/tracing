@@ -20,11 +20,7 @@ CORS(app)
 
 @app.route('/success', methods=['GET'])
 def success():
-    response = make_response("SSUuuucceeesss")
-    # response.headers['Access-Control-Allow-Origin'] = '*'
-    # response.headers['Access-Control-Allow-Headers'] = '*'
-    # response.headers['Access-Control-Request-Headers'] = '*'
-    # return 'SUCCESS'
+    response = make_response("success")
     return response
 
 @app.route('/handled', methods=['GET'])
@@ -84,7 +80,7 @@ def checkout():
 
     return 'Success'
 
-@app.route('/tool', methods=['GET'])
+@app.route('/tool', methods=['POST'])
 def new_tool():
     with sentry_sdk.start_span(op="db read"):
         try:
