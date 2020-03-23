@@ -10,7 +10,9 @@ const tracingOrigins = [
   'localhost', 
   'http://localhost',
   'wcap-react-m3uuizd7iq-uc.a.run.app',
+  'wcap-react-m3uuizd7iq-uc.a.run.app/',
   'https://wcap-react-m3uuizd7iq-uc.a.run.app',
+  'https://wcap-react-m3uuizd7iq-uc.a.run.app/',
   /^\//
 ]
 console.log('tracingOrigins', tracingOrigins)
