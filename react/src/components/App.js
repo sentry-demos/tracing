@@ -16,7 +16,6 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    console.log('Sentry', Sentry)
     console.log('BACKEND', BACKEND) 
     this.state = {
       cart: []
