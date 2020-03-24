@@ -9,12 +9,8 @@ from dotenv import load_dotenv
 load_dotenv()
 HOST = os.getenv("HOST")
 DATABASE = os.getenv("DATABASE")
-USER_NAME = os.getenv("USER_NAME")
+USERNAME = os.getenv("USERNAME")
 PASSWORD = os.getenv("PASSWORD")
-print("HOST", HOST)
-print("DATABASE", DATABASE)
-print("USER_NAME", USER_NAME)
-print("PASSWORD", PASSWORD)
 
 insert_query = """INSERT INTO tools(name, type, sku, image, price) 
                   VALUES (%s, %s, %s, %s, %s);"""
@@ -30,7 +26,7 @@ def get_connection():
         connection = psycopg2.connect(
             host = HOST,
             database = DATABASE,
-            user = "postgres",
+            user = USERNAME,
             password = PASSWORD)
     return connection 
 
