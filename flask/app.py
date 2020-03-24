@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, json, abort, make_response
+from flask import Flask, request, json, abort, make_response, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
 from db import add_tool, get_all_tools
@@ -97,4 +97,4 @@ def get_tools():
             rows = get_all_tools()
         except:
             raise "error getting tools"
-    return str(rows)
+    return jsonify(str(rows))
