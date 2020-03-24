@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, json, abort, make_response
+from flask import Flask, request, json, abort, make_response, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
 from db import add_tool, get_all_tools
@@ -20,11 +20,7 @@ CORS(app)
 
 @app.route('/success', methods=['GET'])
 def success():
-    response = make_response("SSUuuucceeesss")
-    # response.headers['Access-Control-Allow-Origin'] = '*'
-    # response.headers['Access-Control-Allow-Headers'] = '*'
-    # response.headers['Access-Control-Request-Headers'] = '*'
-    # return 'SUCCESS'
+    response = make_response("success")
     return response
 
 @app.route('/handled', methods=['GET'])
@@ -84,7 +80,7 @@ def checkout():
 
     return 'Success'
 
-@app.route('/tool', methods=['GET'])
+@app.route('/tool', methods=['POST'])
 def new_tool():
     with sentry_sdk.start_span(op="db read"):
         try:
@@ -101,4 +97,4 @@ def get_tools():
             rows = get_all_tools()
         except:
             raise "error getting tools"
-    return str(rows)
+    return jsonify(str(rows))

@@ -16,7 +16,6 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    console.log('Sentry', Sentry)
     console.log('BACKEND', BACKEND) 
     this.state = {
       cart: []
@@ -72,6 +71,8 @@ class App extends Component {
 
     //Will add an XHR Sentry breadcrumb
     // this.performXHRRequest();
+
+    this.getTools()
   }
 
   buyItem(item) {
@@ -119,6 +120,8 @@ class App extends Component {
     const response = await fetch(`${BACKEND}/success`, {
       method: "GET"
     })
+
+    console.log('response', response)
     
     if (!response.ok) {
       throw new Error(response.status + " - " + (response.statusText || response.body));
@@ -127,6 +130,19 @@ class App extends Component {
     this.setState({ success: true });
     return response.text()
 
+  }
+
+  async getTools() {
+    const response = await fetch(`${BACKEND}/tools`, {
+      method: "GET"
+    })
+    console.log('getTools response', response)
+    if (!response.ok) {
+      throw new Error(response.status + " - " + (response.statusText || response.body));
+    }
+    
+    this.setState({ success: true });
+    return response
   }
 
   render() {
