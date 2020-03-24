@@ -82,12 +82,12 @@ def checkout():
 
 @app.route('/tool', methods=['POST'])
 def new_tool():
-    with sentry_sdk.start_span(op="db read"):
+    with sentry_sdk.start_span(op="db write"):
         try:
             rows = add_tool()
         except:
             raise "error adding tool"
-    return str(rows)
+    return 'Success'
 
 
 @app.route('/tools', methods=['GET'])
@@ -96,5 +96,5 @@ def get_tools():
         try:
             rows = get_all_tools()
         except:
-            raise "error getting tools"
-    return jsonify(str(rows))
+            raise "error getting all tools"
+    return rows
