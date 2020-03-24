@@ -8,10 +8,8 @@ import { Integrations as ApmIntegrations } from '@sentry/apm';
 
 const tracingOrigins = [
   'localhost', 
-  'http://localhost',
-  'wcap-react-m3uuizd7iq-uc.a.run.app',
-  'https://wcap-react-m3uuizd7iq-uc.a.run.app',
-  'https://wcap-flask-m3uuizd7iq-uc.a.run.app',
+  process.env.REACT_APP_BACKEND,
+  process.env.REACT_APP_FRONTEND,
   /^\//
 ]
 console.log('tracingOrigins', tracingOrigins)

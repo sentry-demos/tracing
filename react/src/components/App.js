@@ -116,20 +116,17 @@ class App extends Component {
     ApmIntegrations.Tracing.startIdleTransaction('success', 
       {op: 'successOp', transaction: 'successTransaction', sampled: true})
 
-    // This is now an APM Performance demo, not an Error demo.
     const response = await fetch(`${BACKEND}/success`, {
       method: "GET"
     })
-
-    console.log('response', response)
+    console.log('checkout response', response)
     
     if (!response.ok) {
       throw new Error(response.status + " - " + (response.statusText || response.body));
     }
     
     this.setState({ success: true });
-    return response.text()
-
+    return response
   }
 
   async getTools() {
@@ -140,8 +137,6 @@ class App extends Component {
     if (!response.ok) {
       throw new Error(response.status + " - " + (response.statusText || response.body));
     }
-    
-    this.setState({ success: true });
     return response
   }
 
