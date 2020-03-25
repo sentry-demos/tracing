@@ -47,9 +47,17 @@ def add_tool(name = "Mallot", tool_type = "Hammer", image = "hammer.jpg"):
 def get_all_tools():
     connection = get_connection()
     cursor = connection.cursor()
-    with sentry_sdk.start_span(op="run query"):
-        cursor.execute("SELECT * FROM tools")
-        rows = cursor.fetchall()
-    cursor.close()
-    connection.close()
-    return rows
+    try:
+        print('0000000')
+        with sentry_sdk.start_span(op="run query"):
+            cursor.execute("SELECT * FROM tools")
+            rows = cursor.fetchall()
+        cursor.close()
+        connection.close()
+        print('1111111')
+        return rows
+    except Exception as err:
+        print('2222222')
+        sentry_sdk.capture_exception(err)
+    return 'failed'
+        # print(err)
