@@ -3,7 +3,8 @@ from flask import Flask, request, json, abort, make_response, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
 # from db import add_tool, get_all_tools
-from db import get_all_tools
+from db_new import get_all_tools
+    
 
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
