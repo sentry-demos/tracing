@@ -2,7 +2,10 @@ import os
 from flask import Flask, request, json, abort, make_response, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
-from db import add_tool, get_all_tools
+# from db import add_tool, get_all_tools
+from db_new import get_all_tools
+    
+
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 
@@ -80,14 +83,14 @@ def checkout():
 
     return 'Success'
 
-@app.route('/tool', methods=['POST'])
-def new_tool():
-    with sentry_sdk.start_span(op="db read"):
-        try:
-            rows = add_tool()
-        except:
-            raise "error adding tool"
-    return str(rows)
+# @app.route('/tool', methods=['POST'])
+# def new_tool():
+#     with sentry_sdk.start_span(op="db read"):
+#         try:
+#             rows = add_tool()
+#         except:
+#             raise "error adding tool"
+#     return str(rows)
 
 
 @app.route('/tools', methods=['GET'])
