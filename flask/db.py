@@ -20,10 +20,10 @@ insert_query = """INSERT INTO tools(name, type, sku, image, price)
 
 # if DB == 'dev':
 #     db = psycopg2.connect(
-#     host="34.70.84.230",
-#     database="hardwarestore",
-#     user="postgres",
-#     password="seatsentry")
+#     host="",
+#     database="",
+#     user="",
+#     password="")
 
 # if DB == 'prod':
 #     cloud_sql_connection_name = "sales-engineering-sf:us-central1:tracing-db-pg"
@@ -32,9 +32,9 @@ insert_query = """INSERT INTO tools(name, type, sku, image, price)
 #         # postgres+pg8000://<db_user>:<db_pass>@/<db_name>?unix_sock=/cloudsql/<cloud_sql_instance_name>/.s.PGSQL.5432
 #         sqlalchemy.engine.url.URL(
 #             drivername='postgres+pg8000',
-#             username="postgres",
-#             password="seatsentry",
-#             database="hardwarestore",
+#             username="",
+#             password="",
+#             database="",
 #             query={
 #                 'unix_sock': '/cloudsql/{}/.s.PGSQL.5432'.format(cloud_sql_connection_name)
 #             }
@@ -52,10 +52,10 @@ def randomString(stringLength=10):
 def get_connection():
     with sentry_sdk.start_span(op="psycopg2.connect"):
         connection = psycopg2.connect(
-            host="34.70.84.230",
-            database="hardwarestore",
-            user="postgres",
-            password="seatsentry")
+            host="",
+            database="",
+            user="",
+            password="")
     return connection 
 
 def add_tool(name = "Mallot", tool_type = "Hammer", image = "hammer.jpg"):
