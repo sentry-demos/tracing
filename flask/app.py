@@ -3,7 +3,7 @@ from flask import Flask, request, json, abort, make_response, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
 # from db import add_tool, get_all_tools
-from db_new import get_all_tools
+from db import get_all_tools
     
 
 import sentry_sdk
@@ -98,6 +98,7 @@ def get_tools():
     with sentry_sdk.start_span(op="db read"):
         try:
             rows = get_all_tools()
-        except:
-            raise "error getting tools"
+        except Exception as err:
+            sentry_sdk.capture_exception(err)
+            raise(err)
     return rows
