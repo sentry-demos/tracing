@@ -49,7 +49,7 @@ def randomString(stringLength=10):
 #     return rows
 print("*****ENV *******", ENV)
 if ENV == 'development':
-    db = create_engine('postgresql://postgres:seatsentry@34.70.84.230:5432/hardwarestore')
+    db = create_engine('postgresql://' + USERNAME + ':' + PASSWORD + '@' + HOST + ':5432/' + DATABASE)
 else:
     cloud_sql_connection_name = "sales-engineering-sf:us-central1:tracing-db-pg"
     db = sqlalchemy.create_engine(
@@ -57,9 +57,9 @@ else:
         # postgres+pg8000://<db_user>:<db_pass>@/<db_name>?unix_sock=/cloudsql/<cloud_sql_instance_name>/.s.PGSQL.5432
         sqlalchemy.engine.url.URL(
             drivername='postgres+pg8000',
-            username="postgres",
-            password="seatsentry",
-            database="hardwarestore",
+            username=USERNAME,
+            password=PASSWORD,
+            database=DATABASE,
             query={
                 'unix_sock': '/cloudsql/{}/.s.PGSQL.5432'.format(cloud_sql_connection_name)
             }
