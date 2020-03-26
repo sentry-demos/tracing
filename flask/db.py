@@ -6,6 +6,8 @@ import random
 import json
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
+import sqlalchemy
+from sqlalchemy import create_engine
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -13,35 +15,29 @@ HOST = os.getenv("HOST")
 DATABASE = os.getenv("DATABASE")
 USERNAME = os.getenv("USERNAME")
 PASSWORD = os.getenv("PASSWORD")
+ENV = os.environ.get("FLASK_ENV")
 
 insert_query = """INSERT INTO tools(name, type, sku, image, price) 
                   VALUES (%s, %s, %s, %s, %s);"""
 
-# DB == 'dev' # OS.GETENV("ENVIRONMENT")
+cloud_sql_connection_name = "sales-engineering-sf:us-central1:tracing-db-pg"
 
-# if DB == 'dev':
-#     db = psycopg2.connect(
-#     host="",
-#     database="",
-#     user="",
-#     password="")
-
-# if DB == 'prod':
-#     cloud_sql_connection_name = "sales-engineering-sf:us-central1:tracing-db-pg"
-#     db = sqlalchemy.create_engine(
-#         # Equivalent URL:
-#         # postgres+pg8000://<db_user>:<db_pass>@/<db_name>?unix_sock=/cloudsql/<cloud_sql_instance_name>/.s.PGSQL.5432
-#         sqlalchemy.engine.url.URL(
-#             drivername='postgres+pg8000',
-#             username="",
-#             password="",
-#             database="",
-#             query={
-#                 'unix_sock': '/cloudsql/{}/.s.PGSQL.5432'.format(cloud_sql_connection_name)
-#             }
-#         )
-#         # ... Specify additional properties here.
-#     )
+if ENV == 'development':
+    db = create_engine('postgresql://postgres:seatsentry@34.70.84.230:5432/hardwarestore')
+else:
+    db = sqlalchemy.create_engine(
+        # Equivalent URL:
+        # postgres+pg8000://<db_user>:<db_pass>@/<db_name>?unix_sock=/cloudsql/<cloud_sql_instance_name>/.s.PGSQL.5432
+        sqlalchemy.engine.url.URL(
+            drivername='postgres+pg8000',
+            username="",
+            password="",
+            database="",
+            query={
+                'host': '/cloudsql/{}/.s.PGSQL.5432'.format(cloud_sql_connection_name)
+            }
+        )
+    )
 
 
 # generate random tool names + descriptions
@@ -56,39 +52,31 @@ def list_dict_to_json(li):
         rows.append(dict(row))
     return json.dumps(rows)
 
-def get_connection():
-    with sentry_sdk.start_span(op="psycopg2.connect"):
-        connection = psycopg2.connect(
-            host="",
-            database="",
-            user="",
-            password="")
-    return connection 
 
-def add_tool(name = "Mallot", tool_type = "Hammer", image = "hammer.jpg"):
-    connection = get_connection()
-    cursor = connection.cursor(cursor_factory = psycopg2.extras.DictCursor)
-    try:
-        cursor.execute(insert_query, (name, tool_type, randomString(10), image, random.randint(10,50)))
-        connection.commit()
-    except:
-        raise "Row insert failed\n"
-        return 'fail'
-    cursor.close()
-    connection.close()
-    return 'success'
+
+# def add_tool(name = "Mallot", tool_type = "Hammer", image = "hammer.jpg"):
+#     connection = get_connection()
+#     cursor = connection.cursor(cursor_factory = psycopg2.extras.DictCursor)
+#     try:
+#         cursor.execute(insert_query, (name, tool_type, randomString(10), image, random.randint(10,50)))
+#         connection.commit()
+#     except:
+#         raise "Row insert failed\n"
+#         return 'fail'
+#     cursor.close()
+#     connection.close()
+#     return 'success'
 
 def get_all_tools():
-    connection = get_connection()
-    cursor = connection.cursor(cursor_factory = psycopg2.extras.DictCursor)
     try:
-        with sentry_sdk.start_span(op="run query"):
-            cursor.execute("SELECT * FROM tools")
-            results = cursor.fetchall()
-        cursor.close()  
-        connection.close()
-        rows = list_dict_to_json(results)
-        return rows
+        with db.connect() as conn:
+            # Execute the query and fetch all results
+            results = conn.execute(
+                "SELECT * FROM tools"
+            ).fetchall()
+            conn.close()
+            rows = rows = list_dict_to_json(results)
+            return rows
     except Exception as err:
         sentry_sdk.capture_exception(err)
-        return 'fail'
+        return 'get all tools failed'

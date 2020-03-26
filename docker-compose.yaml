@@ -9,6 +9,7 @@ services:
      - 3003:3003
     environment:
      PORT: 3003
+     FLASK_ENV: development
   react:
     build:
       context: ./react
