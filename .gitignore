@@ -2,3 +2,5 @@
 *.egg-info
 .vscode
 .DS_STORE
+flask/.env
+react/.env
