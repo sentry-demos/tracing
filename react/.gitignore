@@ -1,2 +1,7 @@
+node_modules/*
 build/
+.idea/
+.DS_Store
+settings.json
+.vscode/
 .env
