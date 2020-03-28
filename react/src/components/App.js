@@ -16,7 +16,6 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    console.log('BACKEND', BACKEND)
     this.state = {
       cart: []
     };
@@ -79,7 +78,6 @@ class App extends Component {
 
     const cart = [].concat(this.state.cart);
     cart.push(item);
-    console.log(item);
     this.setState({ cart, success: false });
 
     Sentry.configureScope(scope => {
@@ -141,7 +139,6 @@ class App extends Component {
     const response = await fetch(`${BACKEND}/tools`, {
       method: "GET"
     })
-    console.log('getTools response', response)
     if (!response.ok) {
       throw new Error(response.status + " - " + (response.statusText || response.body));
     }
