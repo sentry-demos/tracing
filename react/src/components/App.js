@@ -16,6 +16,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
+    console.log('BACKEND is: ', BACKEND);
     this.state = {
       cart: []
     };
@@ -142,7 +143,7 @@ class App extends Component {
     if (!response.ok) {
       throw new Error(response.status + " - " + (response.statusText || response.body));
     }
-    return response
+    return response;
   }
 
   render() {
