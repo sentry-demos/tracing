@@ -127,11 +127,9 @@ class App extends Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(order)
-    }).catch(err => { console.log(err) });
+    }).catch((err) => { throw Error(err) });
 
-    console.log('checkout response', response)
-
-    if (response && !response.ok) {
+    if (!response.ok) {
       throw new Error(response.status + " - " + (response.statusText || response.body));
     }
 
