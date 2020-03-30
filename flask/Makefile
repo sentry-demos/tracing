@@ -1,2 +1,2 @@
 deploy:
-	FLASK_APP=app.py FLASK_ENV='development' flask run -p 3003
+	FLASK_APP=app.py FLASK_ENV='test' flask run -p 3003
