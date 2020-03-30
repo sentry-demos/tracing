@@ -82,7 +82,7 @@ class App extends Component {
       tool.image = hammerImg
       return tool
     })
-    
+
     this.setState({ store: newtools });
   }
 
@@ -90,6 +90,9 @@ class App extends Component {
 
     const cart = [].concat(this.state.cart);
     cart.push(item);
+
+    // UPDATE CART with state...
+
     this.setState({ cart, success: false });
 
     Sentry.configureScope(scope => {
@@ -161,11 +164,13 @@ class App extends Component {
   }
 
   render() {
-    const total = this.state.cart.reduce((t, i) => t + i.price, 0);
+    const total = this.state.cart.reduce((total, item) => total + item.price, 0);
     const cartDisplay = this.state.cart.reduce((c, { id }) => {
-      c[id] = c[id] ? c[id] + 1 : 1;
+      // c[id] = c[id] ? c[id] + 1 : 1;
+      c[id] = c[id] ? c[id] : c[id]
       return c;
     }, {});
+    console.log('cartDisplay', cartDisplay)
 
     return (
       <div className="App">
@@ -200,7 +205,7 @@ class App extends Component {
             {this.state.cart.length ? (
               <div>
                 {Object.keys(cartDisplay).map(id => {
-                  const { name, price } = this.store.find(i => i.id === id);
+                  const { name, price } = this.state.store.find(i => i.id === id);
                   const qty = cartDisplay[id];
                   return (
                     <div className="cart-item" key={id}>
