@@ -48,7 +48,7 @@ def randomString(stringLength=10):
 #     connection.close()
 #     return rows
 print("*****ENV *******", ENV)
-if ENV == 'development':
+if ENV == 'test':
     db = create_engine('postgresql://' + USERNAME + ':' + PASSWORD + '@' + HOST + ':5432/' + DATABASE)
 else:
     cloud_sql_connection_name = "sales-engineering-sf:us-central1:tracing-db-pg"
