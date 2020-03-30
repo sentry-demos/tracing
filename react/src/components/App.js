@@ -16,7 +16,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    console.log('BACKEND', BACKEND) 
+    console.log('BACKEND is: ', BACKEND);
     this.state = {
       cart: []
     };
@@ -72,14 +72,13 @@ class App extends Component {
     //Will add an XHR Sentry breadcrumb
     // this.performXHRRequest();
 
-    this.getTools()
+    this.getTools();
   }
 
   buyItem(item) {
 
     const cart = [].concat(this.state.cart);
     cart.push(item);
-    console.log(item);
     this.setState({ cart, success: false });
 
     Sentry.configureScope(scope => {
@@ -113,31 +112,38 @@ class App extends Component {
   }
 
   async checkout() {
-    ApmIntegrations.Tracing.startIdleTransaction('success', 
+    const order = {
+      email: this.email,
+      cart: this.state.cart
+    };
+
+    ApmIntegrations.Tracing.startIdleTransaction('checkout',
       {op: 'successOp', transaction: 'successTransaction', sampled: true})
 
-    const response = await fetch(`${BACKEND}/success`, {
-      method: "GET"
-    })
-    console.log('checkout response', response)
-    
+    const response = await fetch(`${BACKEND}/checkout`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(order)
+    }).catch((err) => { throw Error(err) });
+
     if (!response.ok) {
       throw new Error(response.status + " - " + (response.statusText || response.body));
     }
-    
+
     this.setState({ success: true });
-    return response
+    return response;
   }
 
   async getTools() {
     const response = await fetch(`${BACKEND}/tools`, {
       method: "GET"
     })
-    console.log('getTools response', response)
     if (!response.ok) {
       throw new Error(response.status + " - " + (response.statusText || response.body));
     }
-    return response
+    return response;
   }
 
   render() {
