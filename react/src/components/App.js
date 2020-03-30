@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import "./App.css";
 import wrenchImg from "../assets/wrench.png";
 import nailsImg from "../assets/nails.png";
-import hammerImg from "../assets/hammer.png";
+import hammerImg from "../assets/hammer.jpeg";
 import * as Sentry from '@sentry/browser';
 import { Integrations as ApmIntegrations } from '@sentry/apm';
 
@@ -18,7 +18,8 @@ class App extends Component {
     super(props);
     console.log('BACKEND is: ', BACKEND);
     this.state = {
-      cart: []
+      cart: [],
+      store: []
     };
     // generate random email
     this.email =
@@ -26,26 +27,30 @@ class App extends Component {
         .toString(36)
         .substring(2, 6) + "@yahoo.com";
 
-    this.store = [
-      {
-        id: "wrench",
-        name: "Wrench",
-        price: 500,
-        img: wrenchImg
-      },
-      {
-        id: "nails",
-        name: "Nails",
-        price: 25,
-        img: nailsImg
-      },
-      {
-        id: "hammer",
-        name: "Hammer",
-        price: 1000,
-        img: hammerImg
-      }
-    ];
+    // id, sku, name, img, price type, sku
+    // this.store = [] // ???
+
+    // this.store = [
+    //   {
+    //     id: "wrench",
+    //     name: "Wrench",
+    //     price: 500,
+    //     img: wrenchImg
+    //   },
+    //   {
+    //     id: "nails",
+    //     name: "Nails",
+    //     price: 25,
+    //     img: nailsImg
+    //   },
+    //   {
+    //     id: "hammer",
+    //     name: "Hammer",
+    //     price: 1000,
+    //     img: hammerImg
+    //   }
+    // ];
+    // console.log('before_newtools', this.store)
     this.buyItem = this.buyItem.bind(this);
     this.checkout = this.checkout.bind(this);
     this.resetCart = this.resetCart.bind(this);
@@ -57,7 +62,7 @@ class App extends Component {
     });
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const defaultError = window.onerror;
     window.onerror = error => {
       this.setState({ hasError: true, success: false });
@@ -72,7 +77,13 @@ class App extends Component {
     //Will add an XHR Sentry breadcrumb
     // this.performXHRRequest();
 
-    this.getTools();
+    var newtools = await this.getTools();
+    newtools = newtools.map(tool => {
+      tool.image = hammerImg
+      return tool
+    })
+    
+    this.setState({ store: newtools });
   }
 
   buyItem(item) {
@@ -140,10 +151,13 @@ class App extends Component {
     const response = await fetch(`${BACKEND}/tools`, {
       method: "GET"
     })
+    console.log('response', response)
+
     if (!response.ok) {
       throw new Error(response.status + " - " + (response.statusText || response.body));
     }
-    return response;
+
+    return response.json()
   }
 
   render() {
@@ -161,12 +175,12 @@ class App extends Component {
           </header>
 
           <div className="inventory">
-            {this.store.map(item => {
-              const { name, id, img, price } = item;
+            {this.state.store.map(item => {
+              const { name, id, image, price } = item;
               return (
                 <div className="item" key={id}>
                   <div className="thumbnail">
-                    <img src={img} alt="" />
+                    <img src={image} alt="" />
                   </div>
                   <p>{name}</p>
                   <div className="button-wrapper">
