@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import "./App.css";
 import wrenchImg from "../assets/wrench.png";
 import nailsImg from "../assets/nails.png";
-import hammerImg from "../assets/hammer.jpeg";
+import hammerImg from "../assets/hammer.png";
 import * as Sentry from '@sentry/browser';
 import { Integrations as ApmIntegrations } from '@sentry/apm';
 
@@ -53,13 +53,13 @@ class App extends Component {
     //Will add an XHR Sentry breadcrumb
     // this.performXHRRequest();
 
-    var newtools = await this.getTools();
-    newtools = newtools.map(tool => {
+    var tools = await this.getTools();
+    tools = tools.map(tool => {
       tool.image = hammerImg
       return tool
     })
 
-    this.setState({ store: newtools });
+    this.setState({ store: tools });
   }
 
   buyItem(item) {
