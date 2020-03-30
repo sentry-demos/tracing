@@ -166,11 +166,9 @@ class App extends Component {
   render() {
     const total = this.state.cart.reduce((total, item) => total + item.price, 0);
     const cartDisplay = this.state.cart.reduce((c, { id }) => {
-      // c[id] = c[id] ? c[id] + 1 : 1;
-      c[id] = c[id] ? c[id] : c[id]
+      c[id] = c[id] ? c[id] + 1 : 1;
       return c;
     }, {});
-    console.log('cartDisplay', cartDisplay)
 
     return (
       <div className="App">
@@ -205,7 +203,7 @@ class App extends Component {
             {this.state.cart.length ? (
               <div>
                 {Object.keys(cartDisplay).map(id => {
-                  const { name, price } = this.state.store.find(i => i.id === id);
+                  const { name, price } = this.state.store.find(i => i.id === parseInt(id))
                   const qty = cartDisplay[id];
                   return (
                     <div className="cart-item" key={id}>
