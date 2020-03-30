@@ -27,30 +27,6 @@ class App extends Component {
         .toString(36)
         .substring(2, 6) + "@yahoo.com";
 
-    // id, sku, name, img, price type, sku
-    // this.store = [] // ???
-
-    // this.store = [
-    //   {
-    //     id: "wrench",
-    //     name: "Wrench",
-    //     price: 500,
-    //     img: wrenchImg
-    //   },
-    //   {
-    //     id: "nails",
-    //     name: "Nails",
-    //     price: 25,
-    //     img: nailsImg
-    //   },
-    //   {
-    //     id: "hammer",
-    //     name: "Hammer",
-    //     price: 1000,
-    //     img: hammerImg
-    //   }
-    // ];
-    // console.log('before_newtools', this.store)
     this.buyItem = this.buyItem.bind(this);
     this.checkout = this.checkout.bind(this);
     this.resetCart = this.resetCart.bind(this);
@@ -90,8 +66,6 @@ class App extends Component {
 
     const cart = [].concat(this.state.cart);
     cart.push(item);
-
-    // UPDATE CART with state...
 
     this.setState({ cart, success: false });
 
@@ -154,7 +128,6 @@ class App extends Component {
     const response = await fetch(`${BACKEND}/tools`, {
       method: "GET"
     })
-    console.log('response', response)
 
     if (!response.ok) {
       throw new Error(response.status + " - " + (response.statusText || response.body));
