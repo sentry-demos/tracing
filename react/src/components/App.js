@@ -18,7 +18,8 @@ class App extends Component {
     super(props);
     console.log('BACKEND is: ', BACKEND);
     this.state = {
-      cart: []
+      cart: [],
+      store: []
     };
     // generate random email
     this.email =
@@ -26,26 +27,6 @@ class App extends Component {
         .toString(36)
         .substring(2, 6) + "@yahoo.com";
 
-    this.store = [
-      {
-        id: "wrench",
-        name: "Wrench",
-        price: 500,
-        img: wrenchImg
-      },
-      {
-        id: "nails",
-        name: "Nails",
-        price: 25,
-        img: nailsImg
-      },
-      {
-        id: "hammer",
-        name: "Hammer",
-        price: 1000,
-        img: hammerImg
-      }
-    ];
     this.buyItem = this.buyItem.bind(this);
     this.checkout = this.checkout.bind(this);
     this.resetCart = this.resetCart.bind(this);
@@ -57,7 +38,7 @@ class App extends Component {
     });
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const defaultError = window.onerror;
     window.onerror = error => {
       this.setState({ hasError: true, success: false });
@@ -72,13 +53,20 @@ class App extends Component {
     //Will add an XHR Sentry breadcrumb
     // this.performXHRRequest();
 
-    this.getTools();
+    var tools = await this.getTools();
+    tools = tools.map(tool => {
+      tool.image = hammerImg
+      return tool
+    })
+
+    this.setState({ store: tools });
   }
 
   buyItem(item) {
 
     const cart = [].concat(this.state.cart);
     cart.push(item);
+
     this.setState({ cart, success: false });
 
     Sentry.configureScope(scope => {
@@ -140,14 +128,16 @@ class App extends Component {
     const response = await fetch(`${BACKEND}/tools`, {
       method: "GET"
     })
+
     if (!response.ok) {
       throw new Error(response.status + " - " + (response.statusText || response.body));
     }
-    return response;
+
+    return response.json()
   }
 
   render() {
-    const total = this.state.cart.reduce((t, i) => t + i.price, 0);
+    const total = this.state.cart.reduce((total, item) => total + item.price, 0);
     const cartDisplay = this.state.cart.reduce((c, { id }) => {
       c[id] = c[id] ? c[id] + 1 : 1;
       return c;
@@ -161,12 +151,12 @@ class App extends Component {
           </header>
 
           <div className="inventory">
-            {this.store.map(item => {
-              const { name, id, img, price } = item;
+            {this.state.store.map(item => {
+              const { name, id, image, price } = item;
               return (
                 <div className="item" key={id}>
                   <div className="thumbnail">
-                    <img src={img} alt="" />
+                    <img src={image} alt="" />
                   </div>
                   <p>{name}</p>
                   <div className="button-wrapper">
@@ -186,7 +176,7 @@ class App extends Component {
             {this.state.cart.length ? (
               <div>
                 {Object.keys(cartDisplay).map(id => {
-                  const { name, price } = this.store.find(i => i.id === id);
+                  const { name, price } = this.state.store.find(i => i.id === parseInt(id))
                   const qty = cartDisplay[id];
                   return (
                     <div className="cart-item" key={id}>
