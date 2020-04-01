@@ -100,6 +100,7 @@ class App extends Component {
   }
 
   async checkout() {
+    
     const order = {
       email: this.email,
       cart: this.state.cart
@@ -141,9 +142,9 @@ class App extends Component {
       let tools = this.state.store
       // Outer loop to create parent
       let number_of_columns = 5
-      let number_of_rows = Math.ceil(this.state.store.length/number_of_columns)
-      //console.log(number_of_columns)
-      //console.log(number_of_rows)
+      let number_of_rows = Math.ceil(this.state.store.length / number_of_columns)
+      console.log(number_of_columns)
+      console.log(number_of_rows)
 
       for (let i = 0; i < number_of_rows; i++) {
         let children = []
@@ -155,7 +156,7 @@ class App extends Component {
           else {
             let tool = tools[j]
             children.push(
-              <div className="item" key={tool.id}>
+              <td className="item" key={tool.id}>
                 <div className="thumbnail">
                   <img src={tool.image} alt="" />
                 </div>
@@ -164,12 +165,14 @@ class App extends Component {
                   <strong>${monify(tool.price)}</strong>
                   <button onClick={() => this.buyItem(tool)}>Buy!</button>
                 </div>
-              </div>
+              </td>
             )
           }
         }
         //Create the parent and add the children
-        table.push(<tr>{children}</tr>)
+
+        // table.push(<tr key={i}>Yo</tr>)
+        table.push(<tr key={i}>{children}</tr>)
       }
       return table
   }
@@ -190,8 +193,10 @@ class App extends Component {
 
           <div className="inventory">
           <table>
+            <tbody>
             {this.createTable()}
-            </table>
+            </tbody>
+          </table>
           </div>
         </main>
         <div className="sidebar">
