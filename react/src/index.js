@@ -6,6 +6,12 @@ import registerServiceWorker from './registerServiceWorker';
 import * as Sentry from '@sentry/browser';
 import { Integrations as ApmIntegrations } from '@sentry/apm';
 
+import { render } from 'react-dom'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import rootReducer from './reducers'
+
+
 const tracingOrigins = [
   'localhost', 
   process.env.REACT_APP_BACKEND,
@@ -33,6 +39,13 @@ Sentry.init({
     tracesSampleRate: 1.0,
 });
 
-ReactDOM.render(<App /> , document.getElementById('root'));
+// ReactDOM.render(
+//     <App />,
+//   document.getElementById('root')
+// )
+const store = createStore(rootReducer)
+render(
+  <Provider store={store}><App /></Provider>, document.getElementById('root')
+);
 
 registerServiceWorker();
