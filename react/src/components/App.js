@@ -136,6 +136,44 @@ class App extends Component {
     return response.json()
   }
 
+  createTable() {
+      let table = []
+      let tools = this.state.store
+      // Outer loop to create parent
+      let number_of_columns = 5
+      let number_of_rows = Math.ceil(this.state.store.length/number_of_columns)
+      //console.log(number_of_columns)
+      //console.log(number_of_rows)
+
+      for (let i = 0; i < number_of_rows; i++) {
+        let children = []
+        //Inner loop to create children
+        for (let j = i * number_of_columns; j < ((i * number_of_columns) + number_of_columns); j++) {
+          if(typeof tools[j] === 'undefined'){
+             break
+          }
+          else {
+            let tool = tools[j]
+            children.push(
+              <div className="item" key={tool.id}>
+                <div className="thumbnail">
+                  <img src={tool.image} alt="" />
+                </div>
+                <p>{tool.name}</p>
+                <div className="button-wrapper">
+                  <strong>${monify(tool.price)}</strong>
+                  <button onClick={() => this.buyItem(tool)}>Buy!</button>
+                </div>
+              </div>
+            )
+          }
+        }
+        //Create the parent and add the children
+        table.push(<tr>{children}</tr>)
+      }
+      return table
+  }
+
   render() {
     const total = this.state.cart.reduce((total, item) => total + item.price, 0);
     const cartDisplay = this.state.cart.reduce((c, { id }) => {
@@ -151,21 +189,9 @@ class App extends Component {
           </header>
 
           <div className="inventory">
-            {this.state.store.map(item => {
-              const { name, id, image, price } = item;
-              return (
-                <div className="item" key={id}>
-                  <div className="thumbnail">
-                    <img src={image} alt="" />
-                  </div>
-                  <p>{name}</p>
-                  <div className="button-wrapper">
-                    <strong>${monify(price)}</strong>
-                    <button onClick={() => this.buyItem(item)}>Buy!</button>
-                  </div>
-                </div>
-              );
-            })}
+          <table>
+            {this.createTable()}
+            </table>
           </div>
         </main>
         <div className="sidebar">
