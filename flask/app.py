@@ -4,18 +4,21 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 # from db import add_tool, get_all_tools
 from db import get_all_tools
-    
+def before_send(event, hint):
+    if event['request']['method'] == 'OPTIONS':
+        return null
+    return event    
 
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
-
 
 sentry_sdk.init(
     dsn="https://2ba68720d38e42079b243c9c5774e05c@sentry.io/1316515",
     traces_sample_rate=1.0,
     integrations=[FlaskIntegration()],
     release=os.environ.get("VERSION"),
-    environment="prod"
+    environment="prod",
+    before_send=before_send
 )
 
 app = Flask(__name__)
@@ -49,11 +52,11 @@ def process_order(cart):
     global Inventory
     tempInventory = Inventory
     for item in cart:
-        if Inventory[item['id']] <= 0:
-            raise Exception("Not enough inventory for " + item['id'])
+        if Inventory[item['type']] <= 0:
+            raise Exception("Not enough inventory for " + item['type'])
         else:
-            tempInventory[item['id']] -= 1
-            print 'Success: ' + item['id'] + ' was purchased, remaining stock is ' + str(tempInventory[item['id']])
+            tempInventory[item['type']] -= 1
+            print 'Success: ' + item['type'] + ' was purchased, remaining stock is ' + str(tempInventory[item['type']])
     Inventory = tempInventory 
 
 @app.before_request

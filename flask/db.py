@@ -47,16 +47,19 @@ else:
 def get_all_tools():
     tools = []
     try:
-        with db.connect() as conn:
-            # Execute the query and fetch all results
+        with sentry_sdk.start_span(op="connect to db"):
+            conn = db.connect()
+        # Execute the query and fetch all results
+        with sentry_sdk.start_span(op="run get all tools query"):
             results = conn.execute(
                 "SELECT * FROM tools"
             ).fetchall()
-            conn.close()
-            
-            rows = []
+        conn.close()
+        
+        rows = []
+        with sentry_sdk.start_span(op="format results"):
             for row in results:
                 rows.append(dict(row))
-            return json.dumps(rows)
+        return json.dumps(rows)
     except Exception as err:
         raise(err)

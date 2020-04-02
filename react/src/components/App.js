@@ -58,8 +58,20 @@ class App extends Component {
 
     var tools = await this.getTools();
     tools = tools.map(tool => {
-      tool.image = hammerImg
-      return tool
+      switch(tool.type) {
+        case "hammer":
+          tool.image = hammerImg
+          return tool
+        case "wrench":
+          tool.image = wrenchImg
+          return tool
+        case "nails":    
+          tool.image = nailsImg
+          return tool
+        default:
+          tool.image = nailsImg
+          return tool
+      }
     })
 
     this.setState({ store: tools });
@@ -125,7 +137,7 @@ class App extends Component {
     }).catch((err) => { throw Error(err) });
 
     if (!response.ok) {
-      throw new Error(response.status + " - " + (response.statusText || response.body));
+      throw new Error(response.status + " - " + (response.statusText || "INTERNAL SERVER ERROR"));
     }
 
     this.setState({ success: true });
