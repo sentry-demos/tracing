@@ -52,7 +52,7 @@ def process_order(cart):
     global Inventory
     tempInventory = Inventory
     for item in cart:
-        item['type'] = item['type'].encode('utf-8')
+        item['type'] = item['type'].lower().encode('utf-8')
         if Inventory[item['type']] <= 0:
             raise Exception("Not enough inventory for " + item['type'])
         else:
