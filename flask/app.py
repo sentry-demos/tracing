@@ -52,11 +52,11 @@ def process_order(cart):
     global Inventory
     tempInventory = Inventory
     for item in cart:
-        if Inventory[item['id']] <= 0:
-            raise Exception("Not enough inventory for " + item['id'])
+        if Inventory[item['type']] <= 0:
+            raise Exception("Not enough inventory for " + item['type'])
         else:
-            tempInventory[item['id']] -= 1
-            print 'Success: ' + item['id'] + ' was purchased, remaining stock is ' + str(tempInventory[item['id']])
+            tempInventory[item['type']] -= 1
+            print 'Success: ' + item['type'] + ' was purchased, remaining stock is ' + str(tempInventory[item['type']])
     Inventory = tempInventory 
 
 @app.before_request
