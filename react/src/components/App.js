@@ -7,6 +7,9 @@ import hammerImg from "../assets/hammer.png";
 import * as Sentry from '@sentry/browser';
 import { Integrations as ApmIntegrations } from '@sentry/apm';
 
+import { connect } from 'react-redux'
+import { addTool } from '../actions'
+console.log('addTool***', addTool)
 const BACKEND = process.env.REACT_APP_BACKEND_LOCAL || process.env.REACT_APP_BACKEND
 
 const monify = n => (n / 100).toFixed(2);
@@ -64,10 +67,14 @@ class App extends Component {
 
   buyItem(item) {
 
+
+    // comment out?
     const cart = [].concat(this.state.cart);
     cart.push(item);
 
     this.setState({ cart, success: false });
+
+    this.props.addTool(item)
 
     Sentry.configureScope(scope => {
       scope.setExtra('cart', JSON.stringify(cart));
@@ -257,4 +264,31 @@ class App extends Component {
   }
 }
 
-export default App;
+// export default App;
+
+export default connect(
+  null,
+  { addTool }
+)(App)
+
+// const mapStateToProps = (state, ownProps) => ({
+//   // ... computed data from state and optionally ownProps
+// })
+
+// const mapDispatchToProps = {
+//   // ... normally is an object full of action creators
+// }
+
+// // `connect` returns a new function that accepts the component to wrap:
+// const connectToStore = connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )
+// // and that function returns the connected, wrapper component:
+// const ConnectedComponent = connectToStore(Component)
+
+// // We normally do both in one step, like this:
+// connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(Component)

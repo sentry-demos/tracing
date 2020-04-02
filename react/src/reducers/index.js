@@ -1,9 +1,12 @@
-const reducer = (state = "Hello world!", action) => {
+const initialState = {
+  cart: []
+}
+
+const reducer = (state = {}, action) => {
     switch (action.type) {
-      case "CRASH_IN_THE_REDUCER":
-        console.log('****CRASH_IN_THE_REDUCER******')
-        throw new Error("exception123");
-      case "UPDATE_MY_STATE":
+      // case "CRASH_IN_THE_REDUCER":
+        // throw new Error("exception123");
+      case "ADD_TOOL":
         return action.str;
       default:
         return state;
