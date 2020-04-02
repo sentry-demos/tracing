@@ -55,17 +55,19 @@ class App extends Component {
 
     var tools = await this.getTools();
     tools = tools.map(tool => {
-      if (tool.type == "hammer") {
-        tool.image = hammerImg
-        return tool
-      }
-      if (tool.type == "wrench") {
-        tool.image = wrenchImg
-        return tool
-      }
-      if (tool.type == "nails") {
-        tool.image = nailsImg
-        return tool
+      switch(tool.type) {
+        case "hammer":
+          tool.image = hammerImg
+          return tool
+        case "wrench":
+          tool.image = wrenchImg
+          return tool
+        case "nails":    
+          tool.image = nailsImg
+          return tool
+        default:
+          tool.image = nailsImg
+          return tool
       }
     })
 
