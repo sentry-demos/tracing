@@ -1,20 +1,24 @@
 const initialState = {
-  cart: []
+  cart: [],
+  tools: []
 }
 
 const reducer = (state = initialState, action) => {
-  console.log('action', action)
+    
     const { payload, type } = action
-    switch (action.type) {
-      // case "CRASH_IN_THE_REDUCER":
-        // throw new Error("exception123");
+
+    switch (type) {
       case "ADD_TOOL":
+        
         var cart = state.cart
         cart.push(payload.tool)
-        // console.log('CART', cart)
-        console.log('STATE', state)
-        const newstate = Object.assign({}, { cart: cart } )
+
+        const newstate = Object.assign({}, { cart: cart })
         return newstate;
+
+      case "SET_TOOLS":
+        return Object.assign({}, { tools: payload.tools, cart: state.cart })        
+      
       default:
         return state;
     }

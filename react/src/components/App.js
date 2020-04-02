@@ -8,8 +8,8 @@ import * as Sentry from '@sentry/browser';
 import { Integrations as ApmIntegrations } from '@sentry/apm';
 
 import { connect } from 'react-redux'
-import { addTool } from '../actions'
-console.log('addTool***', addTool)
+import { addTool, setTools } from '../actions'
+
 const BACKEND = process.env.REACT_APP_BACKEND_LOCAL || process.env.REACT_APP_BACKEND
 
 const monify = n => (n / 100).toFixed(2);
@@ -74,23 +74,24 @@ class App extends Component {
       }
     })
 
-    this.setState({ store: tools });
+    this.props.setTools(tools)
+    // this.setState({ store: tools });
   }
 
   buyItem(item) {
 
-
-    // comment out?
-    const cart = [].concat(this.state.cart);
-    cart.push(item);
-
-    this.setState({ cart, success: false });
+    // const cart = [].concat(this.state.cart);
+    // cart.push(item);
 
     this.props.addTool(item)
 
+    // this.setState({ cart, success: false });
+
+    console.log('PROPS', this.props)
     Sentry.configureScope(scope => {
-      scope.setExtra('cart', JSON.stringify(cart));
+      scope.setExtra('cart', JSON.stringify(this.props.cart));
     });
+
     Sentry.addBreadcrumb({
       category: 'cart',
       message: 'User added ' + item.name + ' to cart',
@@ -158,10 +159,11 @@ class App extends Component {
 
   createTable() {
       let table = []
-      let tools = this.state.store
+      let tools = this.props.tools
+
       // Outer loop to create parent
       let number_of_columns = 5
-      let number_of_rows = Math.ceil(this.state.store.length / number_of_columns)
+      let number_of_rows = Math.ceil(this.props.tools.length / number_of_columns)
 
       for (let i = 0; i < number_of_rows; i++) {
         let children = []
@@ -187,14 +189,13 @@ class App extends Component {
           }
         }
         //Create the parent and add the children
-
-        // table.push(<tr key={i}>Yo</tr>)
         table.push(<tr key={i}>{children}</tr>)
       }
       return table
   }
 
   render() {
+    console.log('***RENDER***', this.props)
     const total = this.state.cart.reduce((total, item) => total + item.price, 0);
     const cartDisplay = this.state.cart.reduce((c, { id }) => {
       c[id] = c[id] ? c[id] + 1 : 1;
@@ -273,12 +274,18 @@ class App extends Component {
     );
   }
 }
-
 // export default App;
 
+const mapStateToProps = (state, ownProps) => {
+  return {
+    cart: state.cart,
+    tools: state.tools
+  }
+}
+
 export default connect(
-  null,
-  { addTool }
+  mapStateToProps,
+  { addTool, setTools }
 )(App)
 
 // const mapStateToProps = (state, ownProps) => ({

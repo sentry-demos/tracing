@@ -1,10 +1,17 @@
 // import { ADD_TOOL } from './actionTypes'
+const ADD_TOOL = 'ADD_TOOL'
+const SET_TOOLS = 'SET_TOOLS'
 
-let nextTodoId = 0
 export const addTool = tool => ({
-  type: 'ADD_TOOL',
+  type: ADD_TOOL,
   payload: {
-    // id: ++nextTodoId,
     tool
+  }
+})
+
+export const setTools = tools => ({
+  type: SET_TOOLS,
+  payload: {
+    tools
   }
 })
