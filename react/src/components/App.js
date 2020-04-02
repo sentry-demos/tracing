@@ -162,8 +162,6 @@ class App extends Component {
       // Outer loop to create parent
       let number_of_columns = 5
       let number_of_rows = Math.ceil(this.state.store.length / number_of_columns)
-      console.log(number_of_columns)
-      console.log(number_of_rows)
 
       for (let i = 0; i < number_of_rows; i++) {
         let children = []

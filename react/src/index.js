@@ -43,7 +43,10 @@ Sentry.init({
 //     <App />,
 //   document.getElementById('root')
 // )
-const store = createStore(rootReducer)
+const store = createStore(
+  rootReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+)
 render(
   <Provider store={store}>
     <App />
