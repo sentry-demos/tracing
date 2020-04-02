@@ -19,7 +19,9 @@ Sentry.init({
     release: process.env.REACT_APP_RELEASE,
     environment: "prod",
     debug: true,
-    beforeSend(event) {
+    beforeSend(event, hint) {
+      console.log('event', event)
+      console.log('hint', hint)
       if (event.exception) {
         Sentry.showReportDialog();
       }
