@@ -117,7 +117,7 @@ class App extends Component {
     }).catch((err) => { throw Error(err) });
 
     if (!response.ok) {
-      throw new Error(response.status + " - " + (response.statusText || response.body));
+      throw new Error(response.status + " - " + (response.statusText || "INTERNAL SERVER ERROR"));
     }
 
     this.setState({ success: true });
