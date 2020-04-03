@@ -75,20 +75,15 @@ class App extends Component {
     })
 
     this.props.setTools(tools)
-    // this.setState({ store: tools });
   }
 
   buyItem(item) {
 
-    // const cart = [].concat(this.state.cart);
-    // cart.push(item);
+    this.setState({ success: false });
 
     this.props.addTool(item)
 
-    // this.setState({ cart, success: false });
-    this.setState({ success: false });
 
-    // console.log('***buyItem() PROPS***', this.props)
     Sentry.configureScope(scope => {
       scope.setExtra('cart', JSON.stringify(this.props.cart));
     });
@@ -196,7 +191,6 @@ class App extends Component {
   }
 
   render() {
-    console.log('*** render() ***', this.props)
     const total = this.props.cart.reduce((total, item) => total + item.price, 0);
     const cartDisplay = this.props.cart.reduce((c, { id }) => {
       c[id] = c[id] ? c[id] + 1 : 1;
@@ -275,7 +269,6 @@ class App extends Component {
     );
   }
 }
-// export default App;
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -288,25 +281,3 @@ export default connect(
   mapStateToProps,
   { addTool, setTools }
 )(App)
-
-// const mapStateToProps = (state, ownProps) => ({
-//   // ... computed data from state and optionally ownProps
-// })
-
-// const mapDispatchToProps = {
-//   // ... normally is an object full of action creators
-// }
-
-// // `connect` returns a new function that accepts the component to wrap:
-// const connectToStore = connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )
-// // and that function returns the connected, wrapper component:
-// const ConnectedComponent = connectToStore(Component)
-
-// // We normally do both in one step, like this:
-// connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(Component)

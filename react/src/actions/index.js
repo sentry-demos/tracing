@@ -1,6 +1,7 @@
-// import { ADD_TOOL } from './actionTypes'
-const ADD_TOOL = 'ADD_TOOL'
-const SET_TOOLS = 'SET_TOOLS'
+import { 
+  ADD_TOOL,
+  SET_TOOLS 
+} from './types'
 
 export const addTool = tool => ({
   type: ADD_TOOL,
