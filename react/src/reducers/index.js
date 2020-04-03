@@ -3,36 +3,27 @@ const initialState = {
   tools: []
 }
 
+const newState = (cart, tools) => {
+  return {
+    cart,
+    tools
+  }
+}
+
 const reducer = (state = initialState, action) => {
     
     const { payload, type } = action
-    let newState
 
     switch (type) {
       case "ADD_TOOL":
-        var cart = state.cart
-        cart.push(payload.tool)
-
-        newState = {
-          cart: cart,
-          tools: state.tools
-        }
-        return Object.assign({}, newState )
+        var cart = state.cart.concat(payload.tool)
+        return Object.assign({}, newState(cart, state.tools))
 
       case "RESET_CART":
-        newState = {
-          cart: [],
-          tools: state.tools
-        }
-        return Object.assign({}, newState )
+        return Object.assign({}, newState([], state.tools))
 
       case "SET_TOOLS":
-        console.log('payload.tools', payload)
-        newState = {
-          cart: state.cart,
-          tools: payload.tools,
-        }
-        return Object.assign({}, newState )        
+        return Object.assign({}, newState(state.cart, payload.tools))        
       
       default:
         return state;
