@@ -21,8 +21,8 @@ class App extends Component {
     super(props);
     console.log('BACKEND is: ', BACKEND);
     this.state = {
-      cart: [],
-      store: []
+      success: false,
+      hasError: false
     };
     // generate random email
     this.email =
@@ -86,8 +86,9 @@ class App extends Component {
     this.props.addTool(item)
 
     // this.setState({ cart, success: false });
+    this.setState({ success: false });
 
-    console.log('PROPS', this.props)
+    // console.log('***buyItem() PROPS***', this.props)
     Sentry.configureScope(scope => {
       scope.setExtra('cart', JSON.stringify(this.props.cart));
     });
@@ -123,7 +124,7 @@ class App extends Component {
     
     const order = {
       email: this.email,
-      cart: this.state.cart
+      cart: this.props.cart
     };
 
     ApmIntegrations.Tracing.startIdleTransaction('checkout',
@@ -195,9 +196,9 @@ class App extends Component {
   }
 
   render() {
-    console.log('***RENDER***', this.props)
-    const total = this.state.cart.reduce((total, item) => total + item.price, 0);
-    const cartDisplay = this.state.cart.reduce((c, { id }) => {
+    console.log('*** render() ***', this.props)
+    const total = this.props.cart.reduce((total, item) => total + item.price, 0);
+    const cartDisplay = this.props.cart.reduce((c, { id }) => {
       c[id] = c[id] ? c[id] + 1 : 1;
       return c;
     }, {});
@@ -222,10 +223,10 @@ class App extends Component {
             <h4>Hi, {this.email}!</h4>
           </header>
           <div className="cart">
-            {this.state.cart.length ? (
+            {this.props.cart.length ? (
               <div>
                 {Object.keys(cartDisplay).map(id => {
-                  const { name, price } = this.state.store.find(i => i.id === parseInt(id))
+                  const { name, price } = this.props.tools.find(i => i.id === parseInt(id))
                   const qty = cartDisplay[id];
                   return (
                     <div className="cart-item" key={id}>
@@ -260,11 +261,11 @@ class App extends Component {
           )}
           <button
             onClick={this.checkout}
-            disabled={this.state.cart.length === 0}
+            disabled={this.props.cart.length === 0}
           >
             Checkout
           </button>{" "}
-          {this.state.cart.length > 0 && (
+          {this.props.cart.length > 0 && (
             <button onClick={this.resetCart} className="cart-reset">
               Empty cart
             </button>

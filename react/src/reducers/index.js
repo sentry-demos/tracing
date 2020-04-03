@@ -1,23 +1,31 @@
 const initialState = {
-  cart: [],
-  tools: []
+  tools: [],
+  cart: []
 }
 
 const reducer = (state = initialState, action) => {
     
     const { payload, type } = action
-
+    let newState
     switch (type) {
       case "ADD_TOOL":
         
         var cart = state.cart
         cart.push(payload.tool)
 
-        const newstate = Object.assign({}, { cart: cart })
-        return newstate;
+        newState = {
+          tools: state.tools,
+          cart: cart
+        }
+
+        return Object.assign({}, newState )
 
       case "SET_TOOLS":
-        return Object.assign({}, { tools: payload.tools, cart: state.cart })        
+        newState = {
+          tools: payload.tools,
+          cart: state.cart
+        }
+        return Object.assign({}, newState )        
       
       default:
         return state;
