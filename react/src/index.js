@@ -8,7 +8,8 @@ import { Integrations as ApmIntegrations } from '@sentry/apm';
 
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
+import logger from 'redux-logger'
 import rootReducer from './reducers'
 
 
@@ -39,14 +40,11 @@ Sentry.init({
     tracesSampleRate: 1.0,
 });
 
-// ReactDOM.render(
-//     <App />,
-//   document.getElementById('root')
-// )
 const store = createStore(
   rootReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  applyMiddleware(logger)
 )
+
 render(
   <Provider store={store}>
     <App />
