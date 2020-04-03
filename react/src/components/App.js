@@ -8,7 +8,7 @@ import * as Sentry from '@sentry/browser';
 import { Integrations as ApmIntegrations } from '@sentry/apm';
 
 import { connect } from 'react-redux'
-import { addTool, setTools } from '../actions'
+import { addTool, resetCart, setTools } from '../actions'
 
 const BACKEND = process.env.REACT_APP_BACKEND_LOCAL || process.env.REACT_APP_BACKEND
 
@@ -97,7 +97,8 @@ class App extends Component {
 
   resetCart(event) {
     event.preventDefault();
-    this.setState({ cart: [], hasError: false, success: false });
+    this.props.resetCart([])
+    this.setState({ hasError: false, success: false });
 
     Sentry.configureScope(scope => {
       scope.setExtra('cart', '');
@@ -279,5 +280,5 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(
   mapStateToProps,
-  { addTool, setTools }
+  { addTool, resetCart, setTools }
 )(App)
