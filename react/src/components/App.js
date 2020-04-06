@@ -7,6 +7,9 @@ import hammerImg from "../assets/hammer.png";
 import * as Sentry from '@sentry/browser';
 import { Integrations as ApmIntegrations } from '@sentry/apm';
 
+import { connect } from 'react-redux'
+import { addTool, resetCart, setTools } from '../actions'
+
 const BACKEND = process.env.REACT_APP_BACKEND_LOCAL || process.env.REACT_APP_BACKEND
 
 const monify = n => (n / 100).toFixed(2);
@@ -18,8 +21,8 @@ class App extends Component {
     super(props);
     console.log('BACKEND is: ', BACKEND);
     this.state = {
-      cart: [],
-      store: []
+      success: false,
+      hasError: false
     };
     // generate random email
     this.email =
@@ -71,19 +74,20 @@ class App extends Component {
       }
     })
 
-    this.setState({ store: tools });
+    this.props.setTools(tools)
   }
 
   buyItem(item) {
 
-    const cart = [].concat(this.state.cart);
-    cart.push(item);
+    this.setState({ success: false });
 
-    this.setState({ cart, success: false });
+    this.props.addTool(item)
+
 
     Sentry.configureScope(scope => {
-      scope.setExtra('cart', JSON.stringify(cart));
+      scope.setExtra('cart', JSON.stringify(this.props.cart));
     });
+
     Sentry.addBreadcrumb({
       category: 'cart',
       message: 'User added ' + item.name + ' to cart',
@@ -93,7 +97,8 @@ class App extends Component {
 
   resetCart(event) {
     event.preventDefault();
-    this.setState({ cart: [], hasError: false, success: false });
+    this.props.resetCart([])
+    this.setState({ hasError: false, success: false });
 
     Sentry.configureScope(scope => {
       scope.setExtra('cart', '');
@@ -112,9 +117,10 @@ class App extends Component {
   }
 
   async checkout() {
+    
     const order = {
       email: this.email,
-      cart: this.state.cart
+      cart: this.props.cart
     };
 
     ApmIntegrations.Tracing.startIdleTransaction('checkout',
@@ -150,12 +156,11 @@ class App extends Component {
 
   createTable() {
       let table = []
-      let tools = this.state.store
+      let tools = this.props.tools
+
       // Outer loop to create parent
       let number_of_columns = 5
-      let number_of_rows = Math.ceil(this.state.store.length/number_of_columns)
-      //console.log(number_of_columns)
-      //console.log(number_of_rows)
+      let number_of_rows = Math.ceil(this.props.tools.length / number_of_columns)
 
       for (let i = 0; i < number_of_rows; i++) {
         let children = []
@@ -167,7 +172,7 @@ class App extends Component {
           else {
             let tool = tools[j]
             children.push(
-              <div className="item" key={tool.id}>
+              <td className="item" key={tool.id}>
                 <div className="thumbnail">
                   <img src={tool.image} alt="" />
                 </div>
@@ -176,19 +181,19 @@ class App extends Component {
                   <strong>${monify(tool.price)}</strong>
                   <button onClick={() => this.buyItem(tool)}>Buy!</button>
                 </div>
-              </div>
+              </td>
             )
           }
         }
         //Create the parent and add the children
-        table.push(<tr>{children}</tr>)
+        table.push(<tr key={i}>{children}</tr>)
       }
       return table
   }
 
   render() {
-    const total = this.state.cart.reduce((total, item) => total + item.price, 0);
-    const cartDisplay = this.state.cart.reduce((c, { id }) => {
+    const total = this.props.cart.reduce((total, item) => total + item.price, 0);
+    const cartDisplay = this.props.cart.reduce((c, { id }) => {
       c[id] = c[id] ? c[id] + 1 : 1;
       return c;
     }, {});
@@ -202,8 +207,10 @@ class App extends Component {
 
           <div className="inventory">
           <table>
+            <tbody>
             {this.createTable()}
-            </table>
+            </tbody>
+          </table>
           </div>
         </main>
         <div className="sidebar">
@@ -211,10 +218,10 @@ class App extends Component {
             <h4>Hi, {this.email}!</h4>
           </header>
           <div className="cart">
-            {this.state.cart.length ? (
+            {this.props.cart.length ? (
               <div>
                 {Object.keys(cartDisplay).map(id => {
-                  const { name, price } = this.state.store.find(i => i.id === parseInt(id))
+                  const { name, price } = this.props.tools.find(i => i.id === parseInt(id))
                   const qty = cartDisplay[id];
                   return (
                     <div className="cart-item" key={id}>
@@ -249,11 +256,11 @@ class App extends Component {
           )}
           <button
             onClick={this.checkout}
-            disabled={this.state.cart.length === 0}
+            disabled={this.props.cart.length === 0}
           >
             Checkout
           </button>{" "}
-          {this.state.cart.length > 0 && (
+          {this.props.cart.length > 0 && (
             <button onClick={this.resetCart} className="cart-reset">
               Empty cart
             </button>
@@ -264,4 +271,14 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    cart: state.cart,
+    tools: state.tools
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  { addTool, resetCart, setTools }
+)(App)
