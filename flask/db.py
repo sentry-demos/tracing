@@ -50,7 +50,7 @@ def get_all_tools():
         with sentry_sdk.start_span(op="connect to db"):
             conn = db.connect()
         # Execute the query and fetch all results
-        with sentry_sdk.start_span(op="run get all tools query"):
+        with sentry_sdk.start_span(op="run query"):
             results = conn.execute(
                 "SELECT * FROM tools"
             ).fetchall()
@@ -60,6 +60,43 @@ def get_all_tools():
         with sentry_sdk.start_span(op="format results"):
             for row in results:
                 rows.append(dict(row))
+        return json.dumps(rows)
+    except Exception as err:
+        raise(err)
+
+
+def get_inventory():
+    try:
+        with sentry_sdk.start_span(op="connect to db"):
+            conn = db.connect()
+        # Execute the query and fetch all results
+        with sentry_sdk.start_span(op="run query"):
+            results = conn.execute(
+                "SELECT * FROM inventory" #will write the correct query in the future
+            ).fetchall()
+        conn.close()
+        
+        rows = []
+        for row in results:
+            rows.append(dict(row))
+        return json.dumps(rows)
+    except Exception as err:
+        raise(err)
+
+def update_inventory():
+    try:
+        with sentry_sdk.start_span(op="connect to db"):
+            conn = db.connect()
+        # Execute the query and fetch all results
+        with sentry_sdk.start_span(op="run query"):
+            results = conn.execute(
+                "SELECT * FROM inventory" #will write the correct query in the future
+            ).fetchall()
+        conn.close()
+        
+        rows = []
+        for row in results:
+            rows.append(dict(row))
         return json.dumps(rows)
     except Exception as err:
         raise(err)

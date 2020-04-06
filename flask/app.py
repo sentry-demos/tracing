@@ -3,7 +3,7 @@ from flask import Flask, request, json, abort, make_response, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
 # from db import add_tool, get_all_tools
-from db import get_all_tools
+from db import get_all_tools, get_inventory, update_inventory
 def before_send(event, hint):
     if event['request']['method'] == 'OPTIONS':
         return null
@@ -82,7 +82,22 @@ def checkout():
     print "Processing order for: " + order["email"]
     cart = order["cart"]
     
-    process_order(cart)
+    with sentry_sdk.start_span(op="db function: get inventory"):
+        try:
+            rows = get_inventory()
+        except Exception as err:
+            sentry_sdk.capture_exception(err)
+            raise(err)
+
+    with sentry_sdk.start_span(op="process order"):
+        process_order(cart)
+
+    with sentry_sdk.start_span(op="db function: update inventory"):
+        try:
+            rows = update_inventory()
+        except Exception as err:
+            sentry_sdk.capture_exception(err)
+            raise(err)
 
     return 'Success'
 
@@ -98,7 +113,7 @@ def checkout():
 
 @app.route('/tools', methods=['GET'])
 def get_tools():
-    with sentry_sdk.start_span(op="db read"):
+    with sentry_sdk.start_span(op="db function: get all tools"):
         try:
             rows = get_all_tools()
         except Exception as err:
