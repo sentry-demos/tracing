@@ -10,8 +10,11 @@
     "material-ui": "^0.18.7",
     "react": "^16.3.0",
     "react-dom": "^16.3.0",
+    "react-redux": "^7.2.0",
     "react-router": "^1.0.3",
     "react-scripts": "1.0.10",
+    "redux": "^4.0.5",
+    "redux-logger": "^3.0.6",
     "request": "^2.88.0",
     "serve": "^10.1.1"
   },
