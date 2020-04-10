@@ -15,7 +15,7 @@ def before_send(event, hint):
 
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
-print('XXXXXX', os.environ.get("DSN"))
+print('XXXXXX', os.environ.get("FLASK_APP_DSN"))
 print('YYYYYY', os.environ.get("RELEASE"))
 sentry_sdk.init(
     dsn= DSN or "https://2ba68720d38e42079b243c9c5774e05c@sentry.io/1316515",
