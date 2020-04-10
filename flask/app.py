@@ -15,8 +15,9 @@ def before_send(event, hint):
 
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
-print('XXXXXX', os.environ.get("FLASK_APP_DSN"))
-print('YYYYYY', os.environ.get("RELEASE"))
+print('FLASK_APP_DSN', os.environ.get("FLASK_APP_DSN"))
+print('RELEASE', os.environ.get("RELEASE"))
+
 sentry_sdk.init(
     dsn= DSN or "https://2ba68720d38e42079b243c9c5774e05c@sentry.io/1316515",
     traces_sample_rate=1.0,
@@ -36,8 +37,6 @@ def success():
 
 @app.route('/handled', methods=['GET'])
 def handled_exception():
-    print('XXXXXX1111', os.environ.get("DSN"))
-    print('YYYYYY11111', os.environ.get("RELEASE"))
     try:
         '2' + 2
     except Exception as err:
