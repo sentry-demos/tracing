@@ -10,6 +10,7 @@ services:
     environment:
      PORT: 3003
      FLASK_ENV: 'test'
+     SOMETHING: 'right_here'
   react:
     build:
       context: ./react
