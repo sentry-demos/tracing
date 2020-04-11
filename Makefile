@@ -11,7 +11,7 @@ all: build_react setup_release build deploy-flask deploy-react
 docker_compose:
 	cd react && npm run buildlocal
 	docker-compose build
-	docker-compose run -d -e RELEASE=5544332211 -e FLASK_ENV=test -p 3003:3003 flask
+	docker-compose run -d -e VERSION=$(VERSION) -e FLASK_ENV=test -p 3003:3003 flask
 	docker-compose run -p 3002:3002 react
 
 build_react:
