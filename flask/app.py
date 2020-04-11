@@ -15,7 +15,7 @@ def before_send(event, hint):
 
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
-print('VERSION', os.environ.get("VERSION"))
+
 sentry_sdk.init(
     dsn= DSN or "https://2ba68720d38e42079b243c9c5774e05c@sentry.io/1316515",
     traces_sample_rate=1.0,
