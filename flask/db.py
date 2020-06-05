@@ -4,6 +4,7 @@ import psycopg2
 import string
 import psycopg2.extras
 import random
+import time
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 import sqlalchemy
@@ -51,6 +52,7 @@ def get_all_tools():
             conn = db.connect()
         # Execute the query and fetch all results
         with sentry_sdk.start_span(op="run query"):
+            time.sleep(3)
             results = conn.execute(
                 "SELECT * FROM tools"
             ).fetchall()
