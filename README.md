@@ -18,9 +18,11 @@ this was tested on:
 3. `gcloud auth login` opens browser with Google OAUTH, select your Sentry email
 4. `gcloud config set project <project ID>` get Google Cloud Project ID from console.cloud.google.com.
 5. `gcloud config set run/region us-central1` to set 'us-central1' as default region
-6. Create a react/.env file if you don't already have one. Use react/.env.default as an example. Open react/.env and update the REACT_APP_BACKEND_URL with your `whoami` so your React container will call your Flask container.
-7. Create a flask/.env file if you don't already have one. Use flask/.env.default as an example. Open flask/.env and fill in the values
-8. cd into flask and create a python2 virtualenv, and pip install -r requirements.txt inside of it.
+6. Create a `react/.env` using `react/.env.default` as an example, and fill in the values. In the `REACT_APP_BACKEND_URL` put your `whoami` so your React container will call the right Flask container.
+7. Create a `flask/.env` using `flask/.env.default` as an example, and fill in the values.
+8. Whitelist your IP address in Cloud SQL for the database you see there.
+9. **Dev - without docker** `cd ./flask && pip install -r requirements.txt`, recommended inside a virtualenv.
+10. **Dev - without docker** `cd ./react` and `npm install`
 
 ## Run
 #### Prod - GCP
