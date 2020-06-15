@@ -19,10 +19,21 @@ const tracingOrigins = [
   process.env.REACT_APP_FRONTEND,
   /^\//
 ]
-console.log('tracingOrigins', tracingOrigins)
+// console.log('tracingOrigins', tracingOrigins)
+
+let DSN = process.env.REACT_APP_DSN
+
+const KEY = DSN.SPLIT('@')[0]
+const PROXY = 'localhost:3001'
+const MODIFIED_DSN_FORWARD = KEY + '@' + PROXY + '/2'
+const MODIFIED_DSN_SAVE = KEY + '@' + PROXY + '/3'
+
+console.log('MODIFIED_DSN_SAVE', MODIFIED_DSN_SAVE)
 
 Sentry.init({
-    dsn: process.env.REACT_APP_DSN || 'https://0d52d5f4e8a64f5ab2edce50d88a7626@sentry.io/1428657',
+    // dsn: process.env.REACT_APP_DSN || 'https://0d52d5f4e8a64f5ab2edce50d88a7626@sentry.io/1428657',
+    // dsn: MODIFIED_DSN_FORWARD,
+    dsn: MODIFIED_DSN_SAVE,
     release: process.env.REACT_APP_RELEASE,
     environment: "prod",
     debug: true,
