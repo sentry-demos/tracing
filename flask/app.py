@@ -18,13 +18,16 @@ from sentry_sdk.integrations.flask import FlaskIntegration
 
 KEY = DSN.split('@')[0]
 # remove the 's' in https if sending to localy proxy, or else proxy rejects
-if KEY.index('s') == 4:
-    result = KEY[:4] + KEY[5:]
+try:
+    if KEY.index('s') == 4:
+        KEY = KEY[:4] + KEY[5:]
+except Exception as err:
+    print('DSN key w/ http from self-hosted')
 PROXY = 'localhost:3001'
 MODIFIED_DSN_FORWARD = KEY + '@' + PROXY + '/2'
 MODIFIED_DSN_SAVE = KEY + '@' + PROXY + '/3'
 
-# print('MODIFIED_DSN_SAVE', MODIFIED_DSN_SAVE)
+print('MODIFIED_DSN_SAVE', MODIFIED_DSN_SAVE)
 
 sentry_sdk.init(
     # dsn= DSN or "https://2ba68720d38e42079b243c9c5774e05c@sentry.io/1316515",
