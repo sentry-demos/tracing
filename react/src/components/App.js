@@ -78,7 +78,6 @@ class App extends Component {
   }
 
   buyItem(item) {
-    
     this.setState({ success: false });
 
     this.props.addTool(item)
@@ -117,6 +116,7 @@ class App extends Component {
   }
 
   async checkout() {
+    
     const order = {
       email: this.email,
       cart: this.props.cart

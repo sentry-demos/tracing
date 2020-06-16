@@ -8,6 +8,17 @@ from dotenv import load_dotenv
 load_dotenv()
 DSN = os.getenv("FLASK_APP_DSN")
 
+# these modified DSN's are for working with test data. You can ignore them.
+KEY = DSN.split('@')[0]
+try:
+    if KEY.index('s') == 4: # http vs https
+        KEY = KEY[:4] + KEY[5:]
+except Exception as err:
+    print('DSN key w/ http from self-hosted')
+PROXY = 'localhost:3001'
+MODIFIED_DSN_FORWARD = KEY + '@' + PROXY + '/2'
+MODIFIED_DSN_SAVE = KEY + '@' + PROXY + '/3'
+
 def before_send(event, hint):
     if event['request']['method'] == 'OPTIONS':
         return null
@@ -16,23 +27,8 @@ def before_send(event, hint):
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 
-KEY = DSN.split('@')[0]
-# remove the 's' in https if sending to localy proxy, or else proxy rejects
-try:
-    if KEY.index('s') == 4:
-        KEY = KEY[:4] + KEY[5:]
-except Exception as err:
-    print('DSN key w/ http from self-hosted')
-PROXY = 'localhost:3001'
-MODIFIED_DSN_FORWARD = KEY + '@' + PROXY + '/2'
-MODIFIED_DSN_SAVE = KEY + '@' + PROXY + '/3'
-
-print('MODIFIED_DSN_SAVE', MODIFIED_DSN_SAVE)
-
 sentry_sdk.init(
-    # dsn= DSN or "https://2ba68720d38e42079b243c9c5774e05c@sentry.io/1316515",
-    # DSN=MODIFIED_DSN_FORWARD,
-    dsn=MODIFIED_DSN_SAVE,
+    dsn= DSN or "https://2ba68720d38e42079b243c9c5774e05c@sentry.io/1316515",
     traces_sample_rate=1.0,
     integrations=[FlaskIntegration()],
     release=os.environ.get("RELEASE"),
