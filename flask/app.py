@@ -8,6 +8,17 @@ from dotenv import load_dotenv
 load_dotenv()
 DSN = os.getenv("FLASK_APP_DSN")
 
+# these modified DSN's are for working with test data. You can ignore them.
+KEY = DSN.split('@')[0]
+try:
+    if KEY.index('s') == 4: # http vs https
+        KEY = KEY[:4] + KEY[5:]
+except Exception as err:
+    print('DSN key w/ http from self-hosted')
+PROXY = 'localhost:3001'
+MODIFIED_DSN_FORWARD = KEY + '@' + PROXY + '/2'
+MODIFIED_DSN_SAVE = KEY + '@' + PROXY + '/3'
+
 def before_send(event, hint):
     if event['request']['method'] == 'OPTIONS':
         return null

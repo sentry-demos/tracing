@@ -12,6 +12,15 @@ import { createStore, applyMiddleware } from 'redux'
 import logger from 'redux-logger'
 import rootReducer from './reducers'
 
+// these modified DSN's are for working with test data. You can ignore them.
+let DSN = process.env.REACT_APP_DSN
+let KEY = DSN.split('@')[0]
+if (KEY.indexOf('s') === 4) {
+  KEY = KEY.replace('s', '') // http vs https
+}
+const PROXY = 'localhost:3001'
+const MODIFIED_DSN_FORWARD = KEY + '@' + PROXY + '/2'
+const MODIFIED_DSN_SAVE = KEY + '@' + PROXY + '/3'
 
 const tracingOrigins = [
   'localhost', 
