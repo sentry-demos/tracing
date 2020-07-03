@@ -19,6 +19,9 @@ PROXY = 'localhost:3001'
 MODIFIED_DSN_FORWARD = KEY + '@' + PROXY + '/2'
 MODIFIED_DSN_SAVE = KEY + '@' + PROXY + '/3'
 
+# TODO only use this if you're sending events through a proxy for test data automation
+# DSN = testData(DSN)
+
 def before_send(event, hint):
     if event['request']['method'] == 'OPTIONS':
         return null

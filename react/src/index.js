@@ -21,6 +21,8 @@ if (KEY.indexOf('s') === 4) {
 const PROXY = 'localhost:3001'
 const MODIFIED_DSN_FORWARD = KEY + '@' + PROXY + '/2'
 const MODIFIED_DSN_SAVE = KEY + '@' + PROXY + '/3'
+// TODO only use this if you're sending events through a proxy for test data automation
+// DSN = testData(DSN)
 
 const tracingOrigins = [
   'localhost', 
