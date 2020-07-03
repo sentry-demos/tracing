@@ -12,17 +12,19 @@ import { createStore, applyMiddleware } from 'redux'
 import logger from 'redux-logger'
 import rootReducer from './reducers'
 
-// these modified DSN's are for working with test data. You can ignore them.
-let DSN = process.env.REACT_APP_DSN
-let KEY = DSN.split('@')[0]
-if (KEY.indexOf('s') === 4) {
-  KEY = KEY.replace('s', '') // http vs https
+/* use this if sending events to a proxy and not Sentry */
+function testData(DSN) {
+  let KEY = DSN.split('@')[0]
+  if (KEY.indexOf('s') === 4) {
+    KEY = KEY.replace('s', '') // http vs https
+  }
+  const PROXY = 'localhost:3001'
+  const MODIFIED_DSN_FORWARD = KEY + '@' + PROXY + '/2'
+  const MODIFIED_DSN_SAVE = KEY + '@' + PROXY + '/3'
+  return MODIFIED_DSN_SAVE
 }
-const PROXY = 'localhost:3001'
-const MODIFIED_DSN_FORWARD = KEY + '@' + PROXY + '/2'
-const MODIFIED_DSN_SAVE = KEY + '@' + PROXY + '/3'
-// TODO only use this if you're sending events through a proxy for test data automation
-// DSN = testData(DSN)
+let DSN = testData(process.env.REACT_APP_DSN)
+console.log("> DSN ", DSN)
 
 const tracingOrigins = [
   'localhost', 
@@ -33,7 +35,8 @@ const tracingOrigins = [
 console.log('tracingOrigins', tracingOrigins)
 
 Sentry.init({
-    dsn: process.env.REACT_APP_DSN || 'https://0d52d5f4e8a64f5ab2edce50d88a7626@sentry.io/1428657',
+    dsn: DSN,
+    // dsn: process.env.REACT_APP_DSN || 'https://0d52d5f4e8a64f5ab2edce50d88a7626@sentry.io/1428657',
     release: process.env.REACT_APP_RELEASE,
     environment: "prod",
     debug: true,
