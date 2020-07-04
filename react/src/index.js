@@ -15,12 +15,13 @@ import rootReducer from './reducers'
 /* use this if sending events to a proxy and not Sentry */
 function testData(DSN) {
   let KEY = DSN.split('@')[0]
-  if (KEY.indexOf('s') === 4) {
-    KEY = KEY.replace('s', '') // http vs https
-  }
+  // if (KEY.indexOf('s') === 4) {
+  //   KEY = KEY.replace('s', '') // http vs https
+  // }
   const PROXY = 'localhost:3001'
   const MODIFIED_DSN_FORWARD = KEY + '@' + PROXY + '/2'
-  const MODIFIED_DSN_SAVE = KEY + '@' + PROXY + '/3'
+  // const MODIFIED_DSN_SAVE = KEY + '@' + PROXY + '/3'
+  const MODIFIED_DSN_SAVE = KEY + '@' + "3d19db15b56d.ngrok.io" + '/3'
   return MODIFIED_DSN_SAVE
 }
 let DSN = testData(process.env.REACT_APP_DSN)
@@ -35,8 +36,8 @@ const tracingOrigins = [
 console.log('tracingOrigins', tracingOrigins)
 
 Sentry.init({
-    dsn: DSN,
     // dsn: process.env.REACT_APP_DSN || 'https://0d52d5f4e8a64f5ab2edce50d88a7626@sentry.io/1428657',
+    dsn: DSN,
     release: process.env.REACT_APP_RELEASE,
     environment: "prod",
     debug: true,

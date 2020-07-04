@@ -2,7 +2,6 @@ import os
 from flask import Flask, request, json, abort, make_response, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
-# from db import add_tool, get_all_tools
 from db import get_all_tools, get_inventory, update_inventory
 from dotenv import load_dotenv
 load_dotenv()
@@ -17,11 +16,11 @@ def testData(DSN):
     except Exception as err:
         print('DSN key w/ http from self-hosted')
     PROXY = 'localhost:3001'
-    MODIFIED_DSN_FORWARD = KEY + '@' + PROXY + '/2'
-    MODIFIED_DSN_SAVE = KEY + '@' + PROXY + '/3'
+    # MODIFIED_DSN_FORWARD = KEY + '@' + PROXY + '/2'
+    MODIFIED_DSN_SAVE = KEY + '@' + "3d19db15b56d.ngrok.io" + '/3'
     return MODIFIED_DSN_SAVE
 DSN = testData(DSN)
-print("> DSN", MODIFIED_DSN_SAVE)
+print("> DSN", DSN)
 
 def before_send(event, hint):
     if event['request']['method'] == 'OPTIONS':
