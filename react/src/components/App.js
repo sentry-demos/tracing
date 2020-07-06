@@ -65,7 +65,7 @@ class App extends Component {
         case "wrench":
           tool.image = wrenchImg
           return tool
-        case "nails":    
+        case "nails":
           tool.image = nailsImg
           return tool
         default:
@@ -78,7 +78,7 @@ class App extends Component {
   }
 
   buyItem(item) {
-    
+
     this.setState({ success: false });
 
     this.props.addTool(item)
@@ -206,11 +206,15 @@ class App extends Component {
           </header>
 
           <div className="inventory">
-          <table>
-            <tbody>
-            {this.createTable()}
-            </tbody>
-          </table>
+            {this.props.tools.length ? (
+              <table>
+                <tbody>
+                {this.createTable()}
+                </tbody>
+              </table>
+            ) : (
+              <div>Loading...</div>
+            )}
           </div>
         </main>
         <div className="sidebar">
