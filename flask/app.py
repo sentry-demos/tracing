@@ -7,20 +7,19 @@ from dotenv import load_dotenv
 load_dotenv()
 DSN = os.getenv("FLASK_APP_DSN")
 
-""" use this if sending events to a proxy and not Sentry """
-def testData(DSN):
-    KEY = DSN.split('@')[0]
-    try:
-        if KEY.index('s') == 4: # http vs https
-            KEY = KEY[:4] + KEY[5:]
-    except Exception as err:
-        print('DSN key w/ http from self-hosted')
-    PROXY = 'localhost:3001'
-    # MODIFIED_DSN_FORWARD = KEY + '@' + PROXY + '/2'
-    MODIFIED_DSN_SAVE = KEY + '@' + "3d19db15b56d.ngrok.io" + '/3'
-    return MODIFIED_DSN_SAVE
-DSN = testData(DSN)
-print("> DSN", DSN)
+# use this if sending test data to a proxy and not Sentry
+# def testData(DSN):
+#     KEY = DSN.split('@')[0]
+#     try:
+#         if KEY.index('https') == 0: # http vs https
+#             KEY = KEY[:4] + KEY[5:]
+#     except Exception as err:
+#         print('DSN key w/ http from self-hosted')
+#     PROXY = 'localhost:3001'
+#     MODIFIED_DSN_SAVE = KEY + '@' + "3d19db15b56d.ngrok.io" + '/3'
+#     return MODIFIED_DSN_SAVE
+# DSN = testData(DSN)
+# print("> DSN", DSN)
 
 def before_send(event, hint):
     if event['request']['method'] == 'OPTIONS':
