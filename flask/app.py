@@ -89,12 +89,13 @@ def sentry_event_context():
     email = request.headers.get('email')
     global Inventory
 
-    with sentry_sdk.configure_scope() as scope:
-        print('\nREQUEST.HEADERS email...', email)
-        scope.user = { "email" : email }
-        scope.set_tag("transaction_id", transactionId)
-        scope.set_tag("session-id", sessionId)
-        scope.set_extra("inventory", Inventory)
+    # with sentry_sdk.configure_scope() as scope:
+    #     print('\nREQUEST.HEADERS email...', email)
+    #     scope.user = { "email" : email }
+    #     scope.set_tag("testtag", "testtag")
+    #     scope.set_tag("transaction_id", transactionId)
+    #     scope.set_tag("session-id", sessionId)
+    #     scope.set_extra("inventory", Inventory)
 
 @app.route('/checkout', methods=['POST'])
 def checkout():
@@ -134,6 +135,11 @@ def checkout():
 
 @app.route('/tools', methods=['GET'])
 def get_tools():
+    with sentry_sdk.configure_scope() as scope:
+        print('does this work')
+        scope.user = { "email" : "thisistheemail" }
+        scope.set_tag("testtag", "thisisthetag")
+
     with sentry_sdk.start_span(op="db function: get all tools"):
         try:
             rows = get_all_tools()
