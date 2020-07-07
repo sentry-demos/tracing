@@ -38,3 +38,15 @@ def test():
                 sentry_sdk.capture_exception(err)
                 raise(err)
     return 'success'
+
+@app.route('/handled', methods=['GET'])
+def handled():
+    with sentry_sdk.configure_scope() as scope:
+        print('does this still work')
+        scope.user = { "email" : "thisistheemail" }
+        scope.set_tag("testtag", "thisisthetag")
+        try:
+            '5' + 5
+        except Exception as err:
+            sentry_sdk.capture_exception(err)
+        return 'failed'
