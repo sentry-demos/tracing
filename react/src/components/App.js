@@ -55,7 +55,6 @@ class App extends Component {
     // Add context to error/event
     Sentry.configureScope(scope => {
       scope.setUser({ email: this.email }); // attach user/email context
-      debugger;
       scope.setTag("customerType", this.getPlanName()); // custom-tag
     });
 
