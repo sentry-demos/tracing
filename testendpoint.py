@@ -1,10 +1,7 @@
 import os
 from flask import Flask, request
 from flask_cors import CORS
-from dotenv import load_dotenv
-from dotenv import load_dotenv
-load_dotenv()
-DSN = os.getenv("FLASK_APP_DSN")
+
 
 # FLASK_APP=testendpoint.py FLASK_ENV='test' flask run -p 3003
 
@@ -18,7 +15,7 @@ import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 
 sentry_sdk.init(
-    dsn= "https://2ba68720d38e42079b243c9c5774e05c@sentry.io/1316515",
+    dsn= "https://6547dceffa934b738d0a40adec45c652@o87286.ingest.sentry.io/5260888",
     traces_sample_rate=1.0,
     integrations=[FlaskIntegration()],
     release=os.environ.get("RELEASE"),
