@@ -139,11 +139,10 @@ def get_tools():
         print('does this work')
         scope.user = { "email" : "thisistheemail" }
         scope.set_tag("testtag", "thisisthetag")
-
-    with sentry_sdk.start_span(op="db function: get all tools"):
-        try:
-            rows = get_all_tools()
-        except Exception as err:
-            sentry_sdk.capture_exception(err)
-            raise(err)
+        with sentry_sdk.start_span(op="db function: get all toolz"):
+            try:
+                rows = get_all_tools()
+            except Exception as err:
+                sentry_sdk.capture_exception(err)
+                raise(err)
     return rows
