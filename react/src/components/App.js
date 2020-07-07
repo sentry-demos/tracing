@@ -41,6 +41,11 @@ class App extends Component {
     });
   }
 
+  getPlanName() {
+    const plans = ["medium-plan", "large-plan", "small-plan", "enterprise"];
+    return plans[Math.floor(Math.random() * plans.length)];
+  }
+
   async componentDidMount() {
     const defaultError = window.onerror;
     window.onerror = error => {
@@ -50,7 +55,8 @@ class App extends Component {
     // Add context to error/event
     Sentry.configureScope(scope => {
       scope.setUser({ email: this.email }); // attach user/email context
-      scope.setTag("customerType", "medium-plan"); // custom-tag
+      debugger;
+      scope.setTag("customerType", this.getPlanName()); // custom-tag
     });
 
     //Will add an XHR Sentry breadcrumb
@@ -124,7 +130,7 @@ class App extends Component {
     };
 
     ApmIntegrations.Tracing.startIdleTransaction('checkout',
-      {op: 'successOp', transaction: 'successTransaction', sampled: true})
+      {op: 'successOp', transaction: 'successTransaction', sampled: true});
 
     const response = await fetch(`${BACKEND}/checkout`, {
       method: "POST",
