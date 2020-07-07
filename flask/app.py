@@ -11,11 +11,12 @@ DSN = os.getenv("FLASK_APP_DSN")
 # def testData(DSN):
 #     KEY = DSN.split('@')[0]
 #     try:
-#         if KEY.index('https') == 0: # http vs https
+#         if KEY.index('https') == 0:
 #             KEY = KEY[:4] + KEY[5:]
 #     except Exception as err:
 #         print('DSN key w/ http from self-hosted')
 #     PROXY = 'localhost:3001'
+#     MODIFIED_DSN_SAVE = KEY + '@' + PROXY + '/3'
 #     MODIFIED_DSN_SAVE = KEY + '@' + "3d19db15b56d.ngrok.io" + '/3'
 #     return MODIFIED_DSN_SAVE
 # DSN = testData(DSN)
