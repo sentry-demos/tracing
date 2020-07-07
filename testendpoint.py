@@ -2,7 +2,6 @@ import os
 from flask import Flask, request
 from flask_cors import CORS
 
-
 # FLASK_APP=testendpoint.py FLASK_ENV='test' flask run -p 3003
 
 def before_send(event, hint):
@@ -25,7 +24,6 @@ sentry_sdk.init(
 
 app = Flask(__name__)
 CORS(app)
-
 
 @app.route('/test', methods=['GET'])
 def get_tools():
