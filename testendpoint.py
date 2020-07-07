@@ -27,11 +27,12 @@ CORS(app)
 
 @app.route('/test', methods=['GET'])
 def test():
-    with sentry_sdk.start_span(op="db function: get all toolz"):
-        with sentry_sdk.configure_scope() as scope:
-            print('does this work')
-            scope.user = { "email" : "thisistheemail" }
-            scope.set_tag("testtag", "thisisthetag")
+    with sentry_sdk.configure_scope() as scope:
+        print('does this work')
+        scope.user = { "email" : "thisistheemail" }
+        scope.set_tag("testtag", "thisisthetag")
+
+        with sentry_sdk.start_span(op="db function: get all toolz"):
             try:
                 print('did something')
             except Exception as err:
