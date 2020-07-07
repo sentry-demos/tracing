@@ -148,9 +148,14 @@ class App extends Component {
   }
 
   async getTools() {
+    console.log('111111 EMAIL...', this.email)
     const response = await fetch(`${BACKEND}/tools`, {
-      method: "GET"
+      method: "GET",
+      headers: {
+        'email': this.email
+      }
     })
+    console.log('222222 DONE')
 
     if (!response.ok) {
       throw new Error(response.status + " - " + (response.statusText || response.body));
