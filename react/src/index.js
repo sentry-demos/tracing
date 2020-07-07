@@ -12,15 +12,20 @@ import { createStore, applyMiddleware } from 'redux'
 import logger from 'redux-logger'
 import rootReducer from './reducers'
 
-// these modified DSN's are for working with test data. You can ignore them.
-let DSN = process.env.REACT_APP_DSN
-let KEY = DSN.split('@')[0]
-if (KEY.indexOf('s') === 4) {
-  KEY = KEY.replace('s', '') // http vs https
+/* use this if sending test data to a proxy and not Sentry 
+function testData(DSN) {
+  let KEY = DSN.split('@')[0]
+  // only for local proxy, not proxy served by ngrok
+  if (KEY.indexOf('https') === 0) {
+    KEY = KEY.replace('s', '')
+  }
+  const PROXY = 'localhost:3001'
+  const MODIFIED_DSN_SAVE = KEY + '@' + PROXY + '/3'
+  const MODIFIED_DSN_SAVE = KEY + '@' + "3d19db15b56d.ngrok.io" + '/3'
+  return MODIFIED_DSN_SAVE
 }
-const PROXY = 'localhost:3001'
-const MODIFIED_DSN_FORWARD = KEY + '@' + PROXY + '/2'
-const MODIFIED_DSN_SAVE = KEY + '@' + PROXY + '/3'
+let DSN = testData(process.env.REACT_APP_DSN)
+console.log("> DSN ", DSN)*/
 
 const tracingOrigins = [
   'localhost', 

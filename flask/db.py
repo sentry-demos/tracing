@@ -1,9 +1,12 @@
 import json
+import numpy
 import os
 import psycopg2
 import string
 import psycopg2.extras
 import random
+from random import seed
+from random import randint
 import time
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
@@ -52,7 +55,7 @@ def get_all_tools():
             conn = db.connect()
         # Execute the query and fetch all results
         with sentry_sdk.start_span(op="run query"):
-            time.sleep(3)
+            time.sleep(numpy.random.lognormal(0.75, .6, 1)[0])
             results = conn.execute(
                 "SELECT * FROM tools"
             ).fetchall()
