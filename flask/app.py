@@ -11,6 +11,7 @@ DSN = os.getenv("FLASK_APP_DSN")
 # def testData(DSN):
 #     KEY = DSN.split('@')[0]
 #     try:
+#         # only use for local proxy, not proxy served by ngrok
 #         if KEY.index('https') == 0:
 #             KEY = KEY[:4] + KEY[5:]
 #     except Exception as err:
