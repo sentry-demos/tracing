@@ -4,11 +4,13 @@ from flask_cors import CORS
 
 # FLASK_APP=testendpoint.py FLASK_ENV='test' flask run -p 3003
 
-def before_send(event, hint):
-    print('\nbeforesend')
-    if event['request']['method'] == 'OPTIONS':
-        return null
-    return event    
+# def before_send(event, hint):
+#     print('\nbeforesend')
+#     if event['request']['method'] == 'OPTIONS':
+#         return null
+#     return event    
+
+
 
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
@@ -16,12 +18,16 @@ from sentry_sdk.integrations.flask import FlaskIntegration
 sentry_sdk.init(
     dsn= "https://6547dceffa934b738d0a40adec45c652@o87286.ingest.sentry.io/5260888",
     traces_sample_rate=1.0,
-    integrations=[FlaskIntegration()],
-    environment="prod",
-    before_send=before_send
+    integrations=[FlaskIntegration()]
 )
 
+
 app = Flask(__name__)
+old_wsgi_app = app.wsgi_app
+def wsgi_app(*a, **kw):
+    # set_tag here
+    return old_wsgi_app(*a, **kw)
+app.wsgi_app = wsgi_app
 CORS(app)
 
 @app.route('/test', methods=['GET'])
