@@ -23,18 +23,27 @@ sentry_sdk.init(
 
 
 app = Flask(__name__)
-old_wsgi_app = app.wsgi_app
-def wsgi_app(*a, **kw):
-    with sentry_sdk.configure_scope() as scope:
-        print('wsgi tag test')
-        scope.user = { "email" : "thisistheemail" }
-        scope.set_tag("testtag", "thisisthetag")
-    return old_wsgi_app(*a, **kw)
-app.wsgi_app = wsgi_app
+# old_wsgi_app = app.wsgi_app
+# def wsgi_app(*a, **kw):
+#     with sentry_sdk.configure_scope() as scope:
+#         print('wsgi tag test')
+#         scope.user = { "email" : "thisistheemail" }
+#         scope.set_tag("testtag", "thisisthetag")
+#     return old_wsgi_app(*a, **kw)
+# app.wsgi_app = wsgi_app
 CORS(app)
 
 @app.route('/test', methods=['GET'])
 def test():
+    old_wsgi_app = app.wsgi_app
+    def wsgi_app(*a, **kw):
+        with sentry_sdk.configure_scope() as scope:
+            print('wsgi tag test')
+            scope.user = { "email" : "wsgiemail" }
+            scope.set_tag("testtag", "tagvalue")
+        return old_wsgi_app(*a, **kw)
+    app.wsgi_app = wsgi_app
+
     with sentry_sdk.configure_scope() as scope:
         print('does this work')
         scope.user = { "email" : "thisistheemail" }
