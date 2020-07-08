@@ -124,7 +124,6 @@ class App extends Component {
   async checkout() {
 
     const order = {
-      email: this.email,
       cart: this.props.cart
     };
 
@@ -134,7 +133,8 @@ class App extends Component {
     const response = await fetch(`${BACKEND}/checkout`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "email": this.email
       },
       body: JSON.stringify(order)
     }).catch((err) => { throw Error(err) });
@@ -148,14 +148,12 @@ class App extends Component {
   }
 
   async getTools() {
-    console.log('111111 EMAIL...', this.email)
     const response = await fetch(`${BACKEND}/tools`, {
       method: "GET",
       headers: {
         'email': this.email
       }
     })
-    console.log('222222 DONE')
 
     if (!response.ok) {
       throw new Error(response.status + " - " + (response.statusText || response.body));

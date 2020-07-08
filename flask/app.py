@@ -80,28 +80,18 @@ def process_order(cart):
 
 @app.before_request
 def sentry_event_context():
-    if (request.data):
-        order = json.loads(request.data)
-        with sentry_sdk.configure_scope() as scope:
-                scope.user = { "email" : order["email"] }
-    transactionId = request.headers.get('X-Transaction-ID')
-    sessionId = request.headers.get('X-Session-ID')
-    email = request.headers.get('email')
+    print('\nrequest.headers email', request.headers.get('email'))
     global Inventory
-
-    # with sentry_sdk.configure_scope() as scope:
-    #     print('\nREQUEST.HEADERS email...', email)
-    #     scope.user = { "email" : email }
-    #     scope.set_tag("testtag", "testtag")
-    #     scope.set_tag("transaction_id", transactionId)
-    #     scope.set_tag("session-id", sessionId)
-    #     scope.set_extra("inventory", Inventory)
+    with sentry_sdk.configure_scope() as scope:
+        scope.user = { "email" : request.headers.get('email') }
+        scope.set_tag("session-id", request.headers.get('X-Session-ID'))
+        scope.set_extra("inventory", Inventory)
 
 @app.route('/checkout', methods=['POST'])
 def checkout():
 
     order = json.loads(request.data)
-    print "Processing order for: " + order["email"]
+    print "Processing order for: " + request.headers.get('email')
     cart = order["cart"]
     
     with sentry_sdk.start_span(op="db function: get inventory"):
@@ -123,26 +113,12 @@ def checkout():
 
     return 'Success'
 
-# @app.route('/tool', methods=['POST'])
-# def new_tool():
-#     with sentry_sdk.start_span(op="db read"):
-#         try:
-#             rows = add_tool()
-#         except:
-#             raise "error adding tool"
-#     return str(rows)
-
-
 @app.route('/tools', methods=['GET'])
 def get_tools():
-    with sentry_sdk.configure_scope() as scope:
-        print('does this work')
-        scope.user = { "email" : "thisistheemail" }
-        scope.set_tag("testtag", "thisisthetag")
-        with sentry_sdk.start_span(op="db function: get all toolz"):
-            try:
-                rows = get_all_tools()
-            except Exception as err:
-                sentry_sdk.capture_exception(err)
-                raise(err)
+    with sentry_sdk.start_span(op="db function: get all toolz"):
+        try:
+            rows = get_all_tools()
+        except Exception as err:
+            sentry_sdk.capture_exception(err)
+            raise(err)
     return rows
