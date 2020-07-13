@@ -115,7 +115,7 @@ def checkout():
 
 @app.route('/tools', methods=['GET'])
 def get_tools():
-    with sentry_sdk.start_span(op="db function: get all toolz"):
+    with sentry_sdk.start_span(op="db function: get all tools"):
         try:
             rows = get_all_tools()
         except Exception as err:
