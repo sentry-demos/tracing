@@ -7,6 +7,9 @@ this was tested on:
 
 | dependency    | version
 | ------------- |:-------------:|
+| sentry_sdk | 0.16.1 |
+| @sentry/browser | 5.15.0 |
+| @sentry/apm | 5.15.0 |
 | Google Cloud SDK | 277.0.0 |
 | bq | 2.0.52 |
 | AVD | Nexus 5x API 29 x86 |
