@@ -4,7 +4,7 @@ import './index.css';
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 import * as Sentry from '@sentry/browser';
-import { Integrations as ApmIntegrations } from '@sentry/apm';
+import { Integrations } from '@sentry/apm';
 
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
@@ -47,7 +47,7 @@ Sentry.init({
       return event;
     },
     integrations: [
-      new ApmIntegrations.Tracing({
+      new Integrations.Tracing({
           tracingOrigins: tracingOrigins
       }),
     ],

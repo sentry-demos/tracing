@@ -5,7 +5,8 @@ import wrenchImg from "../assets/wrench.png";
 import nailsImg from "../assets/nails.png";
 import hammerImg from "../assets/hammer.png";
 import * as Sentry from '@sentry/browser';
-import { Integrations as ApmIntegrations } from '@sentry/apm';
+import * as SentryReact from '@sentry/react';
+import { Integrations } from '@sentry/apm';
 
 import { connect } from 'react-redux'
 import { addTool, resetCart, setTools } from '../actions'
@@ -127,7 +128,7 @@ class App extends Component {
       cart: this.props.cart
     };
 
-    ApmIntegrations.Tracing.startIdleTransaction('checkout',
+    Integrations.Tracing.startIdleTransaction('checkout',
       {op: 'successOp', transaction: 'successTransaction', sampled: true});
 
     const response = await fetch(`${BACKEND}/checkout`, {
@@ -290,7 +291,9 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
+// export default Sentry.withProfiler(App);
+
 export default connect(
   mapStateToProps,
   { addTool, resetCart, setTools }
-)(App)
+)(SentryReact.withProfiler(App))
