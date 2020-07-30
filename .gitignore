@@ -4,3 +4,5 @@
 .DS_STORE
 flask/.env
 react/.env
+node_modules
+*node_modules

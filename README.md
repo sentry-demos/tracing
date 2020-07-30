@@ -9,7 +9,13 @@ this was tested on:
 | ------------- |:-------------:|
 | sentry_sdk | 0.16.1 |
 | @sentry/browser | 5.15.0 |
-| @sentry/apm | 5.15.0 |
+| @sentry/apm | 5.20.1 |
+| @sentry/react 5.20.1 | 
+| node | v.14.2 |
+| redux | 4.0.5 |
+| react-redux | 7.2.1 |
+| react-dom | 16.13.1 |
+| react | 16.13.3 |
 | Google Cloud SDK | 277.0.0 |
 | bq | 2.0.52 |
 | AVD | Nexus 5x API 29 x86 |
