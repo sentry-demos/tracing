@@ -31,3 +31,26 @@ const reducer = (state = initialState, action) => {
   };
 
 export default reducer
+
+// "when all activities are done" SPA
+// specificy an idle timeout, to extend this...
+// based on heuristics.
+// 1 Browser metrics/resoureces
+// 2 HXR's
+// 3 Components
+
+// load projects but navigate to a new URL....then sdk stops plageload TX, w/ tx status cancelled
+// when navigation occurs, start a new transactions.
+// user going to newTab cancels transaction
+// ^ all these are configurable - "great defaults that worked really work at Senttry forus, and our customers so far"
+// try to never lose the info (context/scope)
+
+// maxTransaction exceeded so gets set as Status/time exceeded.
+
+// 1
+// Trends - what will happen in your tx's over long periods of time.
+
+// 1-Month - angular integreation, support for react-router, @sentry/tracing
+// 3-month - Tracing in React Native, PHP
+// Q4 Sessions in JS. spec by end of Q3. Transactions+Sessions+Releases/Session+Errors
+// 6m good story about sampling. tail-sampling. relay.
