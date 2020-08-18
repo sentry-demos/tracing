@@ -4,7 +4,7 @@ import "./App.css";
 import wrenchImg from "../assets/wrench.png";
 import nailsImg from "../assets/nails.png";
 import hammerImg from "../assets/hammer.png";
-import * as Sentry from '@sentry/react'; // wraps around @/sentry/browser
+import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/apm';
 
 import { connect } from 'react-redux'
