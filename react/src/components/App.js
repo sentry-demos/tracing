@@ -127,11 +127,6 @@ class App extends Component {
       cart: this.props.cart
     };
 
-    // will automatically finish
-    // sentry/tracing - Hub.startTransaction -> and you'll have to finish it yourself
-    // Integrations.Tracing.startIdleTransaction('checkout',
-    //   {op: 'successOp', transaction: 'successTransaction', sampled: true});
-
     Integrations.Tracing.startIdleTransaction({ name: "checkout"});
 
     const response = await fetch(`${BACKEND}/checkout`, {
@@ -148,9 +143,7 @@ class App extends Component {
     }
 
     this.setState({ success: true });
-    // ex. transaction.finish
-
-    // Idles finish arbitrarily, e.g. oculd finish after you retur nresponse and leave Checkout functino (and that could be bad / not useful)
+    
     return response;
   }
 
@@ -297,77 +290,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-// export default Sentry.withProfiler(App);?
-
-// TODO -implement React Router to give /shop page so '/' displays as 'shop
-// TODO - ShopComponent, ToolsComponent, CheckoutComponent
-
-// Pass a name like {name:MyApp} or else you'll get '<T>' as value because it takes from minified js asset
 export default connect(
   mapStateToProps,
   { addTool, resetCart, setTools }
-)(Sentry.withProfiler(App, { name: "ToolStore"})) // gets included into static build
-
-
-
-
-/*
-OVERALL / HOW IT WORKS / WHAT'S CAPTURED
-  @sentry/react
-    tracks updates passed into the app, like props
-    if react's DOM updates (via redux) then Profiler will run on it.
-    "pointed timespans"
-
-  ^ is component based
-  "anything important for your transactions. pageloads"
-  "most important pageloads"
-    top-level app component
-    vs
-    drill down to individual subcomponent - 
-    vs
-    "updates of a component receiving new data"
-    vs
-    loadingIndicators, loadingState
-
-    'it's essentialy a wrapper around startSpan stopSpan'
-
-  browsuer - unloadEvent, happen before JS is executed on the page
-  'browser related spans'
-  Performance Marks, Measures, Browser Events + req/resp, Images, CSS
-    -ex. 'easy to underestimate the resources you load on your site'
-    -ex. '...was 40% of the tx's duration
-    - could have 'did not fetch errors' with the Measures/BrwoserEvents
-      - Trace Context attached if happened during a Tx
-      - fetching JSON or an image
-    - look for change in Resources loaded, between releases.
-    - Images/CSS more important than Browser.
-    - if request is really big, then Cache is being busted..
-    SDK trying to put max amount of info in event as possible.
-  React v14 (is what's supported?)
-  React.mount represents a component mounted on a page.
-  
-FUTURE
-   can we make it so user can see auto instrumented spans vs their own spans?
-   sample: true <--- so you can sample some endpoints more than others
-   'at any point you can chanage the sampling decision of a transaction'
-
-  FUTURE SDK EVELOPMENT
-  Keep sentry/react w/ same version as @sentry/apm -> sentry/tracing
-    -split up packages due to bundle size.
-
-    @sentry/tracing
-    transaction on scope...continues receiving more/next spans
-    they are on scope, it's just not documented.
-    Load a page vs One Page to Another
-    MillionDollarQuestion - 'One Page to Another' router changes.
-    @sentry/tracing <--- replacement package. functionality identical
-      - 1 change, for passing custom routing instrumentation (or use Sentry's)
-      - sentry/apm changing to sentry/tracing, changing architecture in it.
-        e.g. Measures (not metrics yet..) values you can see over time. web vitals. 'first input delay, least contentful paint, layout shift'
-        "we did it because we saw great uise case"
-      - "Idle Transaction" - add activities, when acitivies. <-- Idle's finish automatically.
-          - finish when No More Activities. consider Mounting of a View Component,
-      heuristics
-
-transaction.op for pagload
-*/
+)(Sentry.withProfiler(App, { name: "ToolStore"}))
