@@ -306,7 +306,7 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(
   mapStateToProps,
   { addTool, resetCart, setTools }
-)(Sentry.withProfiler(App, { name: "Shop"})) // gets included into static build
+)(Sentry.withProfiler(App, { name: "ToolStore"})) // gets included into static build
 
 
 

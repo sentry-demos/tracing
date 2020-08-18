@@ -1,4 +1,11 @@
 import React from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App';
@@ -59,11 +66,38 @@ const store = createStore(
   applyMiddleware(logger)
 )
 
-// TODO make a <App> which has the <switch> in it for the <App>
+// <Provider store={store}>
+// <App />
+// </Provider>, document.getElementById('root')
+
+// 1 Basic react-router https://reactrouter.com/web/guides/quick-start
+
+// 2 Example on how to use a <Provider> and a <Router> together
+// https://redux.js.org/advanced/usage-with-react-router
+
 render(
   <Provider store={store}>
-    <App />
+    <Router>
+      <div>
+        <Switch>
+          <Route exact path="/">
+            <Redirect to="/toolstore" />
+          </Route>
+          <Route path="/about">
+            <App />
+          </Route>
+          <Route path="/users">
+            <App />
+          </Route>
+          <Route path="/toolstore">
+            <App />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   </Provider>, document.getElementById('root')
 );
+
+
 
 registerServiceWorker();
