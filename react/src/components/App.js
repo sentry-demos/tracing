@@ -290,8 +290,6 @@ class App extends Component {
   }
 }
 
-
-
 const mapStateToProps = (state, ownProps) => {
   return {
     cart: state.cart,
@@ -299,54 +297,69 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-// export default Sentry.withProfiler(App);
-// TODO - call homepage /shop '/' redirect to '/shop'
-// TODO - make ToolsComponent CheckoutComponent
+// export default Sentry.withProfiler(App);?
+
+// TODO -implement React Router to give /shop page so '/' displays as 'shop
+// TODO - ShopComponent, ToolsComponent, CheckoutComponent
+
+// Pass a name like {name:MyApp} or else you'll get '<T>' as value because it takes from minified js asset
 export default connect(
   mapStateToProps,
   { addTool, resetCart, setTools }
-)(Sentry.withProfiler(App, { name: "Tools"})) // gets included into static build
-// ^ pass {name:MyApp} or else <T> from minified
+)(Sentry.withProfiler(App, { name: "Shop"})) // gets included into static build
 
 
-// ^ is component based
-// "anything important for your transactions. pageloads"
-// "most important pageloads"
-  // top-level app component
-  // vs
-  // drill down to individual subcomponent - 
-  // vs
-  // "updates of a component receiving new data"
-  // vs
-  // loadingIndicators, loadingState
 
-  // 'it's essentialy a wrapper around startSpan stopSpan'
 
 /*
-call notes
-tracks updates passed into the app, like props
-if react's DOM updates (via redux) then Profiler will run on it.
-"pointed timespans"
+OVERALL / HOW IT WORKS / WHAT'S CAPTURED
+  @sentry/react
+    tracks updates passed into the app, like props
+    if react's DOM updates (via redux) then Profiler will run on it.
+    "pointed timespans"
 
-transaction.op for pagload
+  ^ is component based
+  "anything important for your transactions. pageloads"
+  "most important pageloads"
+    top-level app component
+    vs
+    drill down to individual subcomponent - 
+    vs
+    "updates of a component receiving new data"
+    vs
+    loadingIndicators, loadingState
 
-browsuer - unloadEvent, happen before JS is executed on the page
-'browser related spans'
-Performance Marks, Measures, Browser Events + req/resp, Images, CSS
-  -ex. 'easy to underestimate the resources you load on your site'
-  -ex. '...was 40% of the tx's duration
-  - could have 'did not fetch errors' with the Measures/BrwoserEvents
-    - Trace Context attached if happened during a Tx
-    - fetching JSON or an image
-  - look for change in Resources loaded, between releases.
-  -
-  - Images/CSS more important than Browser.
-  - if request is really big, then Cache is being busted..
-  SDK trying to put max amount of info in event as possible.
+    'it's essentialy a wrapper around startSpan stopSpan'
 
-  Load a page vs One Page to Another
+  browsuer - unloadEvent, happen before JS is executed on the page
+  'browser related spans'
+  Performance Marks, Measures, Browser Events + req/resp, Images, CSS
+    -ex. 'easy to underestimate the resources you load on your site'
+    -ex. '...was 40% of the tx's duration
+    - could have 'did not fetch errors' with the Measures/BrwoserEvents
+      - Trace Context attached if happened during a Tx
+      - fetching JSON or an image
+    - look for change in Resources loaded, between releases.
+    - Images/CSS more important than Browser.
+    - if request is really big, then Cache is being busted..
+    SDK trying to put max amount of info in event as possible.
+  React v14 (is what's supported?)
+  React.mount represents a component mounted on a page.
+  
+FUTURE
+   can we make it so user can see auto instrumented spans vs their own spans?
+   sample: true <--- so you can sample some endpoints more than others
+   'at any point you can chanage the sampling decision of a transaction'
 
-  MillionDollarQuestion - 'One Page to Another' router changes.
+  FUTURE SDK EVELOPMENT
+  Keep sentry/react w/ same version as @sentry/apm -> sentry/tracing
+    -split up packages due to bundle size.
+
+    @sentry/tracing
+    transaction on scope...continues receiving more/next spans
+    they are on scope, it's just not documented.
+    Load a page vs One Page to Another
+    MillionDollarQuestion - 'One Page to Another' router changes.
     @sentry/tracing <--- replacement package. functionality identical
       - 1 change, for passing custom routing instrumentation (or use Sentry's)
       - sentry/apm changing to sentry/tracing, changing architecture in it.
@@ -356,21 +369,5 @@ Performance Marks, Measures, Browser Events + req/resp, Images, CSS
           - finish when No More Activities. consider Mounting of a View Component,
       heuristics
 
-  sentry/tracing
-    transaction on scope...continues receiving more/next spans
-      they are on scope, it's just not documented.
-
-  BACKLOG vide explain
-
-  Keep sentry/react w/ same version as @sentry/apm -> sentry/tracing
-    -split up packages due to bundle size.
-
-  React v14
-
-  React.mount represents a component mounted on a page.
-
-  // can we make it so user can see auto instrumented spans vs their own spans?
-
-  // sample: true <--- so you can sample some endpoints more than others
-  // 'at any point you can chanage the sampling decision of a transaction'
+transaction.op for pagload
 */

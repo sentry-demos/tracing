@@ -59,6 +59,7 @@ const store = createStore(
   applyMiddleware(logger)
 )
 
+// TODO make a <App> which has the <switch> in it for the <App>
 render(
   <Provider store={store}>
     <App />
