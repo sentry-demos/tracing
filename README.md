@@ -21,6 +21,7 @@ this was tested on:
 | AVD | Nexus 5x API 29 x86 |
 | core | 2020.01.17 |
 | gsutil 4.47 | gsutil 4.47 |
+| docker | 19.03.12 |
 #### Setup Instructions
 1. Have an admin set you as Owner on the Project in GCP
 2. Download `gcloud` google cloud sdk https://cloud.google.com/sdk/docs/. This will have you 'initialize' your sdk from command line, and set some defaults. If you get asked for 'zone' select us-central1-a. 'region' is us-central1

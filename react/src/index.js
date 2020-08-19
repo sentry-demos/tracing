@@ -11,7 +11,7 @@ import {
 import './index.css';
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
-import * as Sentry from '@sentry/browser';
+// import * as Sentry from '@sentry/browser';
 import { Integrations } from '@sentry/apm';
 import * as Sentry from '@sentry/react'
 import { render } from 'react-dom'
