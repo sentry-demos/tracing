@@ -7,16 +7,16 @@ import {
   Redirect
 } from "react-router-dom";
 
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 import * as Sentry from '@sentry/browser';
 import { Integrations } from '@sentry/apm';
-
+import * as Sentry from '@sentry/react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import logger from 'redux-logger'
 import rootReducer from './reducers'
 
@@ -60,11 +60,19 @@ Sentry.init({
       }),
     ],
     tracesSampleRate: 1.0,
+    // TODO
+    // normalizeDepth: 10 // Or however deep you want your state context to be.
+});
+
+const sentryReduxEnhancer = Sentry.createReduxEnhancer({
+  // Optional - Scrub sensitive info from actions and state
+  // https://docs.sentry.io/platforms/javascript/react/integrations/redux/#redux-enhancer-options
 });
 
 const store = createStore(
   rootReducer,
-  applyMiddleware(logger)
+  // applyMiddleware(logger)
+  compose(applyMiddleware(logger), sentryReduxEnhancer)
 )
 
 render(
