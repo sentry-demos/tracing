@@ -1,14 +1,19 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from "react-router-dom";
+
 import './index.css';
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
-import * as Sentry from '@sentry/browser';
-import { Integrations as ApmIntegrations } from '@sentry/apm';
-
+import { Integrations } from '@sentry/apm';
+import * as Sentry from '@sentry/react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import logger from 'redux-logger'
 import rootReducer from './reducers'
 
@@ -47,21 +52,34 @@ Sentry.init({
       return event;
     },
     integrations: [
-      new ApmIntegrations.Tracing({
+      new Integrations.Tracing({
           tracingOrigins: tracingOrigins
       }),
     ],
     tracesSampleRate: 1.0,
 });
 
+const sentryReduxEnhancer = Sentry.createReduxEnhancer({});
+
 const store = createStore(
   rootReducer,
-  applyMiddleware(logger)
+  compose(applyMiddleware(logger), sentryReduxEnhancer)
 )
 
 render(
   <Provider store={store}>
-    <App />
+    <Router>
+      <div>
+        <Switch>
+          <Route exact path="/">
+            <Redirect to="/toolstore" />
+          </Route>
+          <Route path="/toolstore">
+            <App />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   </Provider>, document.getElementById('root')
 );
 
