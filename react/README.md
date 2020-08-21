@@ -155,4 +155,8 @@ maxTransaction exceeded so gets set as Status/time exceeded.
 heuristics  
 https://knowledge.broadcom.com/external/article/19516/understanding-heuristics-baselines-in-in.html
 
+Option - normalizeDepth: 10 // Or however deep you want your state context to be.
 
+const sentryReduxEnhancer = Sentry.createReduxEnhancer({
+  // Optional - https://docs.sentry.io/platforms/javascript/react/integrations/redux/#redux-enhancer-options
+});
