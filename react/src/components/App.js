@@ -5,7 +5,10 @@ import wrenchImg from "../assets/wrench.png";
 import nailsImg from "../assets/nails.png";
 import hammerImg from "../assets/hammer.png";
 import * as Sentry from '@sentry/react';
-import { Integrations } from '@sentry/apm';
+import * as SentryTracing from '@sentry/tracing';
+console.log('TRACING', SentryTracing)
+
+// import { Integrations } from '@sentry/apm';
 
 import { connect } from 'react-redux'
 import { addTool, resetCart, setTools } from '../actions'
@@ -127,7 +130,16 @@ class App extends Component {
       cart: this.props.cart
     };
 
-    Integrations.Tracing.startIdleTransaction({ name: "checkout"});
+    // old way
+    // Integrations.BrowserTracing.startIdleTransaction({ name: "checkout"});
+
+    const transaction = SentryTracing.startTransaction({ name: "checkout" });
+    
+    // Was advised to do it this way (not in docs)
+    // Sentry.configureScope(scope => scope.setSpan(transaction));
+
+    // Docs say to do it this way
+    const span = transaction.startChild({ op: "checkoutOp" }); // This function returns a Span
 
     const response = await fetch(`${BACKEND}/checkout`, {
       method: "POST",
@@ -138,11 +150,21 @@ class App extends Component {
       body: JSON.stringify(order)
     }).catch((err) => { throw Error(err) });
 
+    // Docs say to do it this way, if you want to include the response of your xhr
+    // const span = transaction.startChild({
+      // data: { response },
+      // op: 'checkoutOp',
+    //  // description: `processing shopping cart result`,
+    // });
+
     if (!response.ok) {
       throw new Error(response.status + " - " + (response.statusText || "INTERNAL SERVER ERROR"));
     }
 
     this.setState({ success: true });
+
+    span.finish();
+    transaction.finish();
     
     return response;
   }
