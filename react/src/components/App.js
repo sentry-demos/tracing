@@ -4,10 +4,9 @@ import "./App.css";
 import wrenchImg from "../assets/wrench.png";
 import nailsImg from "../assets/nails.png";
 import hammerImg from "../assets/hammer.png";
-import * as Sentry from '@sentry/react';
-import * as SentryTracing from '@sentry/tracing';
-console.log('TRACING', SentryTracing)
 
+import * as Sentry from '@sentry/react';
+// import * as SentryTracing from '@sentry/tracing';
 // import { Integrations } from '@sentry/apm';
 
 import { connect } from 'react-redux'
@@ -23,6 +22,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     console.log('BACKEND is: ', BACKEND);
+
     this.state = {
       success: false,
       hasError: false
@@ -133,12 +133,13 @@ class App extends Component {
     // old way
     // Integrations.BrowserTracing.startIdleTransaction({ name: "checkout"});
 
-    const transaction = SentryTracing.startTransaction({ name: "checkout" });
+    // new way w/ @sentry/tracing
+    const transaction = Sentry.startTransaction({ name: "checkout" });
     
     // Was advised to do it this way (not in docs)
     // Sentry.configureScope(scope => scope.setSpan(transaction));
 
-    // Docs say to do it this way
+    // Docs for sentry/apm say to do it this way
     const span = transaction.startChild({ op: "checkoutOp" }); // This function returns a Span
 
     const response = await fetch(`${BACKEND}/checkout`, {
@@ -150,7 +151,7 @@ class App extends Component {
       body: JSON.stringify(order)
     }).catch((err) => { throw Error(err) });
 
-    // Docs say to do it this way, if you want to include the response of your xhr
+    // Docs for sentry/apm say to do it this way, if you want to include the response of your xhr
     // const span = transaction.startChild({
       // data: { response },
       // op: 'checkoutOp',
