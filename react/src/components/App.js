@@ -125,48 +125,49 @@ class App extends Component {
   }
 
   async checkout() {
+    let span, transaction, response
+    try {
 
-    const order = {
-      cart: this.props.cart
-    };
-
-    // old way
-    // Integrations.BrowserTracing.startIdleTransaction({ name: "checkout"});
-
-    // new way w/ @sentry/tracing
-    const transaction = Sentry.startTransaction({ name: "checkout" });
     
-    // Was advised to do it this way (not in docs)
-    // Sentry.configureScope(scope => scope.setSpan(transaction));
+      const order = {
+        cart: this.props.cart
+      };
 
-    // Docs for sentry/apm say to do it this way
-    const span = transaction.startChild({ op: "checkoutOp" }); // This function returns a Span
+      // old way
+      // Integrations.BrowserTracing.startIdleTransaction({ name: "checkout"});
 
-    const response = await fetch(`${BACKEND}/checkout`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "email": this.email
-      },
-      body: JSON.stringify(order)
-    }).catch((err) => { throw Error(err) });
+      // Was advised to do it this way (not in docs)
+      // Sentry.configureScope(scope => scope.setSpan(transaction));
 
-    // Docs for sentry/apm say to do it this way, if you want to include the response of your xhr
-    // const span = transaction.startChild({
-      // data: { response },
-      // op: 'checkoutOp',
-    //  // description: `processing shopping cart result`,
-    // });
+      transaction = Sentry.startTransaction({ name: "checkout" });
+      
+      span = transaction.startChild({ op: "checkoutOp" }); // This function returns a Span
 
-    if (!response.ok) {
-      throw new Error(response.status + " - " + (response.statusText || "INTERNAL SERVER ERROR"));
+      response = await fetch(`${BACKEND}/checkout`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "email": this.email
+        },
+        body: JSON.stringify(order)
+      }).catch((err) => { throw Error(err) });
+
+      // do it this way if you want to include the Response of your xhr, in the span
+      // const span = transaction.startChild({
+        // data: { response },
+        // op: 'checkoutOp',
+      //  // description: `processing shopping cart result`,
+      // });
+
+      if (!response.ok) {
+        throw new Error(response.status + " - " + (response.statusText || "INTERNAL SERVER ERROR"));
+      }
+
+      this.setState({ success: true });
+    } finally {
+      span.finish();
+      transaction.finish();
     }
-
-    this.setState({ success: true });
-
-    span.finish();
-    transaction.finish();
-    
     return response;
   }
 

@@ -53,7 +53,7 @@ Sentry.init({
       return event;
     },
     integrations: [
-      new Integrations.Tracing({
+      new Integrations.BrowserTracing({
           tracingOrigins: tracingOrigins
       }),
     ],
