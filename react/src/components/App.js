@@ -140,8 +140,9 @@ class App extends Component {
       // Sentry.configureScope(scope => scope.setSpan(transaction));
 
       transaction = Sentry.startTransaction({ name: "checkout" });
-      
-      span = transaction.startChild({ op: "checkoutOp" }); // This function returns a Span
+      Sentry.getCurrentHub().configureScope(scope => scope.setSpan(transaction));
+
+      span = transaction.startChild({ op: "checkoutOp" });
 
       response = await fetch(`${BACKEND}/checkout`, {
         method: "POST",
