@@ -81,7 +81,18 @@ class App extends Component {
           return tool
       }
     })
-
+    // const transaction = Sentry.getCurrentHub()
+    //   .getScope()
+    //   .getTransaction();
+    // if (transaction) {
+    //   let span = transaction.startChild({
+    //     data: { test: 'me'},
+    //     op: "setting tools",
+    //     description: "Setting tools description",
+    //   });
+    //   // Do something
+    //   span.finish();
+    // }
     this.props.setTools(tools)
   }
 
@@ -124,24 +135,22 @@ class App extends Component {
       .then(json => console.log(json));
   }
 
-  performanceCheckoutOnServer () {
-    response = await fetch(`${BACKEND}/checkout`, { // validateShoppingCartOnServer
+  async performCheckoutOnServer (order) {
+    let response = await fetch(`${BACKEND}/checkout`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "email": this.email
       },
       body: JSON.stringify(order)
-    }).catch((err) => { 
-      Sentry.captureException(new Error(response.status + " - " + (response.statusText || "INTERNAL SERVER ERROR"));)\
-      // throw Error(err) 
-    });
-    if (!response.ok) {
-      Sentry.captureException(new Error(response.status + " - " + (response.statusText || "INTERNAL SERVER ERROR"));)\
-      this.setState({ success: true });
-    }
+    }).catch((err) => { throw Error(err) });
 
-    return response
+    if (!response.ok) {
+      Sentry.captureException(new Error(response.status + " - " + (response.statusText || "INTERNAL SERVER ERROR")))
+      this.setState({ hasError: true, success: false });
+    }
+    
+    return { httpResponseData: response.status + " - " + response.statusText }
   }
 
   async checkout() {
@@ -149,21 +158,24 @@ class App extends Component {
       cart: this.props.cart
     };
 
-    // Sentry Start Transaction - Start the Transaction and Span
+    // ----------- Sentry Start Transaction ------------------------
     let transaction = Sentry.startTransaction({ name: "checkout" });
     Sentry.configureScope(scope => scope.setSpan(transaction));
-    // ------ /SENTRY ------- //
+    // -------------------------------------------------------------
 
-    let data = await performCheckoutOnServer()
+    let data = await this.performCheckoutOnServer(order)
+    console.log('data', data)
 
-    // Sentry Finish Transaction -
+    // ----------- Sentry Finish Transaction -----------------------
     const span = transaction.startChild({
       data,
       op: 'task',
       description: `processing shopping cart result`,
     });
+
+    span.finish()
     transaction.finish();
-    // ------ /SENTRY ------- //
+    // -------------------------------------------------------------
   }
 
   async getTools() {
