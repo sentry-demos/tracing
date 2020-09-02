@@ -4,7 +4,6 @@ import "./App.css";
 import wrenchImg from "../assets/wrench.png";
 import nailsImg from "../assets/nails.png";
 import hammerImg from "../assets/hammer.png";
-
 import * as Sentry from '@sentry/react';
 
 import { connect } from 'react-redux'
@@ -20,7 +19,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     console.log('BACKEND is: ', BACKEND);
-
     this.state = {
       success: false,
       hasError: false
