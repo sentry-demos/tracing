@@ -81,18 +81,20 @@ class App extends Component {
           return tool
       }
     })
-    // const transaction = Sentry.getCurrentHub()
-    //   .getScope()
-    //   .getTransaction();
-    // if (transaction) {
-    //   let span = transaction.startChild({
-    //     data: { test: 'me'},
-    //     op: "setting tools",
-    //     description: "Setting tools description",
-    //   });
-    //   // Do something
-    //   span.finish();
-    // }
+
+    // Sentry Transaction, include the tools data as a span
+    const transaction = Sentry.getCurrentHub()
+      .getScope()
+      .getTransaction();
+    if (transaction) {
+      let span = transaction.startChild({
+        data: { toolsData: tools },
+        op: "tools received",
+        description: "tools were received",
+      });
+      span.finish();
+    }
+    
     this.props.setTools(tools)
   }
 
