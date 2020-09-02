@@ -42,6 +42,8 @@ this was tested on:
 1. `make docker_compose`  
 docker-compose down
 
+The dockerfile uses whatever is in `./react/build` so make sure you have an updated build.
+
 #### Dev - without docker
 1. `cd ./react && npm run deploylocal` 
 2. `cd ./flask && make deploy`

@@ -86,6 +86,7 @@ class App extends Component {
     const transaction = Sentry.getCurrentHub()
       .getScope()
       .getTransaction();
+
     if (transaction) {
       let span = transaction.startChild({
         data: { toolsData: tools },
@@ -94,7 +95,7 @@ class App extends Component {
       });
       span.finish();
     }
-    
+
     this.props.setTools(tools)
   }
 
