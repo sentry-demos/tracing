@@ -160,10 +160,3 @@ Option - normalizeDepth: 10 // Or however deep you want your state context to be
 const sentryReduxEnhancer = Sentry.createReduxEnhancer({
   // Optional - https://docs.sentry.io/platforms/javascript/react/integrations/redux/#redux-enhancer-options
 });
-
-
-DEMO AUTOMATION
-Pageload + Navigation
-
-Navigation
-https://sentry.io/organizations/sentry/performance/javascript:479cb26e52134d759eea6fd7ceff7699/?project=11276&query=&showTransactions=fastest&statsPeriod=24h&transaction=%2Forganizations%2F%3AorgId%2Fissues%2F%3AgroupId%2Fevents%2F

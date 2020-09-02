@@ -9,7 +9,6 @@ import {
 import './index.css';
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
-// import { Integrations } from '@sentry/apm';
 import { Integrations } from '@sentry/tracing';
 import * as Sentry from '@sentry/react'
 import { render } from 'react-dom'

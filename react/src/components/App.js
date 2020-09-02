@@ -6,8 +6,6 @@ import nailsImg from "../assets/nails.png";
 import hammerImg from "../assets/hammer.png";
 
 import * as Sentry from '@sentry/react';
-// import * as SentryTracing from '@sentry/tracing';
-// import { Integrations } from '@sentry/apm';
 
 import { connect } from 'react-redux'
 import { addTool, resetCart, setTools } from '../actions'
@@ -167,7 +165,6 @@ class App extends Component {
     // -------------------------------------------------------------
 
     let data = await this.performCheckoutOnServer(order)
-    console.log('data', data)
 
     // ----------- Sentry Finish Transaction -----------------------
     const span = transaction.startChild({
