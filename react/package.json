@@ -5,7 +5,8 @@
   "dependencies": {
     "@sentry/apm": "^5.20.1",
     "@sentry/cli": "^1.37.0",
-    "@sentry/react": "^5.21.1",
+    "@sentry/react": "^5.27.3",
+    "@sentry/tracing": "^5.27.3",
     "history": "^1.17.0",
     "material-ui": "^0.18.7",
     "nanomatch": "^1.2.13",
