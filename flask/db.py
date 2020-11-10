@@ -8,8 +8,6 @@ import random
 from random import seed
 from random import randint
 import time
-from datetime import datetime
-from pytz import timezone
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 import sqlalchemy
@@ -22,7 +20,7 @@ USERNAME = os.getenv("USERNAME")
 PASSWORD = os.getenv("PASSWORD")
 ENV = os.environ.get("FLASK_ENV")
 
-insert_query = """INSERT INTO tools(name, type, sku, image, price)
+insert_query = """INSERT INTO tools(name, type, sku, image, price) 
                   VALUES (%s, %s, %s, %s, %s);"""
 
 # generate random tool names + descriptions
@@ -57,15 +55,12 @@ def get_all_tools():
             conn = db.connect()
         # Execute the query and fetch all results
         with sentry_sdk.start_span(op="run query"):
-            # lognormal(...) returns 1-10 + sleep for 3 seconds every two hours (second 2 hours)
-            time_to_sleep = numpy.random.lognormal(0.75, .6, 1)[0] if datetime.now(timezone('America/Los_Angeles')).hour <= 12 else numpy.random.lognormal(1.5, .5, 1)[0]
-            time.sleep(time_to_sleep + .3)
-
+            time.sleep(numpy.random.lognormal(0.75, .6, 1)[0])
             results = conn.execute(
                 "SELECT * FROM tools"
             ).fetchall()
         conn.close()
-
+        
         rows = []
         with sentry_sdk.start_span(op="format results"):
             for row in results:
@@ -85,6 +80,7 @@ def get_inventory():
                 "SELECT * FROM inventory" #will write the correct query in the future
             ).fetchall()
         conn.close()
+        
         rows = []
         for row in results:
             rows.append(dict(row))
@@ -102,7 +98,7 @@ def update_inventory():
                 "SELECT * FROM inventory" #will write the correct query in the future
             ).fetchall()
         conn.close()
-
+        
         rows = []
         for row in results:
             rows.append(dict(row))
