@@ -1,5 +1,5 @@
 SENTRY_ORG=testorg-az
-SENTRY_PROJECT=will-frontend-react
+SENTRY_PROJECT=fe-react
 RELEASE=`sentry-cli releases propose-version`
 PREFIX=static/js
 
@@ -20,7 +20,9 @@ build_react:
 setup_release: create_release associate_commits upload_sourcemaps
 
 create_release:
+	sleep 600
 	sentry-cli releases -o $(SENTRY_ORG) new -p $(SENTRY_PROJECT) $(RELEASE)
+	sleep 600
 associate_commits:
 	sentry-cli releases -o $(SENTRY_ORG) -p $(SENTRY_PROJECT) set-commits --auto $(RELEASE)
 upload_sourcemaps:
