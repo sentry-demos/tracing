@@ -4,6 +4,10 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from db import get_all_tools, get_inventory, update_inventory
 from dotenv import load_dotenv
+from datetime import datetime
+from pytz import timezone
+import time
+import numpy
 load_dotenv()
 DSN = os.getenv("FLASK_APP_DSN")
 
@@ -26,7 +30,7 @@ DSN = os.getenv("FLASK_APP_DSN")
 def before_send(event, hint):
     if event['request']['method'] == 'OPTIONS':
         return null
-    return event    
+    return event
 
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
@@ -70,13 +74,18 @@ Inventory = {
 def process_order(cart):
     global Inventory
     tempInventory = Inventory
+
+    # lognormal(...) returns 1-10 + sleep for 3 seconds every two hours (first two hours)
+    time_to_sleep = numpy.random.lognormal(0.75, .6, 1)[0] if datetime.now(timezone('America/Los_Angeles')).hour >= 14 else numpy.random.lognormal(1.5, .5, 1)[0]
+    time.sleep(time_to_sleep)
+
     for item in cart:
         if Inventory[item['type']] <= 0:
             raise Exception("Not enough inventory for " + item['type'])
         else:
             tempInventory[item['type']] -= 1
             print 'Success: ' + item['type'] + ' was purchased, remaining stock is ' + str(tempInventory[item['type']])
-    Inventory = tempInventory 
+    Inventory = tempInventory
 
 @app.before_request
 def sentry_event_context():
@@ -93,7 +102,7 @@ def checkout():
     order = json.loads(request.data)
     print "Processing order for: " + request.headers.get('email')
     cart = order["cart"]
-    
+
     with sentry_sdk.start_span(op="db function: get inventory"):
         try:
             rows = get_inventory()
