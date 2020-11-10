@@ -1,5 +1,6 @@
 /*global Sentry*/
 import React, { Component } from "react";
+import ShoppingCart from './ShoppingCart';
 import "./App.css";
 import wrenchImg from "../assets/wrench.png";
 import nailsImg from "../assets/nails.png";
@@ -30,8 +31,6 @@ class App extends Component {
         .substring(2, 6) + "@yahoo.com";
 
     this.buyItem = this.buyItem.bind(this);
-    this.checkout = this.checkout.bind(this);
-    this.resetCart = this.resetCart.bind(this);
 
     // generate unique sessionId and set as Sentry tag
     this.sessionId = getUniqueId();
@@ -101,7 +100,6 @@ class App extends Component {
 
     this.props.addTool(item)
 
-
     Sentry.configureScope(scope => {
       scope.setExtra('cart', JSON.stringify(this.props.cart));
     });
@@ -113,67 +111,10 @@ class App extends Component {
     });
   }
 
-  resetCart(event) {
-    event.preventDefault();
-    this.props.resetCart([])
-    this.setState({ hasError: false, success: false });
-
-    Sentry.configureScope(scope => {
-      scope.setExtra('cart', '');
-    });
-    Sentry.addBreadcrumb({
-      category: 'cart',
-      message: 'User emptied cart',
-      level: 'info'
-    });
-  }
-
   performXHRRequest(){
     fetch('https://jsonplaceholder.typicode.com/todos/1')
       .then(response => response.json())
       .then(json => console.log(json));
-  }
-
-  async performCheckoutOnServer (order) {
-    let response = await fetch(`${BACKEND}/checkout`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "email": this.email
-      },
-      body: JSON.stringify(order)
-    }).catch((err) => { throw Error(err) });
-
-    if (!response.ok) {
-      Sentry.captureException(new Error(response.status + " - " + (response.statusText || "INTERNAL SERVER ERROR")))
-      this.setState({ hasError: true, success: false });
-    }
-    
-    return { httpResponseData: response.status + " - " + response.statusText }
-  }
-
-  async checkout() {
-    const order = {
-      cart: this.props.cart
-    };
-
-    // ----------- Sentry Start Transaction ------------------------
-    let transaction = Sentry.startTransaction({ name: "checkout" });
-    Sentry.configureScope(scope => scope.setSpan(transaction));
-    // -------------------------------------------------------------
-
-    let data = await this.performCheckoutOnServer(order)
-
-    // ----------- Sentry Finish Transaction -----------------------
-    const span = transaction.startChild({
-      data,
-      op: 'task',
-      description: `processing shopping cart result`,
-    });
-
-    span.finish()
-    transaction.finish();
-    // -------------------------------------------------------------
   }
 
   async getTools() {
@@ -254,59 +195,7 @@ class App extends Component {
             )}
           </div>
         </main>
-        <div className="sidebar">
-          <header>
-            <h4>Hi, {this.email}!</h4>
-          </header>
-          <div className="cart">
-            {this.props.cart.length ? (
-              <div>
-                {Object.keys(cartDisplay).map(id => {
-                  const { name, price } = this.props.tools.find(i => i.id === parseInt(id))
-                  const qty = cartDisplay[id];
-                  return (
-                    <div className="cart-item" key={id}>
-                      <div className="cart-item-name">
-                        {name} x{qty}
-                      </div>
-                      <div className="cart-item-price">
-                        ${monify(price * qty)}
-                      </div>
-                    </div>
-                  );
-                })}
-                <hr />
-                <div className="cart-item">
-                  <div className="cart-item-name">
-                    <strong>Total</strong>
-                  </div>
-                  <div className="cart-item-price">
-                    <strong>${monify(total)}</strong>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              "Your cart is empty"
-            )}
-          </div>
-          {this.state.hasError && (
-            <p className="cart-error">Something went wrong</p>
-          )}
-          {this.state.success && (
-            <p className="cart-success">Thank you for your purchase!</p>
-          )}
-          <button
-            onClick={this.checkout}
-            disabled={this.props.cart.length === 0}
-          >
-            Checkout
-          </button>{" "}
-          {this.props.cart.length > 0 && (
-            <button onClick={this.resetCart} className="cart-reset">
-              Empty cart
-            </button>
-          )}
-        </div>
+        <ShoppingCart/>
       </div>
     );
   }
