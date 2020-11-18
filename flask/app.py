@@ -6,26 +6,11 @@ from db import get_all_tools, get_inventory, update_inventory
 from dotenv import load_dotenv
 from datetime import datetime
 from pytz import timezone
+from utils import wait
 import time
 import numpy
 load_dotenv()
 DSN = os.getenv("FLASK_APP_DSN")
-
-# use this if sending test data to a proxy and not Sentry
-# def testData(DSN):
-#     KEY = DSN.split('@')[0]
-#     try:
-#         # only use for local proxy, not proxy served by ngrok
-#         if KEY.index('https') == 0:
-#             KEY = KEY[:4] + KEY[5:]
-#     except Exception as err:
-#         print('DSN key w/ http from self-hosted')
-#     PROXY = 'localhost:3001'
-#     MODIFIED_DSN_SAVE = KEY + '@' + PROXY + '/3'
-#     MODIFIED_DSN_SAVE = KEY + '@' + "3d19db15b56d.ngrok.io" + '/3'
-#     return MODIFIED_DSN_SAVE
-# DSN = testData(DSN)
-# print("> DSN", DSN)
 
 def before_send(event, hint):
     if event['request']['method'] == 'OPTIONS':
@@ -75,10 +60,7 @@ def process_order(cart):
     global Inventory
     tempInventory = Inventory
 
-    # lognormal(...) returns 1-10 + sleep for 3 seconds every two hours (first two hours)
-    time_to_sleep = numpy.random.lognormal(0.75, .6, 1)[0] if datetime.now(timezone('America/Los_Angeles')).hour >= 14 else numpy.random.lognormal(1.5, .5, 1)[0]
-    time.sleep(time_to_sleep + .5)
-
+    wait()
     for item in cart:
         if Inventory[item['type']] <= 0:
             raise Exception("Not enough inventory for " + item['type'])
