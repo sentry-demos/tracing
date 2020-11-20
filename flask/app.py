@@ -4,29 +4,19 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from db import get_all_tools, get_inventory, update_inventory
 from dotenv import load_dotenv
+from datetime import datetime
+from pytz import timezone
+from utils import wait
+import time
+import numpy
+import operator
 load_dotenv()
 DSN = os.getenv("FLASK_APP_DSN")
-
-# use this if sending test data to a proxy and not Sentry
-# def testData(DSN):
-#     KEY = DSN.split('@')[0]
-#     try:
-#         # only use for local proxy, not proxy served by ngrok
-#         if KEY.index('https') == 0:
-#             KEY = KEY[:4] + KEY[5:]
-#     except Exception as err:
-#         print('DSN key w/ http from self-hosted')
-#     PROXY = 'localhost:3001'
-#     MODIFIED_DSN_SAVE = KEY + '@' + PROXY + '/3'
-#     MODIFIED_DSN_SAVE = KEY + '@' + "3d19db15b56d.ngrok.io" + '/3'
-#     return MODIFIED_DSN_SAVE
-# DSN = testData(DSN)
-# print("> DSN", DSN)
 
 def before_send(event, hint):
     if event['request']['method'] == 'OPTIONS':
         return null
-    return event    
+    return event
 
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
@@ -70,13 +60,14 @@ Inventory = {
 def process_order(cart):
     global Inventory
     tempInventory = Inventory
+    wait(operator.ge, 14, .5)
     for item in cart:
         if Inventory[item['type']] <= 0:
             raise Exception("Not enough inventory for " + item['type'])
         else:
             tempInventory[item['type']] -= 1
             print 'Success: ' + item['type'] + ' was purchased, remaining stock is ' + str(tempInventory[item['type']])
-    Inventory = tempInventory 
+    Inventory = tempInventory
 
 @app.before_request
 def sentry_event_context():
@@ -93,7 +84,7 @@ def checkout():
     order = json.loads(request.data)
     print "Processing order for: " + request.headers.get('email')
     cart = order["cart"]
-    
+
     with sentry_sdk.start_span(op="db function: get inventory"):
         try:
             rows = get_inventory()
