@@ -15,6 +15,7 @@ from sentry_sdk.integrations.flask import FlaskIntegration
 import sqlalchemy
 from sqlalchemy import create_engine
 from utils import wait
+import operator
 from dotenv import load_dotenv
 load_dotenv()
 HOST = os.getenv("HOST")
@@ -58,7 +59,10 @@ def get_all_tools():
             conn = db.connect()
         # Execute the query and fetch all results
         with sentry_sdk.start_span(op="run query"):
-            wait()
+            wait(operator.le, 12, 1)
+            # OG
+            # time_to_sleep = numpy.random.lognormal(0.75, .6, 1)[0] if datetime.now(timezone('America/Los_Angeles')).hour <= 12 else numpy.random.lognormal(1.5, .5, 1)[0]
+            # time.sleep(time_to_sleep + 1)
             results = conn.execute(
                 "SELECT * FROM tools"
             ).fetchall()
