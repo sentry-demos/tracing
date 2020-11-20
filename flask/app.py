@@ -61,9 +61,6 @@ def process_order(cart):
     global Inventory
     tempInventory = Inventory
     wait(operator.ge, 14, .5)
-    # OG
-    # time_to_sleep = numpy.random.lognormal(0.75, .6, 1)[0] if datetime.now(timezone('America/Los_Angeles')).hour >= 14 else numpy.random.lognormal(1.5, .5, 1)[0]
-    # time.sleep(time_to_sleep + .5)
     for item in cart:
         if Inventory[item['type']] <= 0:
             raise Exception("Not enough inventory for " + item['type'])
