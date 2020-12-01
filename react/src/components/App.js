@@ -22,7 +22,8 @@ class App extends Component {
     console.log('BACKEND is: ', BACKEND);
     this.state = {
       success: false,
-      hasError: false
+      hasError: false,
+      lateNavbar: false
     };
     // generate random email
     this.email =
@@ -90,8 +91,12 @@ class App extends Component {
       });
       span.finish();
     }
-
+    console.log("1111 pre setTools")
     this.props.setTools(tools)
+    console.log("2222 post setTools")
+
+    // TODO something to cause layout shift...
+    this.setState({ lateNavbar: true })
   }
 
   buyItem(item) {
@@ -169,16 +174,50 @@ class App extends Component {
       return table
   }
 
+  lateNavbar() {
+    console.log("lateNavbar...")
+
+    return (
+      <nav>
+            <div>
+              <h1>NAVBAR</h1>
+            </div>
+        </nav>
+    )
+  }
+
+  lateNavbar2() {
+    const milliseconds = Math.floor((Math.random() * 5000) + 1);
+    console.log("lateNavbar2...milliseconds", milliseconds)
+    var returnIt = function() {
+      console.log("returnIt")
+      return (
+        <nav>
+              <div>
+                <h1>NAVBAR</h1>
+              </div>
+          </nav>
+      )
+    }
+    setTimeout(function(){ returnIt() }, milliseconds);
+  }
+
   render() {
     const total = this.props.cart.reduce((total, item) => total + item.price, 0);
     const cartDisplay = this.props.cart.reduce((c, { id }) => {
       c[id] = c[id] ? c[id] + 1 : 1;
       return c;
     }, {});
+    const milliseconds = Math.floor((Math.random() * 5000) + 1);
 
     return (
       <div className="App">
         <main>
+          {
+            // this.state.lateNavbar ? (setTimeout(this.lateNavbar, milliseconds)): (<h1>nothing</h1>)
+            this.state.lateNavbar ? this.lateNavbar2(): (<h1>fetching tools...</h1>)
+          }
+          
           <header>
             <h1>Online Hardware Store</h1>
           </header>
