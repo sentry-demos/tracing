@@ -174,32 +174,27 @@ class App extends Component {
       return table
   }
 
+
   lateNavbar() {
-    console.log("lateNavbar...")
+    // EXPERIMENT 1 - this renders (no timeout being used), but no CLS gets recorded
+    // return (
+    //   <div className="cls-div">
+    //     <h1>NAVBAR that loads late</h1>
+    //   </div>
+    // )
 
-    return (
-      <nav>
-            <div>
-              <h1>NAVBAR</h1>
-            </div>
-        </nav>
-    )
-  }
-
-  lateNavbar2() {
+    // EXPERIMENT 2 - this does not render
     const milliseconds = Math.floor((Math.random() * 5000) + 1);
-    console.log("lateNavbar2...milliseconds", milliseconds)
-    var returnIt = function() {
-      console.log("returnIt")
+    console.log("lateNavbar...milliseconds", milliseconds)
+    var renderLateNavbar = function() {
+      console.log("renderLateNavbar")
       return (
-        <nav>
-              <div>
-                <h1>NAVBAR</h1>
-              </div>
-          </nav>
+        <div className="cls-div">
+          <h1>NAVBAR that loads late</h1>
+        </div>
       )
     }
-    setTimeout(function(){ returnIt() }, milliseconds);
+    setTimeout(function(){ renderLateNavbar() }, milliseconds);
   }
 
   render() {
@@ -214,8 +209,7 @@ class App extends Component {
       <div className="App">
         <main>
           {
-            // this.state.lateNavbar ? (setTimeout(this.lateNavbar, milliseconds)): (<h1>nothing</h1>)
-            this.state.lateNavbar ? this.lateNavbar2(): (<h1>fetching tools...</h1>)
+            this.state.lateNavbar ? this.lateNavbar(): (<h1>fetching tools...</h1>)
           }
           
           <header>
