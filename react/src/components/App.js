@@ -20,9 +20,11 @@ class App extends Component {
   constructor(props) {
     super(props);
     console.log('BACKEND is: ', BACKEND);
+
     this.state = {
       success: false,
-      hasError: false
+      hasError: false,
+      loading: true
     };
     // generate random email
     this.email =
@@ -45,6 +47,7 @@ class App extends Component {
   }
 
   async componentDidMount() {
+    var self = this
     const defaultError = window.onerror;
     window.onerror = error => {
       this.setState({ hasError: true, success: false });
@@ -59,7 +62,20 @@ class App extends Component {
     //Will add an XHR Sentry breadcrumb
     // this.performXHRRequest();
 
+    // console.log("i should log FIRST")
     var tools = await this.getTools();
+    self.setState({ loading: false })
+    
+    // console.log("i should log SECOND")
+    // var delay = function() {
+    //   self.setState({ loading: false })
+    // }
+    // const milliseconds = Math.floor((Math.random() * 5000) + 1);
+    // setTimeout(delay, milliseconds);
+    
+    // console.log("i should log THIRD")
+
+
     tools = tools.map(tool => {
       switch(tool.type) {
         case "hammer":
@@ -169,16 +185,32 @@ class App extends Component {
       return table
   }
 
+
+  lateNavbar() {
+    if (this.state.loading) {
+      return null
+    } else {
+      return (
+        <div className="cls-div">
+          <h1>NAVBAR that loads late</h1>
+        </div>
+      )
+    }
+  }
+
   render() {
     const total = this.props.cart.reduce((total, item) => total + item.price, 0);
     const cartDisplay = this.props.cart.reduce((c, { id }) => {
       c[id] = c[id] ? c[id] + 1 : 1;
       return c;
     }, {});
+    const milliseconds = Math.floor((Math.random() * 5000) + 1);
 
     return (
       <div className="App">
         <main>
+          {this.lateNavbar()}
+          
           <header>
             <h1>Online Hardware Store</h1>
           </header>

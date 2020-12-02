@@ -196,3 +196,9 @@ main button {
   font-weight: normal;
   margin-left: 15px;
 }
+
+.cls-div {
+  width: fit-content; 
+  /* To adjust the height as well */ 
+  height: fit-content;
+}
