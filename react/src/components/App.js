@@ -62,17 +62,18 @@ class App extends Component {
     //Will add an XHR Sentry breadcrumb
     // this.performXHRRequest();
 
-    console.log("i should log FIRST")
+    // console.log("i should log FIRST")
     var tools = await this.getTools();
+    self.setState({ loading: false })
     
-    console.log("i should log SECOND")
-    var delay = function() {
-      self.setState({ loading: false })
-    }
-    const milliseconds = Math.floor((Math.random() * 5000) + 1);
-    setTimeout(delay, milliseconds);
+    // console.log("i should log SECOND")
+    // var delay = function() {
+    //   self.setState({ loading: false })
+    // }
+    // const milliseconds = Math.floor((Math.random() * 5000) + 1);
+    // setTimeout(delay, milliseconds);
     
-    console.log("i should log THIRD")
+    // console.log("i should log THIRD")
 
 
     tools = tools.map(tool => {
