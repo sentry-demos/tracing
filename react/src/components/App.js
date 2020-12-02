@@ -64,12 +64,14 @@ class App extends Component {
 
     console.log("i should log FIRST")
     var tools = await this.getTools();
-      console.log("i should log SECOND")
-      var delay = function() {
+    
+    console.log("i should log SECOND")
+    var delay = function() {
       self.setState({ loading: false })
     }
     const milliseconds = Math.floor((Math.random() * 5000) + 1);
     setTimeout(delay, milliseconds);
+    
     console.log("i should log THIRD")
 
 
