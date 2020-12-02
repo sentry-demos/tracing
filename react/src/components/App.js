@@ -183,7 +183,7 @@ class App extends Component {
     //   </div>
     // )
 
-    // EXPERIMENT 2 - this does not render
+    // EXPERIMENT 2 - this does not render, but it has a Timeout
     const milliseconds = Math.floor((Math.random() * 5000) + 1);
     console.log("lateNavbar...milliseconds", milliseconds)
     var renderLateNavbar = function() {
