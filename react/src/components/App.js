@@ -20,10 +20,11 @@ class App extends Component {
   constructor(props) {
     super(props);
     console.log('BACKEND is: ', BACKEND);
+
     this.state = {
       success: false,
       hasError: false,
-      lateNavbar: false
+      loading: true
     };
     // generate random email
     this.email =
@@ -46,6 +47,7 @@ class App extends Component {
   }
 
   async componentDidMount() {
+    var self = this
     const defaultError = window.onerror;
     window.onerror = error => {
       this.setState({ hasError: true, success: false });
@@ -91,12 +93,15 @@ class App extends Component {
       });
       span.finish();
     }
-    console.log("1111 pre setTools")
-    this.props.setTools(tools)
-    console.log("2222 post setTools")
 
-    // TODO something to cause layout shift...
-    this.setState({ lateNavbar: true })
+    this.props.setTools(tools)
+
+    // TODO do something to cause layout shift...
+    var delay = function() {
+      self.setState({ loading: false })
+    }
+    const milliseconds = Math.floor((Math.random() * 5000) + 1);
+    setTimeout(delay, milliseconds);
   }
 
   buyItem(item) {
@@ -176,25 +181,15 @@ class App extends Component {
 
 
   lateNavbar() {
-    // EXPERIMENT 1 - this renders (no timeout being used), but no CLS gets recorded
-    // return (
-    //   <div className="cls-div">
-    //     <h1>NAVBAR that loads late</h1>
-    //   </div>
-    // )
-
-    // EXPERIMENT 2 - this does not render, but it has a Timeout
-    const milliseconds = Math.floor((Math.random() * 5000) + 1);
-    console.log("lateNavbar...milliseconds", milliseconds)
-    var renderLateNavbar = function() {
-      console.log("renderLateNavbar")
+    if (this.state.loading) {
+      return null
+    } else {
       return (
         <div className="cls-div">
           <h1>NAVBAR that loads late</h1>
         </div>
       )
     }
-    setTimeout(function(){ renderLateNavbar() }, milliseconds);
   }
 
   render() {
@@ -208,9 +203,7 @@ class App extends Component {
     return (
       <div className="App">
         <main>
-          {
-            this.state.lateNavbar ? this.lateNavbar(): (<h1>fetching tools...</h1>)
-          }
+          {this.lateNavbar()}
           
           <header>
             <h1>Online Hardware Store</h1>
