@@ -42,6 +42,7 @@ Sentry.init({
       }),
     ],
     tracesSampleRate: 1.0,
+    autoSessionTracking: true,
 });
 
 const sentryReduxEnhancer = Sentry.createReduxEnhancer({});
