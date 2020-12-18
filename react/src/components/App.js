@@ -30,6 +30,9 @@ class App extends Component {
         .toString(36)
         .substring(2, 6) + "@yahoo.com";
 
+        // set customer-type for this user
+    this.customerType = this.getPlanName();
+
     this.buyItem = this.buyItem.bind(this);
 
     // generate unique sessionId and set as Sentry tag
@@ -40,7 +43,8 @@ class App extends Component {
   }
 
   getPlanName() {
-    const plans = ["medium-plan", "large-plan", "small-plan", "enterprise"];
+    // const plans = ["medium-plan", "large-plan", "small-plan", "enterprise"];
+    const plans = ["medium-plan", "small-plan", "enterprise"];
     return plans[Math.floor(Math.random() * plans.length)];
   }
 
@@ -50,10 +54,11 @@ class App extends Component {
       this.setState({ hasError: true, success: false });
       defaultError(error);
     };
+
     // Add context to error/event
     Sentry.configureScope(scope => {
       scope.setUser({ email: this.email }); // attach user/email context
-      scope.setTag("customerType", this.getPlanName()); // custom-tag
+      scope.setTag("customer-type", this.customerType); // custom-tag
     });
 
     //Will add an XHR Sentry breadcrumb
@@ -195,7 +200,7 @@ class App extends Component {
             )}
           </div>
         </main>
-        <ShoppingCart/>
+        <ShoppingCart customerType={this.customerType} />
       </div>
     );
   }
