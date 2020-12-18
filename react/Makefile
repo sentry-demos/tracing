@@ -2,7 +2,7 @@
 # Following variable must be passed in
 # SENTRY_AUTH_TOKEN
 SENTRY_ORG=testorg-az
-SENTRY_PROJECT=will-frontend-react
+SENTRY_PROJECT=r2r-tracing-react
 RELEASE=`sentry-cli releases propose-version`
 PREFIX=static/js
 

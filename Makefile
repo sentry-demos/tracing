@@ -1,5 +1,5 @@
 SENTRY_ORG=testorg-az
-SENTRY_PROJECT=fe-react
+SENTRY_PROJECT=r2r-tracing-react
 RELEASE=`sentry-cli releases propose-version`
 PREFIX=static/js
 
