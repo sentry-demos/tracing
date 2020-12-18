@@ -43,8 +43,7 @@ class App extends Component {
   }
 
   getPlanName() {
-    // const plans = ["medium-plan", "large-plan", "small-plan", "enterprise"];
-    const plans = ["medium-plan", "small-plan", "enterprise"];
+    const plans = ["medium-plan", "large-plan", "small-plan", "enterprise"];
     return plans[Math.floor(Math.random() * plans.length)];
   }
 
