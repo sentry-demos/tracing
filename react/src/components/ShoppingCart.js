@@ -14,6 +14,7 @@ const monify = n => (n / 100).toFixed(2);
 class ShoppingCart extends Component {
     constructor(props) {
         super(props);
+
         console.log('BACKEND is: ', BACKEND);
         this.state = {
           success: false,
@@ -24,19 +25,24 @@ class ShoppingCart extends Component {
           Math.random()
             .toString(36)
             .substring(2, 6) + "@yahoo.com";
-    
+           
         this.checkout = this.checkout.bind(this);
         this.resetCart = this.resetCart.bind(this);
       }
 
       async performCheckoutOnServer (order) {
+        let payload = {
+          "email": this.email,
+          "customerType": this.props.customerType,
+          "cart": order.cart
+        };
+
         let response = await fetch(`${BACKEND}/checkout`, {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
-            "email": this.email
+            "Content-Type": "application/json"
           },
-          body: JSON.stringify(order)
+          body: JSON.stringify(payload)
         }).catch((err) => { throw Error(err) });
     
         if (!response.ok) {
@@ -49,6 +55,8 @@ class ShoppingCart extends Component {
     
       async checkout() {
         const order = {
+          email: this.email,
+          customerType: this.props.customerType,
           cart: this.props.cart
         };
     

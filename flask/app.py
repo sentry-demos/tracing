@@ -71,18 +71,24 @@ def process_order(cart):
 
 @app.before_request
 def sentry_event_context():
-    print('\nrequest.headers email', request.headers.get('email'))
+    # print('\nrequest.headers email', request.headers.get('email'))
     global Inventory
-    with sentry_sdk.configure_scope() as scope:
-        scope.user = { "email" : request.headers.get('email') }
-        scope.set_tag("session-id", request.headers.get('X-Session-ID'))
-        scope.set_extra("inventory", Inventory)
 
 @app.route('/checkout', methods=['POST'])
 def checkout():
 
     order = json.loads(request.data)
-    print "Processing order for: " + request.headers.get('email')
+    email = order["email"]
+    customer_type = order["customerType"]
+
+    with sentry_sdk.configure_scope() as scope:
+        scope.user = { "email" : email }
+        scope.set_tag("session-id", request.headers.get('X-Session-ID'))
+        scope.set_tag("customer-type", customer_type)
+        scope.set_extra("inventory", Inventory)
+
+
+    print "Processing order for: " + email
     cart = order["cart"]
 
     with sentry_sdk.start_span(op="db function: get inventory"):
