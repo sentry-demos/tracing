@@ -31,14 +31,18 @@ class ShoppingCart extends Component {
       }
 
       async performCheckoutOnServer (order) {
+        let payload = {
+          "email": this.email,
+          "customerType": this.props.customerType,
+          "cart": order.cart
+        };
+
         let response = await fetch(`${BACKEND}/checkout`, {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
-            "email": this.email,
-            "X-Customer-Type": this.props.customerType
+            "Content-Type": "application/json"
           },
-          body: JSON.stringify(order)
+          body: JSON.stringify(payload)
         }).catch((err) => { throw Error(err) });
     
         if (!response.ok) {
@@ -51,6 +55,8 @@ class ShoppingCart extends Component {
     
       async checkout() {
         const order = {
+          email: this.email,
+          customerType: this.props.customerType,
           cart: this.props.cart
         };
     
