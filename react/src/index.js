@@ -11,6 +11,8 @@ import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 import { Integrations } from '@sentry/tracing';
 import * as Sentry from '@sentry/react'
+// import * as Sentry from '@sentry/browser';
+import SentryRRWeb from '@sentry/rrweb';
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from 'redux'
@@ -18,7 +20,7 @@ import logger from 'redux-logger'
 import rootReducer from './reducers'
 
 const tracingOrigins = [
-  'localhost', 
+  'localhost',
   process.env.REACT_APP_BACKEND,
   process.env.REACT_APP_FRONTEND,
   /^\//
@@ -39,6 +41,14 @@ Sentry.init({
     integrations: [
       new Integrations.BrowserTracing({
           tracingOrigins: tracingOrigins
+      }),
+      new SentryRRWeb({
+        // default is empty
+        checkoutEveryNth: 100,
+        // default is 5 minutes
+        checkoutEveryNms: 15 * 60 * 1000,
+        // on by default
+        maskAllInputs: false,
       }),
     ],
     tracesSampleRate: 1.0,
