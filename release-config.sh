@@ -19,8 +19,8 @@ RELEASE="$month.$week"
 echo $release
 
 # SENTRY_AUTH_TOKEN defined in shell profile
-SENTRY_PROJECT1=r2r-tracing-react
-SENTRY_PROJECT2=r2r-tracing-flask
+SENTRY_PROJECT1=da-react
+SENTRY_PROJECT2=da-flask
 SENTRY_ORG=testorg-az
 PREFIX=static/js
 
