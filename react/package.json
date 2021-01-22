@@ -5,7 +5,8 @@
   "dependencies": {
     "@sentry/apm": "^5.20.1",
     "@sentry/cli": "^1.37.0",
-    "@sentry/react": "^5.27.3",
+    "@sentry/react": "^5.30.0",
+    "@sentry/rrweb": "^0.2.0",
     "@sentry/tracing": "^5.27.3",
     "history": "^1.17.0",
     "material-ui": "^0.18.7",
@@ -20,6 +21,7 @@
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "request": "^2.88.0",
+    "rrweb": "^0.9.14",
     "serve": "^10.1.1",
     "snapdragon": "^0.12.0",
     "snapdragon-node": "^3.0.0",
