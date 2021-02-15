@@ -18,7 +18,7 @@ import logger from 'redux-logger'
 import rootReducer from './reducers'
 
 const tracingOrigins = [
-  'localhost', 
+  'localhost',
   process.env.REACT_APP_BACKEND,
   process.env.REACT_APP_FRONTEND,
   /^\//
@@ -26,10 +26,9 @@ const tracingOrigins = [
 console.log('tracingOrigins', tracingOrigins)
 
 Sentry.init({
-    dsn: process.env.REACT_APP_DSN || 'https://0d52d5f4e8a64f5ab2edce50d88a7626@sentry.io/1428657',
+    dsn: process.env.REACT_APP_DSN,
     release: process.env.REACT_APP_RELEASE,
     environment: "prod",
-    debug: true,
     beforeSend(event) {
       if (event.exception) {
         Sentry.showReportDialog();

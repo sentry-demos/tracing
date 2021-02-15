@@ -45,6 +45,25 @@ class App extends Component {
   }
 
   async componentDidMount() {
+    var probability = function(n) {
+     return !!n && Math.random() <= n;
+    };
+    var someArray = [{ func: function () {}}];
+
+    // fail 20% of the time (crashed / unhandled)
+    if (probability(.2)) {
+      someArray[1].func();
+    }
+    // if crash doesn't occur, then triggered handled error 20% of the time
+    if (probability(.2)) {
+      try {
+        someArray[1].func();
+      } catch (error) {
+        console.log(error);
+        Sentry.captureException(error);
+      }
+    }
+
     const defaultError = window.onerror;
     window.onerror = error => {
       this.setState({ hasError: true, success: false });
