@@ -48,16 +48,16 @@ class App extends Component {
     var probability = function(n) {
      return !!n && Math.random() <= n;
     };
-    var array = [{ func: function () {}}];
+    var alphaArray = [{ func: function () {}}];
 
     // fail 20% of the time (crashed / unhandled)
     if (probability(.1)) {
-      array[1].func();
+      alphaArray[1].func();
     }
     // if crash doesn't occur, then triggered handled error 20% of the time
     if (probability(.1)) {
       try {
-        array[1].func();
+        alphaArray[1].func();
       } catch (error) {
         console.log(error);
         Sentry.captureException(error);
