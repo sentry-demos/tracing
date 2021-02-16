@@ -1,6 +1,6 @@
 SENTRY_ORG=testorg-az
 SENTRY_PROJECT=fe-react
-RELEASE=12.1
+RELEASE=167.1
 PREFIX=static/js
 
 REPOSITORY=us.gcr.io/sales-engineering-sf

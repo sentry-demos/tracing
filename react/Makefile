@@ -3,7 +3,7 @@
 # SENTRY_AUTH_TOKEN
 SENTRY_ORG=testorg-az
 SENTRY_PROJECT=will-frontend-react
-RELEASE=12.1
+RELEASE=167.1
 PREFIX=static/js
 
 setup_release: create_release associate_commits upload_sourcemaps
