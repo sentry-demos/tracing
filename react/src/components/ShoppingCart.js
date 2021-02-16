@@ -24,7 +24,7 @@ class ShoppingCart extends Component {
           Math.random()
             .toString(36)
             .substring(2, 6) + "@yahoo.com";
-    
+
         this.checkout = this.checkout.bind(this);
         this.resetCart = this.resetCart.bind(this);
       }
@@ -38,34 +38,39 @@ class ShoppingCart extends Component {
           },
           body: JSON.stringify(order)
         }).catch((err) => { throw Error(err) });
-    
+
         if (!response.ok) {
-          Sentry.captureException(new Error(response.status + " - " + (response.statusText || "INTERNAL SERVER ERROR")))
           this.setState({ hasError: true, success: false });
+          try {
+            throw new Error(response.status + " - " + (response.statusText || "INTERNAL SERVER ERROR"))
+          } catch (error) {
+            // debugger;
+            Sentry.captureException(error)
+          }
         }
-        
+
         return { httpResponseData: response.status + " - " + response.statusText }
       }
-    
+
       async checkout() {
         const order = {
           cart: this.props.cart
         };
-    
+
         // ----------- Sentry Start Transaction ------------------------
         let transaction = Sentry.startTransaction({ name: "checkout" });
         Sentry.configureScope(scope => scope.setSpan(transaction));
         // -------------------------------------------------------------
-    
+
         let data = await this.performCheckoutOnServer(order)
-    
+
         // ----------- Sentry Finish Transaction -----------------------
         const span = transaction.startChild({
           data,
           op: 'task',
           description: `processing shopping cart result`,
         });
-    
+
         span.finish()
         transaction.finish();
         // -------------------------------------------------------------
@@ -75,7 +80,7 @@ class ShoppingCart extends Component {
         event.preventDefault();
         this.props.resetCart([])
         this.setState({ hasError: false, success: false });
-    
+
         Sentry.configureScope(scope => {
           scope.setExtra('cart', '');
         });
@@ -92,7 +97,7 @@ class ShoppingCart extends Component {
           c[id] = c[id] ? c[id] + 1 : 1;
           return c;
         }, {});
-    
+
         return (
             <div className="sidebar">
             <header>
@@ -157,9 +162,8 @@ const mapStateToProps = (state, ownProps) => {
       tools: state.tools
     }
   }
-  
+
 export default connect(
     mapStateToProps,
     { resetCart }
 )(Sentry.withProfiler(ShoppingCart, { name: "ShoppingCart"}))
-  
