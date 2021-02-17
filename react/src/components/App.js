@@ -45,6 +45,17 @@ class App extends Component {
   }
 
   async componentDidMount() {
+    const defaultError = window.onerror;
+    window.onerror = error => {
+      this.setState({ hasError: true, success: false });
+      defaultError(error);
+    };
+    // Add context to error/event
+    Sentry.configureScope(scope => {
+      scope.setUser({ email: this.email }); // attach user/email context
+      scope.setTag("customerType", this.getPlanName()); // custom-tag
+    });
+
     var probability = function(n) {
      return !!n && Math.random() <= n;
     };
@@ -70,17 +81,6 @@ class App extends Component {
         Sentry.captureException(error);
       }
     }
-
-    const defaultError = window.onerror;
-    window.onerror = error => {
-      this.setState({ hasError: true, success: false });
-      defaultError(error);
-    };
-    // Add context to error/event
-    Sentry.configureScope(scope => {
-      scope.setUser({ email: this.email }); // attach user/email context
-      scope.setTag("customerType", this.getPlanName()); // custom-tag
-    });
 
     //Will add an XHR Sentry breadcrumb
     // this.performXHRRequest();
