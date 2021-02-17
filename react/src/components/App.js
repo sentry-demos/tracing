@@ -54,6 +54,13 @@ class App extends Component {
     if (probability(.1)) {
       betaArray[1].func();
     }
+    if (probability(.1)) {
+      decodeURIComponent('%');
+    }
+    if (probability(.1)) {
+      eval('foo bar');
+    }
+
     // if crash doesn't occur, then triggered handled error 20% of the time
     if (probability(.1)) {
       try {
