@@ -1,6 +1,6 @@
 SENTRY_ORG=testorg-az
 SENTRY_PROJECT=fe-react
-RELEASE=167.1
+RELEASE=167.2
 PREFIX=static/js
 
 REPOSITORY=us.gcr.io/sales-engineering-sf
@@ -22,6 +22,7 @@ setup_release: create_release associate_commits upload_sourcemaps
 create_release:
 	sentry-cli releases -o $(SENTRY_ORG) new -p $(SENTRY_PROJECT) $(RELEASE)
 	sentry-cli releases -o $(SENTRY_ORG) finalize $(RELEASE)
+	sentry-cli releases -o $(SENTRY_ORG) deploys $(RELEASE) new -e prod
 associate_commits:
 	sentry-cli releases -o $(SENTRY_ORG) -p $(SENTRY_PROJECT) set-commits --auto $(RELEASE)
 upload_sourcemaps:

@@ -59,23 +59,23 @@ class App extends Component {
     var probability = function(n) {
      return !!n && Math.random() <= n;
     };
-    var betaArray = [{ func: function () {}}];
+    var gammaArray = [{ func: function () {}}];
 
     // fail 20% of the time (crashed / unhandled)
-    if (probability(.1)) {
-      betaArray[1].func();
+    if (probability(.05)) {
+      gammaArray[1].func();
     }
-    if (probability(.1)) {
-      decodeURIComponent('%');
-    }
-    if (probability(.1)) {
-      eval('foo bar');
-    }
+    // if (probability(.1)) {
+    //   decodeURIComponent('%');
+    // }
+    // if (probability(.1)) {
+    //   eval('foo bar');
+    // }
 
     // if crash doesn't occur, then triggered handled error 20% of the time
-    if (probability(.1)) {
+    if (probability(.05)) {
       try {
-        betaArray[1].func();
+        gammaArray[1].func();
       } catch (error) {
         console.log(error);
         Sentry.captureException(error);
