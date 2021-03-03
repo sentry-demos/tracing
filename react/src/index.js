@@ -29,7 +29,7 @@ var RELEASE
 if (process.env.REACT_APP_RELEASE == null) {
   let dt = new Date();
   let month = dt.getMonth() + 1
-  let = dt.getDay()
+  let day = dt.getDay()
   if (day.toString().length == 1) {
     day = "0" + day
   }
