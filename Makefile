@@ -1,27 +1,11 @@
 SENTRY_ORG=testorg-az
 SENTRY_PROJECT=fe-react
-# TODO calver
-RELEASE=t544
+RELEASE=$(shell ./calver.sh)
 PREFIX=static/js
 
 REPOSITORY=us.gcr.io/sales-engineering-sf
 COMMIT_SHA=$(shell git rev-parse HEAD)
 GCP_DEPLOY=gcloud run deploy $(shell whoami)
-
-day=$(date +%d)
-month=$(date +%-m)
-if [ "$day" -ge 0 ] && [ "$day" -le 7 ]; then
-  week=1
-elif [ "$day" -ge 8 ] &&  [ "$day" -le 14 ]; then
-  week=2
-elif [ "$day" -ge 15 ] &&  [ "$day" -le 21 ]; then
-  week=3
-elif [ "$day" -ge 22 ]; then
-  week=4
-fi
-# RELEASE="$month.$day"
-# echo 'it is....'
-# echo $RELEASE
 
 all: build_react setup_release build deploy-flask deploy-react
 docker_compose:
