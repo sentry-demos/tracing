@@ -24,13 +24,18 @@ const tracingOrigins = [
   /^\//
 ]
 console.log('tracingOrigins', tracingOrigins)
-console.log('RELEASE pre-logic', process.env.REACT_APP_RELEASE)
-
-var RELEASE = ""
+console.log('process.env.REACT_APP_RELEASE', process.env.REACT_APP_RELEASE)
+var RELEASE
 if (process.env.REACT_APP_RELEASE == null) {
   var dt = new Date();
-  dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
-  RELEASE = (dt.getMonth() + 1) + "." + (dt.getMonth() + 1)
+  month = dt.getMonth() + 1
+  day = dt.getDay()
+  if (day.toString().length == 1) {
+    day = "0" + day
+  }
+  RELEASE = `${month}.${day}`
+} else {
+  RELEASE = process.env.REACT_APP_RELEASE
 }
 console.log('RELEASE post-logic', RELEASE)
 

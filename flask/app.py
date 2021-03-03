@@ -29,6 +29,8 @@ if os.environ.get("RELEASE") is None:
     print("Prod release needs to be None, and it was None")
     d = datetime.datetime.now()
     month = d.strftime("%m")
+    if len(month) == 2:
+        month = month[1:]
     day = d.strftime("%d")
     RELEASE = month + "." + day
 else:
