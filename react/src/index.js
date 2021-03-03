@@ -41,8 +41,7 @@ console.log('RELEASE post-logic', RELEASE)
 
 Sentry.init({
     dsn: process.env.REACT_APP_DSN || 'https://0d52d5f4e8a64f5ab2edce50d88a7626@sentry.io/1428657',
-    // TODO calver
-    release: process.env.REACT_APP_RELEASE,
+    release: RELEASE,
     environment: "prod",
     debug: true,
     beforeSend(event) {
