@@ -27,9 +27,9 @@ console.log('tracingOrigins', tracingOrigins)
 console.log('process.env.REACT_APP_RELEASE', process.env.REACT_APP_RELEASE)
 var RELEASE
 if (process.env.REACT_APP_RELEASE == null) {
-  var dt = new Date();
-  month = dt.getMonth() + 1
-  day = dt.getDay()
+  let dt = new Date();
+  let month = dt.getMonth() + 1
+  let = dt.getDay()
   if (day.toString().length == 1) {
     day = "0" + day
   }
