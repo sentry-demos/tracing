@@ -4,7 +4,8 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from db import get_all_tools, get_inventory, update_inventory
 from dotenv import load_dotenv
-from datetime import datetime
+# from datetime import datetime
+import datetime
 from pytz import timezone
 from utils import wait
 import time
@@ -14,6 +15,8 @@ load_dotenv()
 DSN = os.getenv("FLASK_APP_DSN")
 
 def before_send(event, hint):
+    if event['release']:
+        print(event['release'])
     if event['request']['method'] == 'OPTIONS':
         return null
     return event
@@ -21,11 +24,23 @@ def before_send(event, hint):
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 
+RELEASE = None
+if os.environ.get("RELEASE") is None:
+    print("Prod release needs to be None, and it was None")
+    d = datetime.datetime.now()
+    month = d.strftime("%m")
+    day = d.strftime("%d")
+    RELEASE = month + "." + day
+else:
+    RELEASE = os.environ.get("RELEASE")
+print("release is:", RELEASE)
+
 sentry_sdk.init(
     dsn= DSN or "https://2ba68720d38e42079b243c9c5774e05c@sentry.io/1316515",
     traces_sample_rate=1.0,
     integrations=[FlaskIntegration()],
-    release=os.environ.get("RELEASE"),
+    # TODO calver
+    release=RELEASE,
     environment="prod",
     before_send=before_send
 )

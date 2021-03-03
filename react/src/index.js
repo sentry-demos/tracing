@@ -24,9 +24,19 @@ const tracingOrigins = [
   /^\//
 ]
 console.log('tracingOrigins', tracingOrigins)
+console.log('RELEASE pre-logic', process.env.REACT_APP_RELEASE)
+
+var RELEASE = ""
+if (process.env.REACT_APP_RELEASE == null) {
+  var dt = new Date();
+  dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
+  RELEASE = (dt.getMonth() + 1) + "." + (dt.getMonth() + 1)
+}
+console.log('RELEASE post-logic', RELEASE)
 
 Sentry.init({
     dsn: process.env.REACT_APP_DSN || 'https://0d52d5f4e8a64f5ab2edce50d88a7626@sentry.io/1428657',
+    // TODO calver
     release: process.env.REACT_APP_RELEASE,
     environment: "prod",
     debug: true,
