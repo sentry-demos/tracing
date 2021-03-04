@@ -5,9 +5,12 @@ PREFIX=static/js
 
 REPOSITORY=us.gcr.io/sales-engineering-sf
 COMMIT_SHA=$(shell git rev-parse HEAD)
+GCP_DEPLOY_ADMIN=gcloud run deploy admin
 GCP_DEPLOY=gcloud run deploy $(shell whoami)
 
 all: build_react setup_release build deploy-flask deploy-react
+admin: setup_release build deploy-flask-admin deploy-react-admin
+
 docker_compose:
 	cd react && npm run buildlocal
 	docker-compose build
@@ -33,5 +36,10 @@ deploy-flask:
 	$(GCP_DEPLOY)-flask --image $(REPOSITORY)/workspace_flask:$(COMMIT_SHA) --platform managed --add-cloudsql-instances sales-engineering-sf:us-central1:tracing-db-pg --update-env-vars INSTANCE_CONNECTION_NAME="sales-engineering-sf:us-central1:tracing-db-pg",RELEASE=$(RELEASE)
 deploy-react:
 	$(GCP_DEPLOY)-react --image $(REPOSITORY)/workspace_react:$(COMMIT_SHA) --platform managed
+
+deploy-flask-admin:
+	$(GCP_DEPLOY_ADMIN)-flask --image $(REPOSITORY)/workspace_flask:$(COMMIT_SHA) --platform managed --add-cloudsql-instances sales-engineering-sf:us-central1:tracing-db-pg --update-env-vars INSTANCE_CONNECTION_NAME="sales-engineering-sf:us-central1:tracing-db-pg",RELEASE=$(RELEASE)
+deploy-react-admin:
+	$(GCP_DEPLOY_ADMIN)-react --image $(REPOSITORY)/workspace_react:$(COMMIT_SHA) --platform managed
 
 .PHONY: all build_react setup_release create_release associate_commits upload_sourcemaps build deploy-flask deploy-react docker_compose
