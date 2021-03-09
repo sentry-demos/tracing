@@ -37,12 +37,12 @@ if (process.env.REACT_APP_RELEASE == null) {
 } else {
   RELEASE = process.env.REACT_APP_RELEASE
 }
-// console.log('RELEASE post-logic', RELEASE)
+console.log('RELEASE', RELEASE)
 
 Sentry.init({
     dsn: process.env.REACT_APP_DSN || 'https://0d52d5f4e8a64f5ab2edce50d88a7626@sentry.io/1428657',
-    release: "r908", //RELEASE,
-    environment: "dev",
+    release: RELEASE,
+    environment: "test",
     debug: true,
     beforeSend(event) {
       if (event.exception) {
