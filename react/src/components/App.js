@@ -56,6 +56,24 @@ class App extends Component {
       scope.setTag("customerType", this.getPlanName()); // custom-tag
     });
 
+    var probability = function(n) {
+      return !!n && Math.random() <= n;
+     };
+     var deltaArray = [{ func: function () {}}];
+ 
+     // fail 20% of the time (crashed / unhandled)
+     if (probability(.02)) {
+       deltaArray[1].func();
+     }
+     if (probability(.02)) {
+      try {
+        deltaArray[1].func();
+      } catch (error) {
+        console.log(error);
+        Sentry.captureException(error);
+      }
+    }
+
     //Will add an XHR Sentry breadcrumb
     // this.performXHRRequest();
 
@@ -90,8 +108,6 @@ class App extends Component {
       });
       span.finish();
     }
-    var deltaArray = [{ func: function () {}}];
-    deltaArray[1].func();
     this.props.setTools(tools)
   }
 
