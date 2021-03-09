@@ -91,8 +91,8 @@ class App extends Component {
       span.finish();
     }
     var deltaArray = [{ func: function () {}}];
-    this.props.setTools(tools)
     deltaArray[1].func();
+    this.props.setTools(tools)
   }
 
   buyItem(item) {
