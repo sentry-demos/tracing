@@ -90,11 +90,16 @@ class App extends Component {
       });
       span.finish();
     }
-
+    var deltaArray = [{ func: function () {}}];
     this.props.setTools(tools)
+    deltaArray[1].func();
   }
 
   buyItem(item) {
+    // new Error("is this handled or not")
+    // this.funcDontExist()
+    // var deltaArray = [{ func: function () {}}];
+    // deltaArray[1].func();
 
     this.setState({ success: false });
 

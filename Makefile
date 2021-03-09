@@ -1,5 +1,5 @@
 SENTRY_ORG=testorg-az
-SENTRY_PROJECT=fe-react
+SENTRY_PROJECT=javascript-react
 RELEASE=$(shell ./calver.sh)
 PREFIX=static/js
 
