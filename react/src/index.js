@@ -41,8 +41,8 @@ console.log('RELEASE post-logic', RELEASE)
 
 Sentry.init({
     dsn: process.env.REACT_APP_DSN || 'https://0d52d5f4e8a64f5ab2edce50d88a7626@sentry.io/1428657',
-    release: RELEASE,
-    environment: "prod",
+    release: "r908", //RELEASE,
+    environment: "dev",
     debug: true,
     beforeSend(event) {
       if (event.exception) {
