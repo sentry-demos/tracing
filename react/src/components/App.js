@@ -67,7 +67,7 @@ class App extends Component {
      }
      if (probability(.02)) {
       try {
-        deltaArray[1].func();
+        throw new SyntaxError('syntactically invalid code')
       } catch (error) {
         console.log(error);
         Sentry.captureException(error);
