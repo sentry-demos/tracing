@@ -24,7 +24,7 @@ const tracingOrigins = [
   /^\//
 ]
 console.log('tracingOrigins', tracingOrigins)
-// console.log('process.env.REACT_APP_RELEASE', process.env.REACT_APP_RELEASE)
+
 var RELEASE
 if (process.env.REACT_APP_RELEASE == null) {
   let dt = new Date();
@@ -42,7 +42,7 @@ console.log('RELEASE', RELEASE)
 Sentry.init({
     dsn: process.env.REACT_APP_DSN || 'https://0d52d5f4e8a64f5ab2edce50d88a7626@sentry.io/1428657',
     release: RELEASE,
-    environment: "test",
+    environment: "production",
     debug: true,
     beforeSend(event) {
       if (event.exception) {

@@ -112,11 +112,6 @@ class App extends Component {
   }
 
   buyItem(item) {
-    // new Error("is this handled or not")
-    // this.funcDontExist()
-    // var deltaArray = [{ func: function () {}}];
-    // deltaArray[1].func();
-
     this.setState({ success: false });
 
     this.props.addTool(item)

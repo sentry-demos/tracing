@@ -15,8 +15,6 @@ load_dotenv()
 DSN = os.getenv("FLASK_APP_DSN")
 
 def before_send(event, hint):
-    if event['release']:
-        print(event['release'])
     if event['request']['method'] == 'OPTIONS':
         return null
     return event
@@ -42,7 +40,7 @@ sentry_sdk.init(
     traces_sample_rate=1.0,
     integrations=[FlaskIntegration()],
     release=RELEASE,
-    environment="test",
+    environment="production",
     before_send=before_send
 )
 
