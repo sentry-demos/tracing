@@ -55,23 +55,24 @@ class App extends Component {
       scope.setUser({ email: this.email }); // attach user/email context
       scope.setTag("customerType", this.getPlanName()); // custom-tag
     });
-
+    
     var probability = function(n) {
       return !!n && Math.random() <= n;
-     };
-     var deltaArray = [{ func: function () {}}];
+    };
+    var deltaArray = [{ func: function () {}}];
  
-     // fail 20% of the time (crashed / unhandled)
-     if (probability(.02)) {
-       deltaArray[1].func();
-     }
-     if (probability(.02)) {
+    // fail 20% of the time (crashed / unhandled)
+    if (probability(.02)) {
+      deltaArray[1].func();
+    } else if (probability(.02)) {
       try {
         throw new SyntaxError('syntactically invalid code')
       } catch (error) {
         console.log(error);
         Sentry.captureException(error);
       }
+    } else {
+      console.log('no errors on pageload')
     }
 
     //Will add an XHR Sentry breadcrumb
