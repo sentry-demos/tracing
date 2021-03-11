@@ -19,7 +19,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    console.log('BACKEND is: ', BACKEND);
+    console.log('> BACKEND is: ', BACKEND);
     this.state = {
       success: false,
       hasError: false
