@@ -14,7 +14,6 @@ const monify = n => (n / 100).toFixed(2);
 class ShoppingCart extends Component {
     constructor(props) {
         super(props);
-        console.log('BACKEND is: ', BACKEND);
         this.state = {
           success: false,
           hasError: false
