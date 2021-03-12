@@ -138,9 +138,7 @@ class App extends Component {
 
     if (!response.ok) {
       console.log('response.json()', response.json())
-      // throw new Error(response.status + " - " + (response.statusText || response.body));
-      throw new Error('getTools max_connections limit');
-
+      throw new Error(response.status + " - " + (response.statusText || response.body));
     }
 
     return response.json()

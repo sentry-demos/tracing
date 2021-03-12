@@ -36,10 +36,7 @@ class ShoppingCart extends Component {
             "email": this.email
           },
           body: JSON.stringify(order)
-        }).catch((err) => { 
-          console.log('ERR', err)
-          //  throw Error(err) 
-        });
+        }).catch((err) => { throw Error(err) });
     
         if (!response.ok) {
           Sentry.captureException(new Error(response.status + " - " + (response.statusText || "INTERNAL SERVER ERROR")))
