@@ -31,12 +31,6 @@ class App extends Component {
         .substring(2, 6) + "@yahoo.com";
 
     this.buyItem = this.buyItem.bind(this);
-
-    // generate unique sessionId and set as Sentry tag
-    this.sessionId = getUniqueId();
-    Sentry.configureScope(scope => {
-      scope.setTag("session_id", this.sessionId);
-    });
   }
 
   getPlanName() {
@@ -143,7 +137,10 @@ class App extends Component {
     })
 
     if (!response.ok) {
-      throw new Error(response.status + " - " + (response.statusText || response.body));
+      console.log('response.json()', response.json())
+      // throw new Error(response.status + " - " + (response.statusText || response.body));
+      throw new Error('getTools max_connections limit');
+
     }
 
     return response.json()
