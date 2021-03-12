@@ -89,7 +89,6 @@ def sentry_event_context():
     global Inventory
     with sentry_sdk.configure_scope() as scope:
         scope.user = { "email" : request.headers.get('email') }
-        scope.set_tag("session-id", request.headers.get('X-Session-ID'))
         scope.set_extra("inventory", Inventory)
 
 @app.route('/checkout', methods=['POST'])
