@@ -19,7 +19,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    console.log('BACKEND is: ', BACKEND);
+    console.log('> BACKEND is: ', BACKEND);
     this.state = {
       success: false,
       hasError: false
@@ -31,12 +31,6 @@ class App extends Component {
         .substring(2, 6) + "@yahoo.com";
 
     this.buyItem = this.buyItem.bind(this);
-
-    // generate unique sessionId and set as Sentry tag
-    this.sessionId = getUniqueId();
-    Sentry.configureScope(scope => {
-      scope.setTag("session_id", this.sessionId);
-    });
   }
 
   getPlanName() {
@@ -55,6 +49,25 @@ class App extends Component {
       scope.setUser({ email: this.email }); // attach user/email context
       scope.setTag("customerType", this.getPlanName()); // custom-tag
     });
+    
+    var probability = function(n) {
+      return !!n && Math.random() <= n;
+    };
+    var deltaArray = [{ func: function () {}}];
+ 
+    // fail 20% of the time (crashed / unhandled)
+    if (probability(.02)) {
+      deltaArray[1].func();
+    } else if (probability(.02)) {
+      try {
+        throw new SyntaxError('syntactically invalid code')
+      } catch (error) {
+        console.log(error);
+        Sentry.captureException(error);
+      }
+    } else {
+      console.log('no errors on pageload')
+    }
 
     //Will add an XHR Sentry breadcrumb
     // this.performXHRRequest();
@@ -90,12 +103,10 @@ class App extends Component {
       });
       span.finish();
     }
-
     this.props.setTools(tools)
   }
 
   buyItem(item) {
-
     this.setState({ success: false });
 
     this.props.addTool(item)
@@ -126,6 +137,7 @@ class App extends Component {
     })
 
     if (!response.ok) {
+      console.log('response.json()', response.json())
       throw new Error(response.status + " - " + (response.statusText || response.body));
     }
 

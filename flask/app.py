@@ -4,7 +4,8 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from db import get_all_tools, get_inventory, update_inventory
 from dotenv import load_dotenv
-from datetime import datetime
+# from datetime import datetime
+import datetime
 from pytz import timezone
 from utils import wait
 import time
@@ -21,12 +22,25 @@ def before_send(event, hint):
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 
+RELEASE = None
+if os.environ.get("RELEASE") is None:
+    print("Prod release needs to be None, and it was None")
+    d = datetime.datetime.now()
+    month = d.strftime("%m")
+    if len(month) == 2:
+        month = month[1:]
+    day = d.strftime("%d")
+    RELEASE = month + "." + day
+else:
+    RELEASE = os.environ.get("RELEASE")
+print("release is:", RELEASE)
+
 sentry_sdk.init(
     dsn= DSN or "https://2ba68720d38e42079b243c9c5774e05c@sentry.io/1316515",
     traces_sample_rate=1.0,
     integrations=[FlaskIntegration()],
-    release=os.environ.get("RELEASE"),
-    environment="prod",
+    release=RELEASE,
+    environment="production",
     before_send=before_send
 )
 
@@ -75,7 +89,6 @@ def sentry_event_context():
     global Inventory
     with sentry_sdk.configure_scope() as scope:
         scope.user = { "email" : request.headers.get('email') }
-        scope.set_tag("session-id", request.headers.get('X-Session-ID'))
         scope.set_extra("inventory", Inventory)
 
 @app.route('/checkout', methods=['POST'])

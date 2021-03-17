@@ -5,8 +5,8 @@
   "dependencies": {
     "@sentry/apm": "^5.20.1",
     "@sentry/cli": "^1.37.0",
-    "@sentry/react": "^5.27.3",
-    "@sentry/tracing": "^5.27.3",
+    "@sentry/react": "^6.2.1",
+    "@sentry/tracing": "^6.2.1",
     "history": "^1.17.0",
     "material-ui": "^0.18.7",
     "nanomatch": "^1.2.13",
@@ -31,7 +31,7 @@
     "deploy": "serve -s build",
     "deploylocal": "npm run buildlocal && make setup_release && serve -s build",
     "start": "REACT_APP_RELEASE=`sentry-cli releases propose-version` react-scripts start",
-    "build": "REACT_APP_RELEASE=`sentry-cli releases propose-version` react-scripts build",
+    "build": "react-scripts build",
     "buildlocal": "REACT_APP_RELEASE=`sentry-cli releases propose-version` REACT_APP_BACKEND_LOCAL=http://localhost:3003 react-scripts build",
     "eject": "react-scripts eject",
     "deploy-ghp": "npm run predeploy && gh-pages -d build"
