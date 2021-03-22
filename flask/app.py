@@ -25,12 +25,18 @@ from sentry_sdk.integrations.flask import FlaskIntegration
 RELEASE = None
 if os.environ.get("RELEASE") is None:
     print("Prod release needs to be None, and it was None")
-    d = datetime.datetime.now()
-    month = d.strftime("%m")
-    if len(month) == 2:
-        month = month[1:]
-    day = d.strftime("%d")
-    RELEASE = month + "." + day
+    # d = datetime.datetime.now()
+    # month = d.strftime("%m")
+    # if len(month) == 2:
+        # month = month[1:]
+    # day = d.strftime("%d")
+    # RELEASE = month + "." + day
+
+    def week_number_of_month(date_value):
+        return (date_value.isocalendar()[1] - date_value.replace(day=1).isocalendar()[1] + 1)
+    date_given = datetime.datetime.today().date()
+    week = str(week_number_of_month(date_given))
+    RELEASE = month + "." + week
 else:
     RELEASE = os.environ.get("RELEASE")
 print("release is:", RELEASE)
