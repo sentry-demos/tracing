@@ -9,6 +9,6 @@ elif [ "$day" -ge 15 ] &&  [ "$day" -le 21 ]; then
 elif [ "$day" -ge 22 ]; then
   week=4
 fi
-RELEASE="$month.$day"
+RELEASE="$month.$week"
 
 echo $RELEASE

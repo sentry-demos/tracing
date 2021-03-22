@@ -27,13 +27,13 @@ console.log('tracingOrigins', tracingOrigins)
 
 var RELEASE
 if (process.env.REACT_APP_RELEASE == null) {
+  var d = new Date()
+  let adjustedDate = d.getDate()+ d.getDay();
+  let prefixes = ['0', '1', '2', '3', '4', '5'];
+  var week = parseInt(prefixes[0 | adjustedDate / 7])+1
   let dt = new Date();
   let month = dt.getMonth() + 1
-  let day = dt.getDate()
-  if (day.toString().length == 1) {
-    day = "0" + day
-  }
-  RELEASE = `${month}.${day}`
+  RELEASE = `${month}.${week}`
 } else {
   RELEASE = process.env.REACT_APP_RELEASE
 }
