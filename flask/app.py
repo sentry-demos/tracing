@@ -21,6 +21,7 @@ def before_send(event, hint):
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 
+# TODO test 3.5 WORKED...
 RELEASE = None
 if os.environ.get("RELEASE") is None:
     print("Prod release needs to be None, and it was None")
