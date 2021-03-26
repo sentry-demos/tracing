@@ -24,22 +24,27 @@ echo $WHOAMI
 
 
 # build_react
-cd react && source $(HOME)/.nvm/nvm.sh && nvm use && npm install && npm run build
-
-# setup_release
+#cd react && source wcap/.nvm/nvm.sh && nvm use && npm install && npm run build
+# cd react && npm install && npm run build
 
 # create_release
-
+sentry-cli releases -o $SENTRY_ORG new -p $SENTRY_PROJECT $RELEASE
+echo 'done'
 # associate_commits
+sentry-cli releases -o $SENTRY_ORG -p $SENTRY_PROJECT set-commits --auto $RELEASE
+echo 'done'
 
 # upload_sourcemaps
+sentry-cli releases -o $SENTRY_ORG -p $SENTRY_PROJECT files $RELEASE upload-sourcemaps --url-prefix "~/static/js" --validate react/build/$PREFIX
+echo 'done'
 
+echo $COMMIT_SHA
 
 #build
-#gcloud builds submit --substitutions=COMMIT_SHA=$(COMMIT_SHA) --config=cloudbuild.yaml
+gcloud builds submit --substitutions=COMMIT_SHA=$COMMIT_SHA --config=cloudbuild.yaml
 
 # run flask
-gcloud run deploy admin-flask --image $(REPOSITORY)/workspace_flask:$(COMMIT_SHA) --platform managed --add-cloudsql-instances sales-engineering-sf:us-central1:tracing-db-pg --update-env-vars INSTANCE_CONNECTION_NAME="sales-engineering-sf:us-central1:tracing-db-pg",RELEASE=$(RELEASE)
+gcloud run deploy admin-flask --image $REPOSITORY/workspace_flask:$COMMIT_SHA --platform managed --add-cloudsql-instances sales-engineering-sf:us-central1:tracing-db-pg --update-env-vars INSTANCE_CONNECTION_NAME="sales-engineering-sf:us-central1:tracing-db-pg",RELEASE=$RELEASE
 
 # run react
-# gcloud run deploy admin-react --image $(REPOSITORY)/workspace_react:$(COMMIT_SHA) --platform managed
+gcloud run deploy admin-react --image $REPOSITORY/workspace_react:$COMMIT_SHA --platform managed
