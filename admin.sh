@@ -8,9 +8,9 @@ elif [ "$day" -ge 8 ] &&  [ "$day" -le 14 ]; then
   week=2
 elif [ "$day" -ge 15 ] &&  [ "$day" -le 21 ]; then
   week=3
-elif [ "$day" -ge 22 ]; then
+elif [ "$day" -ge 22 ] && [ "$day" -le 28 ]; then
   week=4
-elif [ "day" -ge 29]; then
+elif [ "$day" -ge 29 ]; then
   week=5
 fi
 RELEASE="$month.$week"
