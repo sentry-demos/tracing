@@ -21,16 +21,17 @@ def before_send(event, hint):
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 
-# TODO test 3.5 WORKED...
 RELEASE = None
 if os.environ.get("RELEASE") is None:
-    print("Prod release needs to be None, and it was None")
+    print("Prod environment")
     def week_number_of_month(date_value):
         return (date_value.isocalendar()[1] - date_value.replace(day=1).isocalendar()[1] + 1)
     date_given = datetime.datetime.today().date()
+    month = str(date_given.month)
     week = str(week_number_of_month(date_given))
     RELEASE = month + "." + week
 else:
+    print("Dev environment")
     RELEASE = os.environ.get("RELEASE")
 print("release is:", RELEASE)
 
