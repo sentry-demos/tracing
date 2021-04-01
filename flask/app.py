@@ -24,11 +24,19 @@ from sentry_sdk.integrations.flask import FlaskIntegration
 RELEASE = None
 if os.environ.get("RELEASE") is None:
     print("Prod environment")
-    def week_number_of_month(date_value):
-        return (date_value.isocalendar()[1] - date_value.replace(day=1).isocalendar()[1] + 1)
+    # TODO figure out why this is logging 3.31 upon initialization
+    # TODO use something else altogether...
+    d=datetime.date.today()
+    week=str((d.day-1)//7+1)
+
     date_given = datetime.datetime.today().date()
     month = str(date_given.month)
-    week = str(week_number_of_month(date_given))
+
+    # def week_number_of_month(date_value):
+    #     return (date_value.isocalendar()[1] - date_value.replace(day=1).isocalendar()[1] + 1)
+    # date_given = datetime.datetime.today().date()
+    # month = str(date_given.month)
+    # week = str(week_number_of_month(date_given))
     RELEASE = month + "." + week
 else:
     print("Dev environment")
@@ -49,13 +57,19 @@ CORS(app)
 
 @app.route('/success', methods=['GET'])
 def success():
-    def week_number_month(date_value):
-        return (date_value.isocalendar()[1] - date_value.replace(day=1).isocalendar()[1] + 1)
+    # def week_number_month(date_value):
+    #     return (date_value.isocalendar()[1] - date_value.replace(day=1).isocalendar()[1] + 1)
+    # date_given = datetime.datetime.today().date()
+    # month = str(date_given.month)
+    # week = str(week_number_month(date_given))
+    # RELEASE = month + "." + week
+    
+    d=datetime.date.today()
+    week=str((d.day-1)//7+1)
     date_given = datetime.datetime.today().date()
     month = str(date_given.month)
-    week = str(week_number_month(date_given))
     RELEASE = month + "." + week
-
+    
     response = make_response(str(RELEASE))
     return response
 
