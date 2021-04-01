@@ -10,5 +10,4 @@ elif [ "$day" -ge 22 ]; then
   week=4
 fi
 RELEASE="$month.$week"
-
 echo $RELEASE

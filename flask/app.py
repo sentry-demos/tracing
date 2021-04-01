@@ -10,38 +10,28 @@ from utils import wait
 import time
 import numpy
 import operator
+import sentry_sdk
+from sentry_sdk.integrations.flask import FlaskIntegration
 load_dotenv()
+
+# If you don't set a release in your .env or GCP, it gets defaulted to month.week
+RELEASE = None
+if os.environ.get("RELEASE") is None:
+    d=datetime.date.today()
+    week=str((d.day-1)//7+1)
+    date_given = datetime.datetime.today().date()
+    month = str(date_given.month)
+    RELEASE = month + "." + week
+else:
+    RELEASE = os.environ.get("RELEASE")
+print("RELEASE is " + RELEASE)
+
 DSN = os.getenv("FLASK_APP_DSN")
 
 def before_send(event, hint):
     if event['request']['method'] == 'OPTIONS':
         return null
     return event
-
-import sentry_sdk
-from sentry_sdk.integrations.flask import FlaskIntegration
-
-RELEASE = None
-if os.environ.get("RELEASE") is None:
-    print("Prod environment")
-    # TODO figure out why this is logging 3.31 upon initialization
-    # TODO use something else altogether...
-    d=datetime.date.today()
-    week=str((d.day-1)//7+1)
-
-    date_given = datetime.datetime.today().date()
-    month = str(date_given.month)
-
-    # def week_number_of_month(date_value):
-    #     return (date_value.isocalendar()[1] - date_value.replace(day=1).isocalendar()[1] + 1)
-    # date_given = datetime.datetime.today().date()
-    # month = str(date_given.month)
-    # week = str(week_number_of_month(date_given))
-    RELEASE = month + "." + week
-else:
-    print("Dev environment")
-    RELEASE = os.environ.get("RELEASE")
-print("release still is:", RELEASE)
 
 sentry_sdk.init(
     dsn= DSN or "https://2ba68720d38e42079b243c9c5774e05c@sentry.io/1316515",

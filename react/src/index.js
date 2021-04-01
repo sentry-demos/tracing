@@ -26,6 +26,7 @@ const tracingOrigins = [
 console.log('tracingOrigins', tracingOrigins)
 
 var RELEASE
+// If you don't set a release in your .env, package.json or GCP, it gets defaulted to ${month}.${week}
 if (process.env.REACT_APP_RELEASE == null) {
   var d = new Date()
   let adjustedDate = d.getDate()+ d.getDay();
