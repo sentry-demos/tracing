@@ -9,7 +9,7 @@ GCP_DEPLOY_ADMIN=gcloud run deploy admin
 GCP_DEPLOY=gcloud run deploy $(shell whoami)
 
 all: build_react setup_release build deploy-flask deploy-react
-admin: build_react setup_release build deploy-flask-admin deploy-react-admin
+admin: setup_release build deploy-flask-admin deploy-react-admin
 
 docker_compose:
 	cd react && npm run buildlocal
