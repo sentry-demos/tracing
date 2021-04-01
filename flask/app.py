@@ -33,17 +33,17 @@ if os.environ.get("RELEASE") is None:
 else:
     print("Dev environment")
     RELEASE = os.environ.get("RELEASE")
-print("release is:", RELEASE)
+print("release still is:", RELEASE)
 
 sentry_sdk.init(
     dsn= DSN or "https://2ba68720d38e42079b243c9c5774e05c@sentry.io/1316515",
     traces_sample_rate=1.0,
     integrations=[FlaskIntegration()],
-    release=RELEASE,
+    release="t4.1",
     environment="production",
     before_send=before_send
 )
-
+# sentry.capture_message(str(RELEASE))
 app = Flask(__name__)
 CORS(app)
 
