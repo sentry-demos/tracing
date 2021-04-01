@@ -92,6 +92,3 @@ https://github.com/getsentry/sentry/blob/master/src/sentry/static/sentry/app/boo
 tracing implemented in sentry-demos/react and sentry-demos/flask  
 https://github.com/thinkocapo/react/tree/apm-alpha  
 https://github.com/thinkocapo/flask/tree/apm-alpha
-
-## GIF
-todo
