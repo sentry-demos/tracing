@@ -47,7 +47,7 @@ sentry_sdk.init(
     dsn= DSN or "https://2ba68720d38e42079b243c9c5774e05c@sentry.io/1316515",
     traces_sample_rate=1.0,
     integrations=[FlaskIntegration()],
-    release="t4.1",
+    release=RELEASE,
     environment="production",
     before_send=before_send
 )
