@@ -46,21 +46,8 @@ app = Flask(__name__)
 CORS(app)
 
 @app.route('/success', methods=['GET'])
-def success():
-    # def week_number_month(date_value):
-    #     return (date_value.isocalendar()[1] - date_value.replace(day=1).isocalendar()[1] + 1)
-    # date_given = datetime.datetime.today().date()
-    # month = str(date_given.month)
-    # week = str(week_number_month(date_given))
-    # RELEASE = month + "." + week
-    
-    d=datetime.date.today()
-    week=str((d.day-1)//7+1)
-    date_given = datetime.datetime.today().date()
-    month = str(date_given.month)
-    RELEASE = month + "." + week
-    
-    response = make_response(str(RELEASE))
+def success():    
+    response = make_response("success")
     return response
 
 @app.route('/handled', methods=['GET'])
