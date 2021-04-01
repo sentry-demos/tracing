@@ -41,7 +41,7 @@ sentry_sdk.init(
     environment="production",
     before_send=before_send
 )
-# sentry.capture_message(str(RELEASE))
+
 app = Flask(__name__)
 CORS(app)
 
