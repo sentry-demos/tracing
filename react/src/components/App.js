@@ -9,6 +9,7 @@ import * as Sentry from '@sentry/react';
 
 import { connect } from 'react-redux'
 import { addTool, resetCart, setTools } from '../actions'
+import Navbar from "./Navbar";
 
 const BACKEND = process.env.REACT_APP_BACKEND_LOCAL || process.env.REACT_APP_BACKEND
 
@@ -189,13 +190,16 @@ class App extends Component {
     }, {});
 
     return (
+      
       <div className="App">
         <main>
+        <Navbar/>
           <header>
+            
             <h1>Online Hardware Store</h1>
           </header>
 
-          <div className="inventory">
+           {/* <div className="inventory">
             {this.props.tools.length ? (
               <table>
                 <tbody>
@@ -205,7 +209,7 @@ class App extends Component {
             ) : (
               <div>Loading...</div>
             )}
-          </div>
+          </div>   */}
         </main>
         <ShoppingCart/>
       </div>
