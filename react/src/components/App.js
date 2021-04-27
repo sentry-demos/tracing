@@ -138,7 +138,7 @@ class App extends Component {
 
     if (!response.ok) {
       console.log('response.json()', response.json())
-      throw new Error(response.status + " - " + (response.statusText || response.body));
+      throw new Error(response.status + " - " + "Unable to get Tools");
     }
 
     return response.json()
