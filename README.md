@@ -7,8 +7,8 @@ this was tested on:
 
 | dependency    | version
 | ------------- |:-------------:|
-| sentry_sdk | 0.16.1 |
-| @sentry/browser | 5.15.0 |
+| sentry_sdk | 0.19.1 |
+| @sentry/browser | 6.2.2 |
 | @sentry/apm | 5.20.1 |
 | @sentry/react 5.20.1 | 
 | node | v.14.2 |
@@ -51,6 +51,33 @@ Do the gcloud setup and project env setups here:
 1. `make all`
 
 The above command builds your react app, runs sentry-cli commands for releases, then uploads your source files to GCP where Cloud Build will build an Image and run it as a container in Cloud Run
+
+## Upgrade Pathway
+
+```
+If you're on your fork
+git remote -v
+origin	git@github.com:<your_handle>/tracing.git (fetch)
+origin	git@github.com:<your_handle>/tracing.git (push)
+upstream	git@github.com:sentry-demos/tracing.git (fetch)
+upstream	git@github.com:sentry-demos/tracing.git (push)
+
+# If you don't have an upstream
+git remote add upstream git@github.com:sentry-demos/tracing.git
+
+# Make sure you're on master
+git checkout master
+
+# get updates from the upstream
+git fetch upstream master
+git merge upstream/master
+
+# update sentry_sdk's and other modules
+cd react && npm install
+cd flask && pip install -r requirements.txt
+
+# Check that your react/.env and flask/.env still have the right values
+```
 
 ## Troubleshooting
 
