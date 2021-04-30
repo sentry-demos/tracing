@@ -1,5 +1,5 @@
 # tracing
-SDK Tracing between a React javascript app and back-end Flask app. For prod deployment this uses GCP's Cloud Build, Cloud Container Registry and Cloud Run. See troubleshooting for how to run individually and work with the cloudbuild.yaml.
+SDK Tracing between a React javascript app and back-end Flask app. For prod deployment this uses GCP's Cloud Build, and Cloud Run.
 
 ## Setup
 #### Versions
@@ -43,13 +43,14 @@ Do the gcloud setup and project env setups here:
 6. cd flask && pip install -r requirements.txt
 
 ## Run
-#### Prod - GCP
-1. `make all`
-
-
-#### Dev - without docker
+#### Development
 1. `cd ./react && npm run deploylocal` 
 2. `cd ./flask && make deploy`
+
+#### Production
+1. `make all`
+
+The above command builds your react app, runs sentry-cli commands for releases, then uploads your source files to GCP where Cloud Build will build an Image and run it as a container in Cloud Run
 
 ## Troubleshooting
 
