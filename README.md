@@ -1,5 +1,5 @@
 # tracing
-SDK Tracing between a React javascript app and back-end Flask app. For prod deployment this uses GCP's Cloud Build, Cloud Container Registry and Cloud Run. See troubleshooting for how to run individually and work with the cloudbuild.yaml.
+SDK Tracing between a React javascript app and back-end Flask app. For prod deployment this uses GCP's Cloud Build, and Cloud Run.
 
 ## Setup
 #### Versions
@@ -22,31 +22,35 @@ this was tested on:
 | core | 2020.01.17 |
 | gsutil 4.47 | gsutil 4.47 |
 | docker | 19.03.12 |
-#### Setup Instructions
-1. Have an admin set you as Owner on the Project in GCP
+
+Do the gcloud setup and project env setups here:
+
+#### gcloud setup
+1. Have an admin set your permissions in GCP
 2. Download `gcloud` google cloud sdk https://cloud.google.com/sdk/docs/. This will have you 'initialize' your sdk from command line, and set some defaults. If you get asked for 'zone' select us-central1-a. 'region' is us-central1
-3. `gcloud auth login` opens browser with Google OAUTH, select your Sentry email
-4. `gcloud config set project <project ID>` get Google Cloud Project ID from console.cloud.google.com.
+3. `gcloud auth login` opens browser with Google OAUTH, select your Sentry email.
+4. `gcloud config set project <project ID>` get your team's Google Cloud Project ID from console.cloud.google.com.
 5. `gcloud config set run/region us-central1` to set 'us-central1' as default region
-6. Create a `react/.env` using `react/.env.default` as an example, and fill in the values. In the `REACT_APP_BACKEND_URL` put your `whoami` so your React container will call the right Flask container.
-7. Create a `flask/.env` using `flask/.env.default` as an example, and fill in the values.
-8. Whitelist your IP address in Cloud SQL for the database you see there.
-9. **Dev - without docker** `cd ./flask && pip install -r requirements.txt`, recommended inside a virtualenv.
-10. **Dev - without docker** `cd ./react` and `npm install`
+6. `gcloud config list` and confirm your email, project and region are correct.
+6. Permit your IP address in GCP Cloud SQL for the database instance.
+
+#### project env setup
+1. install [nvm](https://github.com/nvm-sh/nvm)
+2. Create a `flask/.env` using `flask/.env.default` as an example, and fill in the values.
+3. Create a `react/.env` using `react/.env.default` as an example, and fill in the values. In the `REACT_APP_BACKEND_URL` put your `whoami` so your React app instance will call the right Flask app instance.
+4. set your SENTRY_PROJECT in both Makefile and react/Makefile
+5. cd react && npm install
+6. cd flask && pip install -r requirements.txt
 
 ## Run
-#### Prod - GCP
-1. `make all`
-
-#### Dev - with docker
-1. `make docker_compose`  
-docker-compose down
-
-The dockerfile uses whatever is in `./react/build` so make sure you have an updated build.
-
-#### Dev - without docker
+#### Development
 1. `cd ./react && npm run deploylocal` 
 2. `cd ./flask && make deploy`
+
+#### Production
+1. `make all`
+
+The above command builds your react app, runs sentry-cli commands for releases, then uploads your source files to GCP where Cloud Build will build an Image and run it as a container in Cloud Run
 
 ## Troubleshooting
 
@@ -70,7 +74,7 @@ THEN you need to change the URL (REACT_APP_BACKEND) in `.env` to reflect that
 The container must listen for requests on 0.0.0.0 on the port defined by the GCP's $PORT environment variable. It is defaulted to 8080  
 https://cloud.google.com/run/docs/reference/container-contract#port 
 
-if you run `npm start` then the React app will bring you to a handled error page, instead of seeing User Feedback popup
+If you run `npm start` then the React app will bring you to a handled error page, instead of seeing User Feedback popup
 
 Warning: It is not recommended to use build-time variables for passing secrets like github keys, user credentials etc. Build-time variable values are visible to any user of the image with the docker history command.  
 https://docs.docker.com/engine/reference/builder/
@@ -81,14 +85,4 @@ see `clean.sh` for how to quickly remove all dead images and containers
 
 `sentry-cli repos list`
 
-## Sentry Documentation
-docs  
-https://docs.sentry.io/performance/distributed-tracing/  
-https://forum.sentry.io/t/sentrys-apm-docs-alpha/7843
-
-example  
-https://github.com/getsentry/sentry/blob/master/src/sentry/static/sentry/app/bootstrap.jsx 
-
-tracing implemented in sentry-demos/react and sentry-demos/flask  
-https://github.com/thinkocapo/react/tree/apm-alpha  
-https://github.com/thinkocapo/flask/tree/apm-alpha
+If you get an error 'nvm is not compatible with the npm_config_prefix" environment variable: currently set to "/usr/local" then run `unset npm_config_prefix`

@@ -11,12 +11,6 @@ GCP_DEPLOY=gcloud run deploy $(shell whoami)
 all: build_react setup_release build deploy-flask deploy-react
 admin: setup_release build deploy-flask-admin deploy-react-admin
 
-docker_compose:
-	cd react && npm run buildlocal
-	docker-compose build
-	docker-compose run -d -e RELEASE=$(RELEASE) -e FLASK_ENV=test -p 3003:3003 flask
-	docker-compose run -p 3002:3002 react
-
 build_react:
 	cd react && source $(HOME)/.nvm/nvm.sh && nvm use && npm install && npm run build
 
