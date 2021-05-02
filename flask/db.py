@@ -23,13 +23,6 @@ HOST = os.getenv("HOST")
 DATABASE = os.getenv("DATABASE")
 USERNAME = os.getenv("USERNAME")
 PASSWORD = os.getenv("PASSWORD")
-# db_name = os.getenv("DB_NAME")
-# db_user = os.getenv("DB_USER")
-# db_pass = os.getenv("DB_PASS")
-db_socket_dir = os.environ.get("DB_SOCKET_DIR", "/cloudsql")
-# cloud_sql_connection_name = os.environ["CLOUD_SQL_CONNECTION_NAME"]
-# cloud_sql_connection_name = "sales-engineering-sf:us-central1:tracing-db-pg"
-
 ENV = os.environ.get("FLASK_ENV")
 
 insert_query = """INSERT INTO tools(name, type, sku, image, price)
@@ -42,44 +35,27 @@ def randomString(stringLength=10):
     return ''.join(random.choice(letters) for i in range(stringLength))
 
 print("*****ENV *******", ENV)
-# if ENV == "test":
-# if ENV == None or ENV == "test":
-#     db = create_engine('postgresql://' + USERNAME + ':' + PASSWORD + '@' + HOST + ':5432/' + DATABASE)
-# else:
-#     cloud_sql_connection_name = "sales-engineering-sf:us-central1:tracing-db-pg"
-#     db = sqlalchemy.create_engine(
-#         sqlalchemy.engine.url.URL(
-#             drivername='postgres+pg8000',
-#             username=USERNAME,
-#             password=PASSWORD,
-#             database=DATABASE,
-#             query={
-#                 'unix_sock': '/cloudsql/{}/.s.PGSQL.5432'.format(cloud_sql_connection_name)
-#             }
-#         )
-#     )
-        
-db = sqlalchemy.create_engine(
-    sqlalchemy.engine.url.URL(
-        drivername="postgres+pg8000",
-        username=USERNAME,
-        password=PASSWORD,
-        database=DATABASE,
-        query={
-            "unix_sock": "{}/{}/.s.PGSQL.5432".format(
-                "/cloudsql",
-                "sales-engineering-sf:us-central1:tracing-db-pg")
-        }
+if ENV == "test":
+    db = create_engine('postgresql://' + USERNAME + ':' + PASSWORD + '@' + HOST + ':5432/' + DATABASE)
+else:
+    cloud_sql_connection_name = "sales-engineering-sf:us-central1:tracing-db-pg"
+    db = sqlalchemy.create_engine(
+        sqlalchemy.engine.url.URL(
+            drivername='postgres+pg8000',
+            username=USERNAME,
+            password=PASSWORD,
+            database=DATABASE,
+            query={
+                'unix_sock': '/cloudsql/{}/.s.PGSQL.5432'.format(cloud_sql_connection_name)
+            }
+        )
     )
-)
 
 def get_all_tools():
     tools = []
     try:
         with sentry_sdk.start_span(op="connect to db"):
             conn = db.connect()
-            # TODO with db.connect() as conn:...
-
         # Execute the query and fetch all results
         with sentry_sdk.start_span(op="run query"):
             wait(operator.le, 12, 1)
