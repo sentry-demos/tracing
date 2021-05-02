@@ -47,17 +47,24 @@ Do the gcloud setup and project env setups here:
 1. `cd ./react && npm run deploylocal` 
 2. `cd ./flask && make deploy`
 
+For Python 3
+```
+python3 -m venv env
+source env/bin/activate
+```
+1. `cd flask && python3 main.py`
+
 #### Production Cloud Run
-1. `make all`
-
-The above command builds your react app, runs sentry-cli commands for releases, then uploads your source files to GCP where Cloud Build will build an Image and run it as a container in Cloud Run
-
+This command builds your react app, runs sentry-cli commands for releases, then uploads your source files to GCP where Cloud Build will build an Image and run it as a container in Cloud Run
+```
+make all
+```
 
 #### Production App Engine
 Update your react/.env with correct appspot (App Engine) URL's
 ```
 cd flask && gcloud app deploy
-cd react && gcloud app deploy
+cd react && npm run build && gcloud app deploy
 ```
 
 ## Upgrade Pathway
