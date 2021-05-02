@@ -1,8 +1,0 @@
-service: tracing-flask
-runtime: python38
-
-env_variables:
-  DB_USER: <>
-  DB_NAME: <>
-  DB_PASS: <>
-  DB_INSTANCE_CONNECTION_NAME: <>
