@@ -44,7 +44,7 @@ CORS(app)
 
 @app.route('/success', methods=['GET'])
 def success():    
-    response = make_response("success :)")
+    response = make_response("success")
     return response
 
 @app.route('/handled', methods=['GET'])
