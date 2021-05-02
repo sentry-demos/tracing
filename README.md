@@ -8,9 +8,9 @@ this was tested on:
 | dependency    | version
 | ------------- |:-------------:|
 | sentry_sdk | 0.19.1 |
-| @sentry/browser | 6.2.2 |
 | @sentry/apm | 5.20.1 |
-| @sentry/react 5.20.1 | 
+| @sentry/react | ^6.2.1 |
+| @sentry/tracing |^6.2.1 |
 | node | v.14.2 |
 | redux | 4.0.5 |
 | react-redux | 7.2.1 |
@@ -47,10 +47,18 @@ Do the gcloud setup and project env setups here:
 1. `cd ./react && npm run deploylocal` 
 2. `cd ./flask && make deploy`
 
-#### Production
+#### Production Cloud Run
 1. `make all`
 
 The above command builds your react app, runs sentry-cli commands for releases, then uploads your source files to GCP where Cloud Build will build an Image and run it as a container in Cloud Run
+
+
+#### Production App Engine
+Update your react/.env with correct appspot (App Engine) URL's
+```
+cd flask && gcloud app deploy
+cd react && gcloud app deploy
+```
 
 ## Upgrade Pathway
 
