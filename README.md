@@ -7,10 +7,10 @@ this was tested on:
 
 | dependency    | version
 | ------------- |:-------------:|
-| sentry_sdk | 0.16.1 |
-| @sentry/browser | 5.15.0 |
+| sentry_sdk | 0.19.1 |
 | @sentry/apm | 5.20.1 |
-| @sentry/react 5.20.1 | 
+| @sentry/react | ^6.2.1 |
+| @sentry/tracing |^6.2.1 |
 | node | v.14.2 |
 | redux | 4.0.5 |
 | react-redux | 7.2.1 |
@@ -44,13 +44,56 @@ Do the gcloud setup and project env setups here:
 
 ## Run
 #### Development
+Update your SENTRY_PROJECT in react/Makefile
 1. `cd ./react && npm run deploylocal` 
 2. `cd ./flask && make deploy`
 
-#### Production
-1. `make all`
+For Python 3
+```
+python3 -m venv env
+source env/bin/activate
+```
+1. `cd flask && python3 main.py`
 
-The above command builds your react app, runs sentry-cli commands for releases, then uploads your source files to GCP where Cloud Build will build an Image and run it as a container in Cloud Run
+#### Production Cloud Run
+This command builds your react app, runs sentry-cli commands for releases, then uploads your source files to GCP where Cloud Build will build an Image and run it as a container in Cloud Run
+```
+make all
+```
+
+#### Production App Engine
+Update your react/.env with correct appspot (App Engine) URL's
+```
+cd flask && gcloud app deploy
+cd react && npm run build && gcloud app deploy
+```
+
+## Upgrade Pathway
+
+```
+If you're on your fork
+git remote -v
+origin	git@github.com:<your_handle>/tracing.git (fetch)
+origin	git@github.com:<your_handle>/tracing.git (push)
+upstream	git@github.com:sentry-demos/tracing.git (fetch)
+upstream	git@github.com:sentry-demos/tracing.git (push)
+
+# If you don't have an upstream
+git remote add upstream git@github.com:sentry-demos/tracing.git
+
+# Make sure you're on master
+git checkout master
+
+# get updates from the upstream
+git fetch upstream master
+git merge upstream/master
+
+# update sentry_sdk's and other modules
+cd react && npm install
+cd flask && pip install -r requirements.txt
+
+# Check that your react/.env and flask/.env still have the right values
+```
 
 ## Troubleshooting
 
