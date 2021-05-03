@@ -32,7 +32,7 @@
     "deploylocal": "npm run buildlocal && make setup_release && serve -s build",
     "start": "REACT_APP_RELEASE=`../calver.sh` react-scripts start",
     "build": "REACT_APP_RELEASE=`../calver.sh` react-scripts build",
-    "buildlocal": "REACT_APP_RELEASE=`../calver.sh` REACT_APP_BACKEND_LOCAL=http://localhost:3003 react-scripts build",
+    "buildlocal": "REACT_APP_RELEASE=`../calver.sh` REACT_APP_BACKEND_LOCAL=http://localhost:8080 react-scripts build",
     "eject": "react-scripts eject",
     "deploy-ghp": "npm run predeploy && gh-pages -d build"
   },
