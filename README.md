@@ -44,6 +44,7 @@ Do the gcloud setup and project env setups here:
 
 ## Run
 #### Development
+Update your SENTRY_PROJECT in react/Makefile
 1. `cd ./react && npm run deploylocal` 
 2. `cd ./flask && make deploy`
 
