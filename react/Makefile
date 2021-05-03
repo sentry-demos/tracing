@@ -2,7 +2,7 @@
 # Following variable must be passed in
 # SENTRY_AUTH_TOKEN
 SENTRY_ORG=testorg-az
-SENTRY_PROJECT=will-frontend-react
+SENTRY_PROJECT=admin-javascript
 RELEASE=$(shell ../calver.sh)
 PREFIX=static/js
 
