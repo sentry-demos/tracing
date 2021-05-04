@@ -9,7 +9,7 @@ GCP_DEPLOY_ADMIN=gcloud run deploy admin
 GCP_DEPLOY=gcloud run deploy $(shell whoami)
 
 all: build_react setup_release build deploy-flask deploy-react
-admin: setup_release build deploy-flask-admin deploy-react-admin
+admin: build_react setup_release build deploy-flask-admin deploy-react-admin
 
 build_react:
 	cd react && source $(HOME)/.nvm/nvm.sh && nvm use && npm install && npm run build
