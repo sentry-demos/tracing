@@ -1,0 +1,3 @@
+service: tracing-flask
+runtime: python38
+
