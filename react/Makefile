@@ -2,7 +2,7 @@
 # Following variable must be passed in
 # SENTRY_AUTH_TOKEN
 SENTRY_ORG=testorg-az
-SENTRY_PROJECT=will-frontend-react
+SENTRY_PROJECT=reactadamtf
 RELEASE=`sentry-cli releases propose-version`
 PREFIX=static/js
 
@@ -12,7 +12,7 @@ create_release:
 	sentry-cli releases -o $(SENTRY_ORG) new -p $(SENTRY_PROJECT) $(RELEASE)
 
 associate_commits:
-	sentry-cli releases -o $(SENTRY_ORG) -p $(SENTRY_PROJECT) set-commits --auto $(RELEASE)
+	-sentry-cli releases -o $(SENTRY_ORG) -p $(SENTRY_PROJECT) set-commits --auto $(RELEASE)
 
 upload_sourcemaps:
 	sentry-cli releases -o $(SENTRY_ORG) -p $(SENTRY_PROJECT) files $(RELEASE) \
