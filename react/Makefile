@@ -3,7 +3,7 @@
 # SENTRY_AUTH_TOKEN
 SENTRY_ORG=testorg-az
 SENTRY_PROJECT=reactadamtf
-RELEASE=`sentry-cli releases propose-version`
+RELEASE=$(shell ../calver.sh)
 PREFIX=static/js
 
 setup_release: create_release associate_commits upload_sourcemaps

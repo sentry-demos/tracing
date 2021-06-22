@@ -41,7 +41,7 @@ if (process.env.REACT_APP_RELEASE == null) {
 console.log('RELEASE', RELEASE)
 
 Sentry.init({
-    dsn: process.env.REACT_APP_DSN || 'https://0d52d5f4e8a64f5ab2edce50d88a7626@sentry.io/1428657',
+    dsn: process.env.REACT_APP_DSN || 'https://d606ee90b5b643e49c51fee4ba8da1f8@o87286.ingest.sentry.io/5544302',
     release: RELEASE,
     environment: "production",
     debug: true,
