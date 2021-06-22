@@ -8,6 +8,8 @@ import {
 
 import './index.css';
 import App from './components/App';
+import ToolStore from './components/pages/ToolStore';
+import List from './components/pages/List';
 import registerServiceWorker from './registerServiceWorker';
 import { Integrations } from '@sentry/tracing';
 import * as Sentry from '@sentry/react'
@@ -76,7 +78,10 @@ render(
             <Redirect to="/toolstore" />
           </Route>
           <Route path="/toolstore">
-            <App />
+            <ToolStore />
+          </Route>
+          <Route path="/list">
+            <List />
           </Route>
         </Switch>
       </div>
