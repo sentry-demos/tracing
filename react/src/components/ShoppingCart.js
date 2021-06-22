@@ -1,6 +1,6 @@
 /*global Sentry*/
 import React, { Component } from "react";
-import "./App.css";
+import "./pages/ToolStore.css";
 
 import * as Sentry from '@sentry/react';
 

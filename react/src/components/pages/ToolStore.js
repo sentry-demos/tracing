@@ -2,7 +2,7 @@
 
 import React, { Component } from "react";
 import ShoppingCart from '../ShoppingCart';
-import "../App.css";
+import "../pages/ToolStore.css";
 import wrenchImg from "../../assets/wrench.png";
 import nailsImg from "../../assets/nails.png";
 import hammerImg from "../../assets/hammer.png";
@@ -12,7 +12,6 @@ import { connect } from 'react-redux'
 import { addTool, resetCart, setTools } from '../../actions'
 
 const BACKEND = process.env.REACT_APP_BACKEND_LOCAL || process.env.REACT_APP_BACKEND
-
 const monify = n => (n / 100).toFixed(2);
 const getUniqueId = () => '_' + Math.random().toString(36).substr(2, 9);
 

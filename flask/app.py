@@ -78,7 +78,7 @@ def process_order(cart):
             raise Exception("Not enough inventory for " + item['type'])
         else:
             tempInventory[item['type']] -= 1
-            print 'Success: ' + item['type'] + ' was purchased, remaining stock is ' + str(tempInventory[item['type']])
+            print ('Success: ' + item['type'] + ' was purchased, remaining stock is ' + str(tempInventory[item['type']]))
     Inventory = tempInventory
 
 @app.before_request
@@ -93,7 +93,7 @@ def sentry_event_context():
 def checkout():
 
     order = json.loads(request.data)
-    print "Processing order for: " + request.headers.get('email')
+    print ("Processing order for: " + request.headers.get('email'))
     cart = order["cart"]
 
     with sentry_sdk.start_span(op="db function: get inventory"):
