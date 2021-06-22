@@ -9,15 +9,11 @@ import * as Sentry from '@sentry/react';
 
 import { connect } from 'react-redux'
 import { addTool, resetCart, setTools } from '../actions'
-
-
 const BACKEND = process.env.REACT_APP_BACKEND_LOCAL || process.env.REACT_APP_BACKEND
-
 const monify = n => (n / 100).toFixed(2);
 const getUniqueId = () => '_' + Math.random().toString(36).substr(2, 9);
 
 class App extends Component {
-
   constructor(props) {
     super(props);
     console.log('> BACKEND is: ', BACKEND);
@@ -50,12 +46,10 @@ class App extends Component {
       scope.setUser({ email: this.email }); // attach user/email context
       scope.setTag("customerType", this.getPlanName()); // custom-tag
     });
-    
     var probability = function(n) {
       return !!n && Math.random() <= n;
     };
     var deltaArray = [{ func: function () {}}];
- 
     // fail 20% of the time (crashed / unhandled)
     if (probability(.02)) {
       deltaArray[1].func();
@@ -67,7 +61,7 @@ class App extends Component {
         Sentry.captureException(error);
       }
     } else {
-      console.log('no errors on pageload')
+      console.log('no errors on pageload App.js')
     }
 
     //Will add an XHR Sentry breadcrumb
@@ -148,7 +142,6 @@ class App extends Component {
   createTable() {
       let table = []
       let tools = this.props.tools
-
       // Outer loop to create parent
       let number_of_columns = 5
       let number_of_rows = Math.ceil(this.props.tools.length / number_of_columns)
@@ -190,15 +183,12 @@ class App extends Component {
     }, {});
 
     return (
-      
       <div className="App">
         <main>
           <header>
-            
             <h1>Online Hardware Store</h1>
           </header>
-
-           {/* <div className="inventory">
+           <div className="inventory">
             {this.props.tools.length ? (
               <table>
                 <tbody>
@@ -208,7 +198,7 @@ class App extends Component {
             ) : (
               <div>Loading...</div>
             )}
-          </div>   */}
+          </div>
         </main>
         <ShoppingCart/>
       </div>
@@ -227,3 +217,4 @@ export default connect(
   mapStateToProps,
   { addTool, resetCart, setTools }
 )(Sentry.withProfiler(App, { name: "ToolStore"}))
+
