@@ -1,4 +1,14 @@
 steps:
+- name: gcr.io/cloud-builders/docker
+  args:
+    - "build"
+    - "-t"
+    - "us.gcr.io/$PROJECT_ID/workspace_flask:$COMMIT_SHA"
+    - "-t"
+    - "us.gcr.io/$PROJECT_ID/workspace_flask:latest"
+    - "-f"
+    - "./flask/Dockerfile"
+    - "./flask"
 
 - name: gcr.io/cloud-builders/docker
   args:
@@ -12,5 +22,7 @@ steps:
     - "./react"
 
 images:
+- us.gcr.io/$PROJECT_ID/workspace_flask:$COMMIT_SHA
+- us.gcr.io/$PROJECT_ID/workspace_flask:latest
 - us.gcr.io/$PROJECT_ID/workspace_react:$COMMIT_SHA
 - us.gcr.io/$PROJECT_ID/workspace_react:latest
