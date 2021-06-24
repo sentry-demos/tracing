@@ -1,15 +1,12 @@
 import os
-from flask import Flask, request, json, abort, make_response, jsonify
+from flask import Flask, request, json, make_response
 from flask_cors import CORS
-from dotenv import load_dotenv
 from db import get_all_tools, get_inventory, update_inventory
 from dotenv import load_dotenv
 import datetime
-from pytz import timezone
 from utils import wait
-import time
-import numpy
 import operator
+import sys
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 load_dotenv()
@@ -78,7 +75,7 @@ def process_order(cart):
             raise Exception("Not enough inventory for " + item['type'])
         else:
             tempInventory[item['type']] -= 1
-            print ('Success: ' + item['type'] + ' was purchased, remaining stock is ' + str(tempInventory[item['type']]))
+            print("Success: " + item['type'] + " was purchased, remaining stock is " + str(tempInventory[item['type']]))
     Inventory = tempInventory
 
 @app.before_request
@@ -93,7 +90,7 @@ def sentry_event_context():
 def checkout():
 
     order = json.loads(request.data)
-    print ("Processing order for: " + request.headers.get('email'))
+    print("Processing order for: " + request.headers.get('email'))
     cart = order["cart"]
 
     with sentry_sdk.start_span(op="db function: get inventory"):
@@ -124,3 +121,11 @@ def get_tools():
             sentry_sdk.capture_exception(err)
             raise(err)
     return rows
+
+
+if __name__ == '__main__':
+    if sys.version_info[0] < 3:
+        raise SystemExit("Failed to start: need python3")
+    # This is used when running locally only. When deploying to Google App
+    # Engine, a webserver process such as Gunicorn will serve the app.
+    app.run(host='127.0.0.1', port=8080, debug=True)

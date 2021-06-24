@@ -1,16 +1,16 @@
 # tracing
-SDK Tracing between a React javascript app and back-end Flask app. For prod deployment this uses GCP's Cloud Build, Cloud Container Registry and Cloud Run. See troubleshooting for how to run individually and work with the cloudbuild.yaml.
-##
+SDK Tracing between a React javascript app and back-end Flask app. For prod deployment this uses GCP's Cloud Build, and Cloud Run.
+
 ## Setup
 #### Versions
 this was tested on:
 
 | dependency    | version
 | ------------- |:-------------:|
-| sentry_sdk | 0.16.1 |
-| @sentry/browser | 5.15.0 |
+| sentry_sdk | 0.19.1 |
 | @sentry/apm | 5.20.1 |
-| @sentry/react 5.20.1 | 
+| @sentry/react | ^6.2.1 |
+| @sentry/tracing |^6.2.1 |
 | node | v.14.2 |
 | redux | 4.0.5 |
 | react-redux | 7.2.1 |
@@ -22,31 +22,78 @@ this was tested on:
 | core | 2020.01.17 |
 | gsutil 4.47 | gsutil 4.47 |
 | docker | 19.03.12 |
-#### Setup Instructions
-1. Have an admin set you as Owner on the Project in GCP
+
+Do the gcloud setup and project env setups here:
+
+#### gcloud setup
+1. Have an admin set your permissions in GCP
 2. Download `gcloud` google cloud sdk https://cloud.google.com/sdk/docs/. This will have you 'initialize' your sdk from command line, and set some defaults. If you get asked for 'zone' select us-central1-a. 'region' is us-central1
-3. `gcloud auth login` opens browser with Google OAUTH, select your Sentry email
-4. `gcloud config set project <project ID>` get Google Cloud Project ID from console.cloud.google.com.
+3. `gcloud auth login` opens browser with Google OAUTH, select your Sentry email.
+4. `gcloud config set project <project ID>` get your team's Google Cloud Project ID from console.cloud.google.com.
 5. `gcloud config set run/region us-central1` to set 'us-central1' as default region
-6. Create a `react/.env` using `react/.env.default` as an example, and fill in the values. In the `REACT_APP_BACKEND_URL` put your `whoami` so your React container will call the right Flask container.
-7. Create a `flask/.env` using `flask/.env.default` as an example, and fill in the values.
-8. Whitelist your IP address in Cloud SQL for the database you see there.
-9. **Dev - without docker** `cd ./flask && pip install -r requirements.txt`, recommended inside a virtualenv.
-10. **Dev - without docker** `cd ./react` and `npm install`
+6. `gcloud config list` and confirm your email, project and region are correct.
+6. Permit your IP address in GCP Cloud SQL for the database instance.
+
+#### project env setup
+1. install [nvm](https://github.com/nvm-sh/nvm)
+2. Create a `flask/.env` using `flask/.env.default` as an example, and fill in the values.
+3. Create a `react/.env` using `react/.env.default` as an example, and fill in the values. In the `REACT_APP_BACKEND_URL` put your `whoami` so your React app instance will call the right Flask app instance.
+4. set your SENTRY_PROJECT in both Makefile and react/Makefile
+5. cd react && npm install
+6. cd flask && pip install -r requirements.txt
 
 ## Run
-#### Prod - GCP
-1. `make all`
-
-#### Dev - with docker
-1. `make docker_compose`  
-docker-compose down
-
-The dockerfile uses whatever is in `./react/build` so make sure you have an updated build.
-
-#### Dev - without docker
+#### Development
+Update your SENTRY_PROJECT in react/Makefile
 1. `cd ./react && npm run deploylocal` 
 2. `cd ./flask && make deploy`
+
+For Python 3
+```
+python3 -m venv env
+source env/bin/activate
+```
+1. `cd flask && python3 main.py`
+
+#### Production Cloud Run
+This command builds your react app, runs sentry-cli commands for releases, then uploads your source files to GCP where Cloud Build will build an Image and run it as a container in Cloud Run
+```
+make all
+```
+
+#### Production App Engine
+Update your react/.env with correct appspot (App Engine) URL's
+```
+cd flask && gcloud app deploy
+cd react && npm run build && gcloud app deploy
+```
+
+## Upgrade Pathway
+
+```
+If you're on your fork
+git remote -v
+origin	git@github.com:<your_handle>/tracing.git (fetch)
+origin	git@github.com:<your_handle>/tracing.git (push)
+upstream	git@github.com:sentry-demos/tracing.git (fetch)
+upstream	git@github.com:sentry-demos/tracing.git (push)
+
+# If you don't have an upstream
+git remote add upstream git@github.com:sentry-demos/tracing.git
+
+# Make sure you're on master
+git checkout master
+
+# get updates from the upstream
+git fetch upstream master
+git merge upstream/master
+
+# update sentry_sdk's and other modules
+cd react && npm install
+cd flask && pip install -r requirements.txt
+
+# Check that your react/.env and flask/.env still have the right values
+```
 
 ## Troubleshooting
 
@@ -70,7 +117,7 @@ THEN you need to change the URL (REACT_APP_BACKEND) in `.env` to reflect that
 The container must listen for requests on 0.0.0.0 on the port defined by the GCP's $PORT environment variable. It is defaulted to 8080  
 https://cloud.google.com/run/docs/reference/container-contract#port 
 
-if you run `npm start` then the React app will bring you to a handled error page, instead of seeing User Feedback popup
+If you run `npm start` then the React app will bring you to a handled error page, instead of seeing User Feedback popup
 
 Warning: It is not recommended to use build-time variables for passing secrets like github keys, user credentials etc. Build-time variable values are visible to any user of the image with the docker history command.  
 https://docs.docker.com/engine/reference/builder/
@@ -81,14 +128,4 @@ see `clean.sh` for how to quickly remove all dead images and containers
 
 `sentry-cli repos list`
 
-## Sentry Documentation
-docs  
-https://docs.sentry.io/performance/distributed-tracing/  
-https://forum.sentry.io/t/sentrys-apm-docs-alpha/7843
-
-example  
-https://github.com/getsentry/sentry/blob/master/src/sentry/static/sentry/app/bootstrap.jsx 
-
-tracing implemented in sentry-demos/react and sentry-demos/flask  
-https://github.com/thinkocapo/react/tree/apm-alpha  
-https://github.com/thinkocapo/flask/tree/apm-alpha
+If you get an error 'nvm is not compatible with the npm_config_prefix" environment variable: currently set to "/usr/local" then run `unset npm_config_prefix`

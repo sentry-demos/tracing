@@ -18,6 +18,7 @@ from utils import wait
 import operator
 from dotenv import load_dotenv
 load_dotenv()
+
 HOST = os.getenv("HOST")
 DATABASE = os.getenv("DATABASE")
 USERNAME = os.getenv("USERNAME")
@@ -34,13 +35,11 @@ def randomString(stringLength=10):
     return ''.join(random.choice(letters) for i in range(stringLength))
 
 print("*****ENV *******", ENV)
-if ENV == 'test':
+if ENV == "test":
     db = create_engine('postgresql://' + USERNAME + ':' + PASSWORD + '@' + HOST + ':5432/' + DATABASE)
 else:
     cloud_sql_connection_name = "sales-engineering-sf:us-central1:tracing-db-pg"
     db = sqlalchemy.create_engine(
-        # Equivalent URL:
-        # postgres+pg8000://<db_user>:<db_pass>@/<db_name>?unix_sock=/cloudsql/<cloud_sql_instance_name>/.s.PGSQL.5432
         sqlalchemy.engine.url.URL(
             drivername='postgres+pg8000',
             username=USERNAME,
