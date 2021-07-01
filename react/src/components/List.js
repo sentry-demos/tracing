@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import * as Sentry from '@sentry/react';
-// import { Button } from 'react-bootstrap'
 
 
 function notAFunctionError() {
