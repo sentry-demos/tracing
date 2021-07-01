@@ -8,6 +8,7 @@ import {
 
 import './index.css';
 import App from './components/App';
+import List from './components/List';
 import registerServiceWorker from './registerServiceWorker';
 import { Integrations } from '@sentry/tracing';
 import * as Sentry from '@sentry/react'
@@ -18,7 +19,7 @@ import logger from 'redux-logger'
 import rootReducer from './reducers'
 
 const tracingOrigins = [
-  'localhost', 
+  'localhost',
   process.env.REACT_APP_BACKEND,
   process.env.REACT_APP_FRONTEND,
   /^\//
@@ -77,6 +78,9 @@ render(
           </Route>
           <Route path="/toolstore">
             <App />
+          </Route>
+          <Route path="/list">
+            <List />
           </Route>
         </Switch>
       </div>
